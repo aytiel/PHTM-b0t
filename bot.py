@@ -4,6 +4,7 @@ from discord.ext import commands
 import settings.config
 
 bot = commands.Bot(command_prefix=settings.config.PREFIX)
+extensions = ['cogs.arcdps']
 
 @bot.event
 async def on_ready():
@@ -35,5 +36,7 @@ async def shutdown(ctx):
         await ctx.send('I do not have permissions to delete messages. Please enable this in the future.')
     await bot.logout()
     await bot.close()
-    
+
+for ext in extensions:
+    bot.load_extension(ext)
 bot.run(settings.config.TOKEN)
