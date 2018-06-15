@@ -10,17 +10,30 @@ async def on_ready():
     print('Logged in...')
     print('Username: ' + str(bot.user.name))
     print('Client ID: ' + str(bot.user.id))
-    print('Invite URL: ' + 'https://discordapp.com/oauth2/authorize?&client_id=' + bot.user.id + '&scope=bot&permissions=0')
-    
-@commands.command()
-async def ping():
-    await bot.say('Pong!')
+    status = discord.Game(name='DPS Simulator 2018')
+    await bot.change_presence(activity=status)
 
-@commands.command()
-async def shutdown():    
+@bot.event
+async def on_message(message):
+    if not message.author.bot:
+        await bot.process_commands(message)
+    
+@bot.command()
+async def ping(ctx):
+    await ctx.send('Pong!')
+
+@bot.command()
+async def shutdown(ctx):
+    guild = ctx.guild
+    if guild is None:
+        has_perms = False
+    else:
+        has_perms = ctx.channel.permissions_for(guild.me).manage_messages
+    if has_perms:
+        await ctx.message.delete()
+    else:
+        await ctx.send('I do not have permissions to delete messages. Please enable this in the future.')
     await bot.logout()
     await bot.close()
-
-bot.add_command(ping)
-bot.add_command(shutdown)    
+    
 bot.run(settings.config.TOKEN)
