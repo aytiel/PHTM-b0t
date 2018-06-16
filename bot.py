@@ -11,6 +11,8 @@ async def on_ready():
     print('Logged in...')
     print('Username: ' + str(bot.user.name))
     print('Client ID: ' + str(bot.user.id))
+    invite = 'https://discordapp.com/oauth2/authorize?&client_id=' + str(bot.user.id) + '&scope=bot&permissions=0'
+    print('Invite URL: ' + invite)
     status = discord.Game(name='DPS Simulator 2018')
     await bot.change_presence(activity=status)
 
