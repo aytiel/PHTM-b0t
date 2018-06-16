@@ -94,6 +94,29 @@ class Arcdps:
                         await ctx.send('An error has occurred.')
                     else:
                         await ctx.send(raid_logs[w][b]['permalink'])
+        else:
+            for s in frac_logs:
+                scale = s + ':'
+                await ctx.send(scale)
+                for b in frac_logs[s]:
+                    path = 'C:/Users/atl/Documents/Guild Wars 2/addons/arcdps/arcdps.cbtlogs/' + b + '/*'
+                    all_files = glob.glob(path)
+                    latest_file = max(all_files, key=os.path.getctime)
+                    if latest_file is None:
+                        frac_logs[s][b] = None
+                        
+                    dps_endpoint = 'https://dps.report/uploadContent?json=1&rotation_weap1=0&generator=rh'
+                    files = {'file': open(latest_file, 'rb')}
+                    res = requests.post(dps_endpoint, files=files)
+                    if not res.status_code == 200:
+                        frac_logs[s][b] = None
+                    else:
+                        frac_logs[s][b] = json.loads(res.text)
+                    
+                    if frac_logs[s][b] is None:
+                        await ctx.send('An error has occurred.')
+                    else:
+                        await ctx.send(frac_logs[s][b]['permalink'])
         
 def setup(bot):
     bot.add_cog(Arcdps(bot))
