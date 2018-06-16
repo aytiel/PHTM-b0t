@@ -91,7 +91,7 @@ class Arcdps:
                         raid_logs[w][b] = json.loads(res.text)
                     
                     if raid_logs[w][b] is None:
-                        await ctx.send('An error has occurred.')
+                        await ctx.send('ERROR 🤖')
                     else:
                         await ctx.send(raid_logs[w][b]['permalink'])
         else:
@@ -114,7 +114,7 @@ class Arcdps:
                         frac_logs[s][b] = json.loads(res.text)
                     
                     if frac_logs[s][b] is None:
-                        await ctx.send('An error has occurred.')
+                        await ctx.send('ERROR 🤖')
                     else:
                         await ctx.send(frac_logs[s][b]['permalink'])
         
