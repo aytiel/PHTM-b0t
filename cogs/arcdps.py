@@ -82,7 +82,7 @@ class Arcdps:
                     if latest_file is None:
                         raid_logs[w][b] = None
                         
-                    dps_endpoint = 'https://dps.report/uploadContent?json=1&rotation_weap1=0&generator=rh'
+                    dps_endpoint = 'https://dps.report/uploadContent?json=1&generator=rh'
                     files = {'file': open(latest_file, 'rb')}
                     res = requests.post(dps_endpoint, files=files)
                     if not res.status_code == 200:
