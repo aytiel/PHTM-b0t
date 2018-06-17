@@ -3,42 +3,33 @@ from discord.ext import commands
 
 import settings.config
 
-bot = commands.Bot(command_prefix=settings.config.PREFIX)
-extensions = ['cogs.arcdps']
+extensions = ['cogs.arcdps', 'cogs.control']
 
-@bot.event
-async def on_ready():
-    print('Logged in...')
-    print('Username: ' + str(bot.user.name))
-    print('Client ID: ' + str(bot.user.id))
-    invite = 'https://discordapp.com/oauth2/authorize?&client_id=' + str(bot.user.id) + '&scope=bot&permissions=0'
-    print('Invite URL: ' + invite)
-    status = discord.Game(name='DPS Simulator 2018')
-    await bot.change_presence(activity=status)
+class PHTMb0t(commands.Bot):
+    def __init__(self):
+        super().__init__(command_prefix=settings.config.PREFIX, case_insensitive=True)
+        
+        self.status_format = '{} days since the last raid release'
+        
+        for ext in extensions:
+            try:
+                self.load_extension(ext)
+            except Exception as e:
+                exc = '{}: {}'.format(type(e).__name__, e)
+                print('Failed to load extension {}\n{}'.format(ext, exc))
 
-@bot.event
-async def on_message(message):
-    if not message.author.bot:
-        await bot.process_commands(message)
-    
-@bot.command()
-async def ping(ctx):
-    await ctx.send('Pong!')
+    async def on_ready(self):
+        print('Logged in...')
+        print('Username: ' + str(bot.user.name))
+        print('Client ID: ' + str(bot.user.id))
+        invite = 'https://discordapp.com/oauth2/authorize?&client_id=' + str(bot.user.id) + '&scope=bot&permissions=0'
+        print('Invite URL: ' + invite)
+        status = discord.Game(name='DPS Simulator 2018')
+        await bot.change_presence(activity=status)
 
-@bot.command()
-async def shutdown(ctx):
-    guild = ctx.guild
-    if guild is None:
-        has_perms = False
-    else:
-        has_perms = ctx.channel.permissions_for(guild.me).manage_messages
-    if has_perms:
-        await ctx.message.delete()
-    else:
-        await ctx.send('I do not have permissions to delete messages. Please enable this in the future.')
-    await bot.logout()
-    await bot.close()
+    async def on_message(self, message):
+        if not message.author.bot:
+            await bot.process_commands(message)
 
-for ext in extensions:
-    bot.load_extension(ext)
+bot = PHTMb0t()
 bot.run(settings.config.TOKEN)
