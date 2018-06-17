@@ -1,3 +1,5 @@
+import datetime
+
 import discord
 from discord.ext import commands
 
@@ -9,7 +11,7 @@ class PHTMb0t(commands.Bot):
     def __init__(self):
         super().__init__(command_prefix=settings.config.PREFIX, case_insensitive=True)
         
-        self.status_format = '{} days since the last raid release'
+        self.status_format = '{} days without a new raid wing'
         
         for ext in extensions:
             try:
@@ -24,12 +26,16 @@ class PHTMb0t(commands.Bot):
         print('Client ID: ' + str(bot.user.id))
         invite = 'https://discordapp.com/oauth2/authorize?&client_id=' + str(bot.user.id) + '&scope=bot&permissions=0'
         print('Invite URL: ' + invite)
-        status = discord.Game(name='DPS Simulator 2018')
-        await bot.change_presence(activity=status)
+        await self.update_status()
 
     async def on_message(self, message):
         if not message.author.bot:
             await bot.process_commands(message)
+            
+    async def update_status(self):
+        diff = datetime.date.today() - datetime.date(2017, 11, 28)
+        status = discord.Game(name=self.status_format.format(diff.days))
+        await bot.change_presence(activity=status)
 
 bot = PHTMb0t()
 bot.run(settings.config.TOKEN)
