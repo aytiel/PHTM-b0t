@@ -109,28 +109,28 @@ class Arcdps:
                             error = 'ERROR ?? : an error has occurred with ' + b
                             await ctx.send(error)
                             continue
-                        else:
-                            raidar_endpoint = 'https://www.gw2raidar.com/api/v2/areas'
-                            res = requests.get(raidar_endpoint, headers={'Authorization': auth})
-                            if not res.status_code == 200:
-                                error = 'ERROR ?? : an error has occurred with ' + b
-                                await ctx.send(error)
-                                continue
-                            #else:
-                            #    boss_id = None
-                            #    for boss in res.json()['results']:
-                            #        if boss['name'].split(' ')[0] == 'Siax' and b == 'Nightmare Oratuss':
-                            #            boss_id = boss['id']
-                            #            break
-                            #        elif boss['name'].split(' ')[0] in b:
-                            #            boss_id = boss['id']
-                            #            break
-                            #    if boss_id is None:
-                            #        error = 'ERROR ?? : an error has occurred with ' + b
-                            #        await ctx.send(error)
-                            #        continue
-                            #    counter = 0
-                            #    await self.update_raidar(ctx, type, e, b, auth, boss_id, counter)
+                        #else:
+                        #    raidar_endpoint = 'https://www.gw2raidar.com/api/v2/areas'
+                        #    res = requests.get(raidar_endpoint, headers={'Authorization': auth})
+                        #    if not res.status_code == 200:
+                        #        error = 'ERROR ?? : an error has occurred with ' + b
+                        #        await ctx.send(error)
+                        #        continue
+                        #    else:
+                        #        boss_id = None
+                        #        for boss in res.json()['results']:
+                        #            if boss['name'].split(' ')[0] == 'Siax' and b == 'Nightmare Oratuss':
+                        #                boss_id = boss['id']
+                        #                break
+                        #            elif boss['name'].split(' ')[0] in b:
+                        #                boss_id = boss['id']
+                        #                break
+                        #        if boss_id is None:
+                        #            error = 'ERROR ?? : an error has occurred with ' + b
+                        #            await ctx.send(error)
+                        #            continue
+                        #        counter = 0
+                        #        await self.update_raidar(ctx, type, e, b, auth, boss_id, counter)
                 print('Uploaded ' + b + ': GW2Raidar')          
                 
         await self.print_logs(ctx, type, name)
