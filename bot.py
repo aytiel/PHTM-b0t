@@ -22,20 +22,20 @@ class PHTMb0t(commands.Bot):
 
     async def on_ready(self):
         print('Logged in...')
-        print('Username: ' + str(bot.user.name))
-        print('Client ID: ' + str(bot.user.id))
-        invite = 'https://discordapp.com/oauth2/authorize?&client_id=' + str(bot.user.id) + '&scope=bot&permissions=0'
+        print('Username: ' + str(self.user.name))
+        print('Client ID: ' + str(self.user.id))
+        invite = 'https://discordapp.com/oauth2/authorize?&client_id=' + str(self.user.id) + '&scope=bot&permissions=0'
         print('Invite URL: ' + invite)
         await self.update_status()
 
     async def on_message(self, message):
         if not message.author.bot:
-            await bot.process_commands(message)
+            await self.process_commands(message)
             
     async def update_status(self):
         diff = datetime.date.today() - datetime.date(2017, 11, 28)
         status = discord.Game(name=self.status_format.format(diff.days))
-        await bot.change_presence(activity=status)
+        await self.change_presence(activity=status)
 
 bot = PHTMb0t()
 bot.run(settings.config.TOKEN)
