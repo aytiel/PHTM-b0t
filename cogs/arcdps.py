@@ -49,6 +49,20 @@ logs = {
     }
 }
 
+logs_order = {
+    'raids': {
+        'W1': ['Gorseval the Multifarious', 'Sabetha the Saboteur', 'Vale Guardian'],
+        'W5': ['Soulless Horror', 'Dhuum'],
+        'W2': ['Slothasor', 'Matthias Gabrel'],
+        'W4': ['Cairn the Indomitable', 'Mursaat Overseer', 'Samarog', 'Deimos'],
+        'W3': ['Keep Construct', 'Xera']
+    },
+    'fractals': {
+        '100CM': ['Skorvald the Shattered', 'Artsariiv', 'Arkk'],
+        '99CM': ['MAMA', 'Nightmare Oratuss', 'Ensolyss of the Endless Torment']
+    }
+}
+
 class Arcdps:
     def __init__(self, bot):
         self.bot = bot
@@ -69,13 +83,13 @@ class Arcdps:
             await ctx.send('Please indicate whether you want to upload **raids** or **fractals** logs.')
             return
         
-        for e in logs[type]:
-            for b in logs[type][e]:
+        for e in logs_order[type]:
+            for b in logs_order[type][e]:
                 path = 'C:/Users/atl/Documents/Guild Wars 2/addons/arcdps/arcdps.cbtlogs/' + b + '/*'
                 all_files = glob.glob(path)
                 latest_file = max(all_files, key=os.path.getctime)
                 if latest_file is None:
-                    error = 'ERROR ?? : an error has occurred with ' + b
+                    error = 'ERROR :robot: : an error has occurred with ' + b
                     await ctx.send(error)
                     continue
                         
@@ -84,7 +98,7 @@ class Arcdps:
                     files = {'file': file}
                     res = requests.post(dps_endpoint, files=files)
                     if not res.status_code == 200:
-                        error = 'ERROR ?? : an error has occurred with ' + b
+                        error = 'ERROR :robot: : an error has occurred with ' + b
                         await ctx.send(error)
                         continue
                     else:
@@ -95,7 +109,7 @@ class Arcdps:
                 cred = {'username': settings.config.RAIDARUSER, 'password': settings.config.RAIDARPASS}
                 res = requests.post(raidar_endpoint, data=cred)
                 if not res.status_code == 200:
-                    error = 'ERROR ?? : an error has occurred with ' + b
+                    error = 'ERROR :robot: : an error has occurred with ' + b
                     await ctx.send(error)
                     continue
                 else:
@@ -106,31 +120,31 @@ class Arcdps:
                         files = {'file': file}
                         res = requests.put(raidar_endpoint, headers={'Authorization': auth}, files=files)
                         if not res.status_code == 200:
-                            error = 'ERROR ?? : an error has occurred with ' + b
+                            error = 'ERROR :robot: : an error has occurred with ' + b
                             await ctx.send(error)
                             continue
-                        #else:
-                        #    raidar_endpoint = 'https://www.gw2raidar.com/api/v2/areas'
-                        #    res = requests.get(raidar_endpoint, headers={'Authorization': auth})
-                        #    if not res.status_code == 200:
-                        #        error = 'ERROR ?? : an error has occurred with ' + b
-                        #        await ctx.send(error)
-                        #        continue
-                        #    else:
-                        #        boss_id = None
-                        #        for boss in res.json()['results']:
-                        #            if boss['name'].split(' ')[0] == 'Siax' and b == 'Nightmare Oratuss':
-                        #                boss_id = boss['id']
-                        #                break
-                        #            elif boss['name'].split(' ')[0] in b:
-                        #                boss_id = boss['id']
-                        #                break
-                        #        if boss_id is None:
-                        #            error = 'ERROR ?? : an error has occurred with ' + b
-                        #            await ctx.send(error)
-                        #            continue
-                        #        counter = 0
-                        #        await self.update_raidar(ctx, type, e, b, auth, boss_id, counter)
+                        else:
+                            raidar_endpoint = 'https://www.gw2raidar.com/api/v2/areas'
+                            res = requests.get(raidar_endpoint, headers={'Authorization': auth})
+                            if not res.status_code == 200:
+                                error = 'ERROR :robot: : an error has occurred with ' + b
+                                await ctx.send(error)
+                                continue
+                            else:
+                                boss_id = None
+                                for boss in res.json()['results']:
+                                    if boss['name'].split(' ')[0] == 'Siax' and b == 'Nightmare Oratuss':
+                                        boss_id = boss['id']
+                                        break
+                                    elif boss['name'].split(' ')[0] in b:
+                                        boss_id = boss['id']
+                                        break
+                                if boss_id is None:
+                                    error = 'ERROR :robot: : an error has occurred with ' + b
+                                    await ctx.send(error)
+                                    continue
+                                counter = 0
+                                await self.update_raidar(ctx, type, e, b, auth, boss_id, counter)
                 print('Uploaded ' + b + ': GW2Raidar')          
                 
         await self.print_logs(ctx, type, name)
@@ -139,7 +153,7 @@ class Arcdps:
         raidar_endpoint = 'https://www.gw2raidar.com/api/v2/encounters?limit=1'
         res = requests.get(raidar_endpoint, headers={'Authorization': auth})
         if not res.status_code == 200:
-            error = 'ERROR ?? : an error has occurred with ' + b
+            error = 'ERROR :robot: : an error has occurred with ' + b
             await ctx.send(error)
             return
         else:
@@ -148,12 +162,12 @@ class Arcdps:
                 logs[type][e][b]['GW2Raidar'] = raidar_link
                 return
             elif counter == 3:
-                error = 'ERROR ?? : an error has occurred with ' + b
+                error = 'ERROR :robot: : ' + b + ' is not finished analyzing.'
                 await ctx.send(error)
                 return
             else:
-                print(b + ': GW2Raidar has not been retrieved. Retrying ' + str(counter))
-                time.sleep(40)
+                print(b + ': GW2Raidar has not been analyzed. Retrying ' + str(counter))
+                time.sleep(100)
                 counter += 1
                 await self.update_raidar(ctx, type, e, b, auth, boss_id, counter)       
                     
