@@ -173,7 +173,7 @@ class Arcdps:
                     
     async def print_logs(self, ctx, type: str, name: str):
         title = '__' + name + ' | ' + str(datetime.date.today()) + '__'
-        embed = discord.Embed(title=title, colour=0x6496e5)
+        embed = discord.Embed(title=title, colour=0xb30000)
         embed.set_footer(text='Created by Phantom#4985')
         embed.set_thumbnail(url='https://vignette.wikia.nocookie.net/gwwikia/images/4/4d/Guild_Wars_2_Dragon_logo.jpg/revision/latest?cb=20090825055046')
         for e in logs[type]:
