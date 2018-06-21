@@ -93,7 +93,7 @@ class Arcdps:
                     await ctx.send(error)
                     continue
                         
-                dps_endpoint = 'https://dps.report/uploadContent?json=1&generator=rh'
+                dps_endpoint = 'https://dps.report/uploadContent?json=1&generator=ei'
                 with open(latest_file, 'rb') as file:
                     files = {'file': file}
                     res = requests.post(dps_endpoint, files=files)
