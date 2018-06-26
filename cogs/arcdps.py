@@ -12,39 +12,39 @@ import settings.config
 logs = {
     'raids': {
         'W1': {
-            'Vale Guardian': {'dps.report': 'about:blank', 'GW2Raidar': {'id': 15438, 'link': 'about:blank'}},
-            'Gorseval the Multifarious': {'dps.report': 'about:blank', 'GW2Raidar': {'id': 15429, 'link': 'about:blank'}},
-            'Sabetha the Saboteur': {'dps.report': 'about:blank', 'GW2Raidar': {'id': 15375, 'link': 'about:blank'}}
+            'Vale Guardian': {'dps.report': 'about:blank', 'GW2Raidar': {'id': 15438, 'link': 'about:blank', 'success': False}},
+            'Gorseval the Multifarious': {'dps.report': 'about:blank', 'GW2Raidar': {'id': 15429, 'link': 'about:blank', 'success': False}},
+            'Sabetha the Saboteur': {'dps.report': 'about:blank', 'GW2Raidar': {'id': 15375, 'link': 'about:blank', 'success': False}}
         },
         'W2': {
-            'Slothasor': {'dps.report': 'about:blank', 'GW2Raidar': {'id': 16123, 'link': 'about:blank'}},
-            'Matthias Gabrel': {'dps.report': 'about:blank', 'GW2Raidar': {'id': 16115, 'link': 'about:blank'}}
+            'Slothasor': {'dps.report': 'about:blank', 'GW2Raidar': {'id': 16123, 'link': 'about:blank', 'success': False}},
+            'Matthias Gabrel': {'dps.report': 'about:blank', 'GW2Raidar': {'id': 16115, 'link': 'about:blank', 'success': False}}
         },
         'W3': {
-            'Keep Construct': {'dps.report': 'about:blank', 'GW2Raidar': {'id': 16235, 'link': 'about:blank'}},
-            'Xera': {'dps.report': 'about:blank', 'GW2Raidar': {'id': 16246, 'link': 'about:blank'}}
+            'Keep Construct': {'dps.report': 'about:blank', 'GW2Raidar': {'id': 16235, 'link': 'about:blank', 'success': False}},
+            'Xera': {'dps.report': 'about:blank', 'GW2Raidar': {'id': 16246, 'link': 'about:blank', 'success': False}}
         },
         'W4': {
-            'Cairn the Indomitable': {'dps.report': 'about:blank', 'GW2Raidar': {'id': 17194, 'link': 'about:blank'}},
-            'Mursaat Overseer': {'dps.report': 'about:blank', 'GW2Raidar': {'id': 17172, 'link': 'about:blank'}},
-            'Samarog': {'dps.report': 'about:blank', 'GW2Raidar': {'id': 17188, 'link': 'about:blank'}},
-            'Deimos': {'dps.report': 'about:blank', 'GW2Raidar': {'id': 17154, 'link': 'about:blank'}}
+            'Cairn the Indomitable': {'dps.report': 'about:blank', 'GW2Raidar': {'id': 17194, 'link': 'about:blank', 'success': False}},
+            'Mursaat Overseer': {'dps.report': 'about:blank', 'GW2Raidar': {'id': 17172, 'link': 'about:blank', 'success': False}},
+            'Samarog': {'dps.report': 'about:blank', 'GW2Raidar': {'id': 17188, 'link': 'about:blank', 'success': False}},
+            'Deimos': {'dps.report': 'about:blank', 'GW2Raidar': {'id': 17154, 'link': 'about:blank', 'success': False}}
         },
         'W5': {
-            'Soulless Horror': {'dps.report': 'about:blank', 'GW2Raidar': {'id': 19767, 'link': 'about:blank'}},
-            'Dhuum': {'dps.report': 'about:blank', 'GW2Raidar': {'id': 19450, 'link': 'about:blank'}}
+            'Soulless Horror': {'dps.report': 'about:blank', 'GW2Raidar': {'id': 19767, 'link': 'about:blank', 'success': False}},
+            'Dhuum': {'dps.report': 'about:blank', 'GW2Raidar': {'id': 19450, 'link': 'about:blank', 'success': False}}
         }
     },
     'fractals': {
         '99CM': {
-            'MAMA': {'dps.report': 'about:blank', 'GW2Raidar': {'id': 17021, 'link': 'about:blank'}},
-            'Nightmare Oratuss': {'dps.report': 'about:blank', 'GW2Raidar': {'id': 17028, 'link': 'about:blank'}},
-            'Ensolyss of the Endless Torment': {'dps.report': 'about:blank', 'GW2Raidar': {'id': 16948, 'link': 'about:blank'}}
+            'MAMA': {'dps.report': 'about:blank', 'GW2Raidar': {'id': 17021, 'link': 'about:blank', 'success': False}},
+            'Nightmare Oratuss': {'dps.report': 'about:blank', 'GW2Raidar': {'id': 17028, 'link': 'about:blank', 'success': False}},
+            'Ensolyss of the Endless Torment': {'dps.report': 'about:blank', 'GW2Raidar': {'id': 16948, 'link': 'about:blank', 'success': False}}
         },
         '100CM': {
-            'Skorvald the Shattered': {'dps.report': 'about:blank', 'GW2Raidar': {'id': 17632, 'link': 'about:blank'}},
-            'Artsariiv': {'dps.report': 'about:blank', 'GW2Raidar': {'id': 17949, 'link': 'about:blank'}},
-            'Arkk': {'dps.report': 'about:blank', 'GW2Raidar': {'id': 17759, 'link': 'about:blank'}}
+            'Skorvald the Shattered': {'dps.report': 'about:blank', 'GW2Raidar': {'id': 17632, 'link': 'about:blank', 'success': False}},
+            'Artsariiv': {'dps.report': 'about:blank', 'GW2Raidar': {'id': 17949, 'link': 'about:blank', 'success': False}},
+            'Arkk': {'dps.report': 'about:blank', 'GW2Raidar': {'id': 17759, 'link': 'about:blank', 'success': False}}
         }
     }
 }
@@ -83,13 +83,15 @@ class Arcdps:
             await ctx.send('Please indicate whether you want to upload **raids** or **fractals** logs.')
             return
         
+        logs_length = 0
         for e in logs_order[type]:
             for b in logs_order[type][e]:
+                logs_length += 1
                 path = 'C:/Users/atl/Documents/Guild Wars 2/addons/arcdps/arcdps.cbtlogs/' + b + '/*'
                 all_files = glob.glob(path)
                 latest_file = max(all_files, key=os.path.getctime)
                 if latest_file is None:
-                    error = 'ERROR :robot: : an error has occurred with ' + b
+                    error = 'ERROR :robot: : an error has occurred with ' + b + '. `Error Code: BLOODSTONE`.'
                     await ctx.send(error)
                     continue
                         
@@ -98,7 +100,7 @@ class Arcdps:
                     files = {'file': file}
                     res = requests.post(dps_endpoint, files=files)
                     if not res.status_code == 200:
-                        error = 'ERROR :robot: : an error has occurred with ' + b
+                        error = 'ERROR :robot: : an error has occurred with ' + b + '. `Error Code: DHUUMFIRE`.'
                         await ctx.send(error)
                         continue
                     else:
@@ -109,7 +111,7 @@ class Arcdps:
                 cred = {'username': settings.config.RAIDARUSER, 'password': settings.config.RAIDARPASS}
                 res = requests.post(raidar_endpoint, data=cred)
                 if not res.status_code == 200:
-                    error = 'ERROR :robot: : an error has occurred with ' + b
+                    error = 'ERROR :robot: : an error has occurred with ' + b + '. `Error Code: RYTLOCK`.'
                     await ctx.send(error)
                     continue
                 else:
@@ -120,42 +122,67 @@ class Arcdps:
                         files = {'file': file}
                         res = requests.put(raidar_endpoint, headers={'Authorization': auth}, files=files)
                         if not res.status_code == 200:
-                            error = 'ERROR :robot: : an error has occurred with ' + b
+                            error = 'ERROR :robot: : an error has occurred with ' + b + '. `Error Code: ZOJJA`.'
                             await ctx.send(error)
                             continue
                         else:
-                            counter = 0
-                            await self.update_raidar(ctx, type, e, b, auth, counter)
+                            logs[type][e][b]['GW2Raidar']['success'] = True
                 print('Uploaded ' + b + ': GW2Raidar')          
-                
+        
+        counter = 0
+        await self.update_raidar(ctx, type, counter, logs_length)
         await self.print_logs(ctx, type, name)
         
-    async def update_raidar(self, ctx, type: str, e: str, b: str, auth: str, counter: int):
-        raidar_endpoint = 'https://www.gw2raidar.com/api/v2/encounters?limit=1'
-        res = requests.get(raidar_endpoint, headers={'Authorization': auth})
-        if not res.status_code == 200:
-            error = 'ERROR :robot: : an error has occurred with ' + b
-            await ctx.send(error)
+    async def update_raidar(self, ctx, type: str, counter: int, length: int):
+        if length == 0:
             return
-        else:
-            if res.json()['results'][0]['area_id'] == logs[type][e][b]['GW2Raidar']['id']:
-                raidar_link = 'https://www.gw2raidar.com/encounter/' + res.json()['results'][0]['url_id']
-                logs[type][e][b]['GW2Raidar']['link'] = raidar_link
-                return
-            elif counter == 3:
-                error = 'ERROR :robot: : ' + b + ' is not finished analyzing.'
-                await ctx.send(error)
-                return
-            else:
-                print(b + ': GW2Raidar has not been analyzed. Retrying ' + str(counter))
-                time.sleep(100)
-                counter += 1
-                await self.update_raidar(ctx, type, e, b, auth, counter)       
+            
+        pos = length - 1    
+        for e in logs_order[type]:
+            for b in logs_order[type][e]:
+                if logs[type][e][b]['GW2Raidar']['success'] == False:
+                    continue
+                raidar_endpoint = 'https://www.gw2raidar.com/api/v2/token'
+                cred = {'username': settings.config.RAIDARUSER, 'password': settings.config.RAIDARPASS}
+                res = requests.post(raidar_endpoint, data=cred)
+                if not res.status_code == 200:
+                    error = 'ERROR :robot: : an error has occurred. `Error Code: RYTLOCK`.'
+                    await ctx.send(error)
+                    continue
+                else:
+                    token = res.json()['token']
+                    auth = 'Token ' + token
+                    raidar_endpoint = 'https://www.gw2raidar.com/api/v2/encounters?limit=' + str(length)
+                    res = requests.get(raidar_endpoint, headers={'Authorization': auth})
+                    if not res.status_code == 200:
+                        error = 'ERROR :robot: : an error has occurred. `Error Code: EIR`.'
+                        await ctx.send(error)
+                        return
+                    else:
+                        if res.json()['results'][pos]['area_id'] == logs[type][e][b]['GW2Raidar']['id']:
+                            raidar_link = 'https://www.gw2raidar.com/encounter/' + res.json()['results'][pos]['url_id']
+                            logs[type][e][b]['GW2Raidar']['link'] = raidar_link
+                            if not pos < 0:
+                                pos -= 1
+                        elif counter == 6:
+                            await ctx.send('ERROR :robot: : The logs were unsuccessfully analyzed within the time frame.')
+                            await self.clear_raidar(ctx, type)
+                            return
+                        else:
+                            print('The logs have not been analyzed. Retrying ' + str(counter) + '...')
+                            time.sleep(300)
+                            counter += 1
+                            await self.update_raidar(ctx, type, counter, length)
+
+    async def clear_raidar(self, ctx, type: str):
+        for e in logs[type]:
+            for b in logs[type][e]:
+                logs[type][e][b]['GW2Raidar']['link'] = 'about:blank'
                     
     async def print_logs(self, ctx, type: str, name: str):
         title = '__' + name + ' | ' + str(datetime.date.today()) + '__'
         embed = discord.Embed(title=title, colour=0xb30000)
-        embed.set_footer(text='Direct any issues to Phantom#4985 or PhantomSoulz.2419')
+        embed.set_footer(text='Created by Phantom#4985 | PhantomSoulz.2419')
         embed.set_thumbnail(url='https://vignette.wikia.nocookie.net/gwwikia/images/4/4d/Guild_Wars_2_Dragon_logo.jpg/revision/latest?cb=20090825055046')
         for e in logs[type]:
             out = ''
