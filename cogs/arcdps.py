@@ -172,7 +172,7 @@ class Arcdps:
                             print('The logs have not been analyzed. Retrying ' + str(counter) + '...')
                             time.sleep(300)
                             counter += 1
-                            await self.update_raidar(ctx, type, counter, length)
+                            return await self.update_raidar(ctx, type, counter, length)
 
     async def clear_raidar(self, ctx, type: str):
         for e in logs[type]:
