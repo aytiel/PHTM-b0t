@@ -80,8 +80,7 @@ class Arcdps:
             await ctx.send('I do not have permissions to delete messages. Please enable this in the future.')
             
         if not type == 'raids' and not type == 'fractals':
-            await ctx.send('Please indicate whether you want to upload **raids** or **fractals** logs.')
-            return
+            return await ctx.send('Please indicate whether you want to upload **raids** or **fractals** logs.')
         
         logs_length = 0
         for e in logs_order[type]:
@@ -156,8 +155,7 @@ class Arcdps:
                     res = requests.get(raidar_endpoint, headers={'Authorization': auth})
                     if not res.status_code == 200:
                         error = 'ERROR :robot: : an error has occurred. `Error Code: EIR`.'
-                        await ctx.send(error)
-                        return
+                        return await ctx.send(error)
                     else:
                         if res.json()['results'][pos]['area_id'] == logs[type][e][b]['GW2Raidar']['id']:
                             raidar_link = 'https://www.gw2raidar.com/encounter/' + res.json()['results'][pos]['url_id']
@@ -166,10 +164,9 @@ class Arcdps:
                                 pos -= 1
                         elif counter == 6:
                             await ctx.send('ERROR :robot: : The logs were unsuccessfully analyzed within the time frame.')
-                            await self.clear_raidar(ctx, type)
-                            return
+                            return await self.clear_raidar(ctx, type)
                         else:
-                            print('The logs have not been analyzed. Retrying ' + str(counter) + '...')
+                            print('The logs have not been analyzed. Retrying in 5 min: ' + str(counter) + '...')
                             time.sleep(300)
                             counter += 1
                             return await self.update_raidar(ctx, type, counter, length)
