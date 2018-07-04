@@ -66,6 +66,34 @@ logs_order = {
 class Arcdps:
     def __init__(self, bot):
         self.bot = bot
+    
+    @commands.command()
+    async def login(self, ctx, username: str, password: str):
+        guild = ctx.guild
+        if guild is None:
+            has_perms = False
+        else:
+            has_perms = ctx.channel.permissions_for(guild.me).manage_messages
+        if has_perms:
+            await ctx.message.delete()
+        else:
+            await ctx.send('I do not have permissions to delete messages. Please enable this in the future.')
+    
+        raidar_endpoint = 'https://www.gw2raidar.com/api/v2/token'
+        cred = {'username': username, 'password': password}
+        res = requests.post(raidar_endpoint, data=cred)
+        if not res.status_code == 200:
+            error = 'ERROR :robot: : GW2Raidar login failed.'
+            return await ctx.send(error)
+        else:
+            token = res.json()['token']
+            auth = 'Token ' + token
+            with open('cogs/data/key.json', 'r') as key_file:
+                key = json.load(key_file)
+            key['key'] = auth
+            with open('cogs/data/key.json', 'w') as key_file:
+                json.dump(key, key_file, indent=4)
+            await ctx.send('Login successful :white_check_mark: : Ready to upload logs.')
         
     @commands.command()
     async def upload(self, ctx, type: str, name: str):
@@ -105,27 +133,25 @@ class Arcdps:
                     else:
                         logs[type][e][b]['dps.report'] = res.json()['permalink']
                 print('Uploaded ' + b + ': dps.report')
-                    
-                raidar_endpoint = 'https://www.gw2raidar.com/api/v2/token'
-                cred = {'username': settings.config.RAIDARUSER, 'password': settings.config.RAIDARPASS}
-                res = requests.post(raidar_endpoint, data=cred)
-                if not res.status_code == 200:
-                    error = 'ERROR :robot: : an error has occurred with ' + b + '. `Error Code: RYTLOCK`.'
-                    await ctx.send(error)
-                    continue
-                else:
-                    token = res.json()['token']
-                    auth = 'Token ' + token
-                    raidar_endpoint = 'https://www.gw2raidar.com/api/v2/encounters/new'
-                    with open(latest_file, 'rb') as file:
-                        files = {'file': file}
-                        res = requests.put(raidar_endpoint, headers={'Authorization': auth}, files=files)
-                        if not res.status_code == 200:
-                            error = 'ERROR :robot: : an error has occurred with ' + b + '. `Error Code: ZOJJA`.'
-                            await ctx.send(error)
-                            continue
-                        else:
-                            logs[type][e][b]['GW2Raidar']['success'] = True
+
+                with open('cogs/data/key.json', 'r') as key_file:
+                    key = json.load(key_file)
+                    if len(key['key']) == 0:
+                        error = 'ERROR :robot: : Key not found. Please log into GW2Raidar before uploading.'
+                        await ctx.send(error)
+                        continue
+                    else:
+                        auth = key['key']
+                raidar_endpoint = 'https://www.gw2raidar.com/api/v2/encounters/new'
+                with open(latest_file, 'rb') as file:
+                    files = {'file': file}
+                    res = requests.put(raidar_endpoint, headers={'Authorization': auth}, files=files)
+                    if not res.status_code == 200:
+                        error = 'ERROR :robot: : an error has occurred with ' + b + '. `Error Code: ZOJJA`.'
+                        await ctx.send(error)
+                        continue
+                    else:
+                        logs[type][e][b]['GW2Raidar']['success'] = True
                 print('Uploaded ' + b + ': GW2Raidar')          
         
         counter = 0
@@ -139,37 +165,36 @@ class Arcdps:
         pos = length - 1    
         for e in logs_order[type]:
             for b in logs_order[type][e]:
-                if logs[type][e][b]['GW2Raidar']['success'] == False:
+                if not logs[type][e][b]['GW2Raidar']['success']:
                     continue
-                raidar_endpoint = 'https://www.gw2raidar.com/api/v2/token'
-                cred = {'username': settings.config.RAIDARUSER, 'password': settings.config.RAIDARPASS}
-                res = requests.post(raidar_endpoint, data=cred)
-                if not res.status_code == 200:
-                    error = 'ERROR :robot: : an error has occurred. `Error Code: RYTLOCK`.'
-                    await ctx.send(error)
-                    continue
-                else:
-                    token = res.json()['token']
-                    auth = 'Token ' + token
-                    raidar_endpoint = 'https://www.gw2raidar.com/api/v2/encounters?limit=' + str(length)
-                    res = requests.get(raidar_endpoint, headers={'Authorization': auth})
-                    if not res.status_code == 200:
-                        error = 'ERROR :robot: : an error has occurred. `Error Code: EIR`.'
-                        return await ctx.send(error)
+
+                with open('cogs/data/key.json', 'r') as key_file:
+                    key = json.load(key_file)
+                    if len(key['key']) == 0:
+                        error = 'ERROR :robot: : Key not found. Please log into GW2Raidar before uploading.'
+                        await ctx.send(error)
+                        continue
                     else:
-                        if res.json()['results'][pos]['area_id'] == logs[type][e][b]['GW2Raidar']['id']:
-                            raidar_link = 'https://www.gw2raidar.com/encounter/' + res.json()['results'][pos]['url_id']
-                            logs[type][e][b]['GW2Raidar']['link'] = raidar_link
-                            if not pos < 0:
-                                pos -= 1
-                        elif counter == 6:
-                            await ctx.send('ERROR :robot: : The logs were unsuccessfully analyzed within the time frame.')
-                            return await self.clear_raidar(ctx, type)
-                        else:
-                            print('The logs have not been analyzed. Retrying in 5 min: ' + str(counter) + '...')
-                            time.sleep(300)
-                            counter += 1
-                            return await self.update_raidar(ctx, type, counter, length)
+                        auth = key['key']
+                raidar_endpoint = 'https://www.gw2raidar.com/api/v2/encounters?limit=' + str(length)
+                res = requests.get(raidar_endpoint, headers={'Authorization': auth})
+                if not res.status_code == 200:
+                    error = 'ERROR :robot: : an error has occurred. `Error Code: EIR`.'
+                    return await ctx.send(error)
+                else:
+                    if res.json()['results'][pos]['area_id'] == logs[type][e][b]['GW2Raidar']['id']:
+                        raidar_link = 'https://www.gw2raidar.com/encounter/' + res.json()['results'][pos]['url_id']
+                        logs[type][e][b]['GW2Raidar']['link'] = raidar_link
+                        if not pos < 0:
+                            pos -= 1
+                    elif counter == 6:
+                        await ctx.send('ERROR :robot: : The logs were unsuccessfully analyzed within the time frame.')
+                        return await self.clear_raidar(ctx, type)
+                    else:
+                        print('The logs have not been analyzed. Retrying in 5 min: ' + str(counter) + '...')
+                        time.sleep(300)
+                        counter += 1
+                        return await self.update_raidar(ctx, type, counter, length)
 
     async def clear_raidar(self, ctx, type: str):
         for e in logs[type]:
