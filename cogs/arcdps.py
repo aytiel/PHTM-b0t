@@ -114,7 +114,7 @@ class Arcdps:
         for e in logs_order[type]:
             for b in logs_order[type][e]:
                 logs_length += 1
-                path = 'C:/Users/atl/Documents/Guild Wars 2/addons/arcdps/arcdps.cbtlogs/' + b + '/*'
+                path = os.path.expanduser('~/Documents/Guild Wars 2/addons/arcdps/arcdps.cbtlogs/') + b + '/*.zip'
                 all_files = glob.glob(path)
                 latest_file = max(all_files, key=os.path.getctime)
                 if latest_file is None:
