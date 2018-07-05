@@ -10,51 +10,13 @@ import discord
 from discord.ext import commands
 import settings.config
 
-logs = {
-    'raids': {
-        'W1': {
-            'Vale Guardian': {'dps.report': 'about:blank', 'GW2Raidar': {'id': 15438, 'link': 'about:blank', 'success': False}},
-            'Gorseval the Multifarious': {'dps.report': 'about:blank', 'GW2Raidar': {'id': 15429, 'link': 'about:blank', 'success': False}},
-            'Sabetha the Saboteur': {'dps.report': 'about:blank', 'GW2Raidar': {'id': 15375, 'link': 'about:blank', 'success': False}}
-        },
-        'W2': {
-            'Slothasor': {'dps.report': 'about:blank', 'GW2Raidar': {'id': 16123, 'link': 'about:blank', 'success': False}},
-            'Matthias Gabrel': {'dps.report': 'about:blank', 'GW2Raidar': {'id': 16115, 'link': 'about:blank', 'success': False}}
-        },
-        'W3': {
-            'Keep Construct': {'dps.report': 'about:blank', 'GW2Raidar': {'id': 16235, 'link': 'about:blank', 'success': False}},
-            'Xera': {'dps.report': 'about:blank', 'GW2Raidar': {'id': 16246, 'link': 'about:blank', 'success': False}}
-        },
-        'W4': {
-            'Cairn the Indomitable': {'dps.report': 'about:blank', 'GW2Raidar': {'id': 17194, 'link': 'about:blank', 'success': False}},
-            'Mursaat Overseer': {'dps.report': 'about:blank', 'GW2Raidar': {'id': 17172, 'link': 'about:blank', 'success': False}},
-            'Samarog': {'dps.report': 'about:blank', 'GW2Raidar': {'id': 17188, 'link': 'about:blank', 'success': False}},
-            'Deimos': {'dps.report': 'about:blank', 'GW2Raidar': {'id': 17154, 'link': 'about:blank', 'success': False}}
-        },
-        'W5': {
-            'Soulless Horror': {'dps.report': 'about:blank', 'GW2Raidar': {'id': 19767, 'link': 'about:blank', 'success': False}},
-            'Dhuum': {'dps.report': 'about:blank', 'GW2Raidar': {'id': 19450, 'link': 'about:blank', 'success': False}}
-        }
-    },
-    'fractals': {
-        '99CM': {
-            'MAMA': {'dps.report': 'about:blank', 'GW2Raidar': {'id': 17021, 'link': 'about:blank', 'success': False}},
-            'Nightmare Oratuss': {'dps.report': 'about:blank', 'GW2Raidar': {'id': 17028, 'link': 'about:blank', 'success': False}},
-            'Ensolyss of the Endless Torment': {'dps.report': 'about:blank', 'GW2Raidar': {'id': 16948, 'link': 'about:blank', 'success': False}}
-        },
-        '100CM': {
-            'Skorvald the Shattered': {'dps.report': 'about:blank', 'GW2Raidar': {'id': 17632, 'link': 'about:blank', 'success': False}},
-            'Artsariiv': {'dps.report': 'about:blank', 'GW2Raidar': {'id': 17949, 'link': 'about:blank', 'success': False}},
-            'Arkk': {'dps.report': 'about:blank', 'GW2Raidar': {'id': 17759, 'link': 'about:blank', 'success': False}}
-        }
-    }
-}
-
 class Arcdps:
     def __init__(self, bot):
         self.bot = bot
-        self.logs = logs
         self.logs_order = {}
+        
+        with open('cogs/data/logs.json', 'r') as logs_data:
+            self.logs = json.load(logs_data)
     
     @commands.command()
     async def login(self, ctx, username: str, password: str):
@@ -75,10 +37,10 @@ class Arcdps:
             return await ctx.send('ERROR :robot: : GW2Raidar login failed.')
         else:
             token = res.json()['token']
-            with open('cogs/data/key.json', 'r') as key_file:
+            with open('cogs/data/logs.json', 'r') as key_file:
                 key = json.load(key_file)
             key['key'] = 'Token {}'.format(token)
-            with open('cogs/data/key.json', 'w') as key_file:
+            with open('cogs/data/logs.json', 'w') as key_file:
                 json.dump(key, key_file, indent=4)
             await ctx.send('Login successful :white_check_mark: : Ready to upload logs.')
         
@@ -100,8 +62,8 @@ class Arcdps:
         await self.set_logs_order(ctx, type)
         
         logs_length = 0
-        for e in self.logs_order[type]:
-            for b in self.logs_order[type][e]:
+        for e in self.logs_order:
+            for b in self.logs_order[e]:
                 logs_length += 1
                 path = '{0}{1}/*.zip'.format(os.path.expanduser('~/Documents/Guild Wars 2/addons/arcdps/arcdps.cbtlogs/'), b)
                 all_files = glob.glob(path)
@@ -121,7 +83,7 @@ class Arcdps:
                         self.logs[type][e][b]['dps.report'] = res.json()['permalink']
                 print('Uploaded {}: dps.report'.format(b))
 
-                with open('cogs/data/key.json', 'r') as key_file:
+                with open('cogs/data/logs.json', 'r') as key_file:
                     key = json.load(key_file)
                     if len(key['key']) == 0:
                         await ctx.send('ERROR :robot: : Key not found. Please log into GW2Raidar before uploading.')
@@ -152,7 +114,6 @@ class Arcdps:
         
     async def set_logs_order(self, ctx, type: str):
         temp_logs = copy.deepcopy(self.logs)
-        self.logs_order[type] = {}
         while True:
             e_order = 0
             out = 'Type the number of the wing/scale that you wish to upload.\n```'
@@ -182,7 +143,7 @@ class Arcdps:
             if int(e_order) == 0:
                 break
             e_pos = int(e_order) - 1
-            self.logs_order[type][event[e_pos]] = []
+            self.logs_order[event[e_pos]] = []
             
             while True:
                 b_order = 0
@@ -210,7 +171,7 @@ class Arcdps:
                 if int(b_order) == 0:
                     break
                 b_pos = int(b_order) - 1
-                self.logs_order[type][event[e_pos]].append(boss[b_pos])
+                self.logs_order[event[e_pos]].append(boss[b_pos])
                 
                 del temp_logs[type][event[e_pos]][boss[b_pos]]            
             del temp_logs[type][event[e_pos]]
@@ -219,7 +180,7 @@ class Arcdps:
         if length == 0:
             return
    
-        with open('cogs/data/key.json', 'r') as key_file:
+        with open('cogs/data/logs.json', 'r') as key_file:
             key = json.load(key_file)
             if len(key['key']) == 0:
                 return await ctx.send('ERROR :robot: : Key not found. Please log into GW2Raidar before uploading.')
@@ -231,8 +192,8 @@ class Arcdps:
             return await ctx.send('ERROR :robot: : an error has occurred. `Error Code: CAITHE`.'.format(b))
         else:
             pos = length - 1    
-            for e in self.logs_order[type]:
-                for b in self.logs_order[type][e]:
+            for e in self.logs_order:
+                for b in self.logs_order[e]:
                     if not self.logs[type][e][b]['GW2Raidar']['success']:
                         continue
 
