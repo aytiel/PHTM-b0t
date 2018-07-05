@@ -42,7 +42,7 @@ class Arcdps:
             key['key'] = 'Token {}'.format(token)
             with open('cogs/data/logs.json', 'w') as key_file:
                 json.dump(key, key_file, indent=4)
-            await ctx.send('Login successful :white_check_mark: : Ready to upload logs.')
+            await ctx.send('Login successful ✅ : Ready to upload logs.')
         
     @commands.command()
     async def upload(self, ctx, type: str, name: str):
@@ -58,7 +58,8 @@ class Arcdps:
             
         if not type == 'raids' and not type == 'fractals':
             return await ctx.send('Please indicate whether you want to upload **raids** or **fractals** logs.')
-            
+        
+        self.__init__(self.bot)
         await self.set_logs_order(ctx, type)
         
         logs_length = 0
@@ -108,9 +109,10 @@ class Arcdps:
                         self.logs[type][e][b]['GW2Raidar']['success'] = True
                 print('Uploaded {}: GW2Raidar'.format(b))          
         
-        counter = 0
-        await self.update_raidar(ctx, type, counter, logs_length)
-        await self.print_logs(ctx, type, name)
+        if not len(self.logs_order) == 0:
+            counter = 0
+            await self.update_raidar(ctx, type, counter, logs_length)
+            await self.print_logs(ctx, type, name)
         
     async def set_logs_order(self, ctx, type: str):
         temp_logs = copy.deepcopy(self.logs)
@@ -130,15 +132,11 @@ class Arcdps:
             except discord.Forbidden:
                 return await ctx.send('I do not have permissions to DM you. Please enable this in the future.')
                 
-            def check(m):
+            def m_check(m):
                 return m.author == ctx.author and m.channel == message.channel
                 
-            try:
-                ans = await self.bot.wait_for('message', timeout=120, check=check)
-            except asyncio.TimeoutError:
-                return await ctx.author.send('No response in time.')
-            finally:
-                await message.delete()
+            ans = await self.bot.wait_for('message', check=m_check)
+            await message.delete()
             e_order = ans.content
             if e_order == 'x':
                 break
@@ -161,12 +159,8 @@ class Arcdps:
                 out += '\n[0]: [Upload All Bosses in Order]\n[x]: [Confirm Boss Order]\n```'
                 message = await ctx.author.send(out)
                 
-                try:
-                    ans = await self.bot.wait_for('message', timeout=120, check=check)
-                except asyncio.TimeoutError:
-                    return await ctx.author.send('No response in time.')
-                finally:
-                    await message.delete()
+                ans = await self.bot.wait_for('message', check=m_check)
+                await message.delete()
                 b_order = ans.content
                 if b_order == 'x':
                     break
@@ -178,6 +172,21 @@ class Arcdps:
                 
                 del temp_logs[type][event[e_pos]][boss[b_pos]]            
             del temp_logs[type][event[e_pos]]
+
+        print_order = ''
+        for e in self.logs_order:
+            print_order += '{0}: {1}\n'.format(e, self.logs_order[e])
+        message = await ctx.author.send('Your selected log order is:\n```{}\n✅ to confirm, ❌ to cancel```'.format(print_order))
+        await message.add_reaction('✅')
+        await message.add_reaction('❌')
+        
+        def r_check(r, user):
+            return user == ctx.author and r.count > 1
+            
+        ans, user = await self.bot.wait_for('reaction_add', check=r_check)
+        if str(ans.emoji) == '❌':
+            self.logs_order = {}
+        await message.delete()
         
     async def update_raidar(self, ctx, type: str, counter: int, length: int):
         if length == 0:
