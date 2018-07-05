@@ -116,15 +116,15 @@ class Arcdps:
         temp_logs = copy.deepcopy(self.logs)
         while True:
             e_order = 0
-            out = 'Type the number of the wing/scale that you wish to upload.\n```'
+            out = 'Type the number of the wing/scale that you wish to upload.\n```md\n'
             if len(temp_logs[type]) == 0:
                 break
 
             event = []
             for count, e in enumerate(temp_logs[type], 1):
-                out += '{0}: {1}\n'.format(count, e)
+                out += '{0}. {1}\n'.format(count, e)
                 event.append(e)
-            out += '0: [Confirm Wing/Scale Order]\n```'
+            out += '\n[x]: [Confirm Wing/Scale Order]\n```'
             try:
                 message = await ctx.author.send(out)
             except discord.Forbidden:
@@ -140,22 +140,25 @@ class Arcdps:
             finally:
                 await message.delete()
             e_order = ans.content
-            if int(e_order) == 0:
+            if e_order == 'x':
                 break
             e_pos = int(e_order) - 1
             self.logs_order[event[e_pos]] = []
             
             while True:
                 b_order = 0
-                out = 'Type the number of the boss that you wish to upload.\n```'
+                out = 'Type the number of the boss that you wish to upload.\n```md\n'
                 if len(temp_logs[type][event[e_pos]]) == 0:
                     break
 
                 boss = []
                 for count, b in enumerate(temp_logs[type][event[e_pos]], 1):
-                    out += '{0}: {1}\n'.format(count, b)
+                    if b == 'Nightmare Oratuss':
+                        out += '{}. Siax the Corrupted\n'.format(count)
+                    else:
+                        out += '{0}. {1}\n'.format(count, b)
                     boss.append(b)
-                out += '0: [Confirm Boss Order]\n```'
+                out += '\n[0]: [Upload All Bosses in Order]\n[x]: [Confirm Boss Order]\n```'
                 try:
                     message = await ctx.author.send(out)
                 except discord.Forbidden:
@@ -168,7 +171,10 @@ class Arcdps:
                 finally:
                     await message.delete()
                 b_order = ans.content
-                if int(b_order) == 0:
+                if b_order == 'x':
+                    break
+                elif int(b_order) == 0:
+                    self.logs_order[event[e_pos]] = boss
                     break
                 b_pos = int(b_order) - 1
                 self.logs_order[event[e_pos]].append(boss[b_pos])
