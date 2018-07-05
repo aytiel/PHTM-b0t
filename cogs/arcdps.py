@@ -159,10 +159,7 @@ class Arcdps:
                         out += '{0}. {1}\n'.format(count, b)
                     boss.append(b)
                 out += '\n[0]: [Upload All Bosses in Order]\n[x]: [Confirm Boss Order]\n```'
-                try:
-                    message = await ctx.author.send(out)
-                except discord.Forbidden:
-                    return await ctx.send('I do not have permissions to DM you. Please enable this in the future.')
+                message = await ctx.author.send(out)
                 
                 try:
                     ans = await self.bot.wait_for('message', timeout=120, check=check)

@@ -32,6 +32,15 @@ class PHTMb0t(commands.Bot):
         if not message.author.bot:
             await self.process_commands(message)
             
+    async def on_command_error(self, ctx, error):
+        if isinstance(error, commands.MissingRequiredArgument):
+            if ctx.command.qualified_name == 'login':
+                await ctx.send('One or more required parameters are missing. Please execute the command as follows:\n`{}login [username][password]`'.format(settings.config.PREFIX))
+            elif ctx.command.qualified_name == 'upload':
+                await ctx.send('One or more required parameters are missing. Please execute the command as follows:\n`{}upload [raids/fractals][title]`'.format(settings.config.PREFIX))
+            else:
+                await ctx.send('ERROR :robot:')
+            
     async def update_status(self):
         diff = datetime.date.today() - datetime.date(2017, 11, 28)
         status = discord.Game(name=self.status_format.format(diff.days))
