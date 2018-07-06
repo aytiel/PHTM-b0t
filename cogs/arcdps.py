@@ -68,10 +68,10 @@ class Arcdps:
                 logs_length += 1
                 path = '{0}{1}/*.zip'.format(os.path.expanduser('~/Documents/Guild Wars 2/addons/arcdps/arcdps.cbtlogs/'), b)
                 all_files = glob.glob(path)
-                latest_file = max(all_files, key=os.path.getctime)
-                if latest_file is None:
+                if len(all_files) == 0:
                     await ctx.send('ERROR :robot: : an error has occurred with {}. `Error Code: BLOODSTONE`.'.format(b))
                     continue
+                latest_file = max(all_files, key=os.path.getctime)
                         
                 dps_endpoint = 'https://dps.report/uploadContent?json=1&generator=ei'
                 with open(latest_file, 'rb') as file:
@@ -126,7 +126,7 @@ class Arcdps:
             for count, e in enumerate(temp_logs[type], 1):
                 out += '{0}. {1}\n'.format(count, e)
                 event.append(e)
-            out += '\n[x]: [Confirm Wing/Scale Order]\n```'
+            out += '\n5. [Confirm Wing/Scale Order]\n```'
             try:
                 message = await ctx.author.send(out)
             except discord.Forbidden:
@@ -138,7 +138,7 @@ class Arcdps:
             ans = await self.bot.wait_for('message', check=m_check)
             await message.delete()
             e_order = ans.content
-            if e_order == 'x':
+            if int(e_order) == 5:
                 break
             e_pos = int(e_order) - 1
             self.logs_order[event[e_pos]] = []
@@ -156,13 +156,13 @@ class Arcdps:
                     else:
                         out += '{0}. {1}\n'.format(count, b)
                     boss.append(b)
-                out += '\n[0]: [Upload All Bosses in Order]\n[x]: [Confirm Boss Order]\n```'
+                out += '\n0. [Upload All Bosses in Order]\n5. [Confirm Boss Order]\n```'
                 message = await ctx.author.send(out)
                 
                 ans = await self.bot.wait_for('message', check=m_check)
                 await message.delete()
                 b_order = ans.content
-                if b_order == 'x':
+                if int(b_order) == 5:
                     break
                 elif int(b_order) == 0:
                     self.logs_order[event[e_pos]] = boss
