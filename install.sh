@@ -12,18 +12,13 @@ if [ $? != "0" ]; then
     python get-pip.py
 fi
 
+echo "${green}Updating pip...${reset}"
+python -m pip install --upgrade pip
+
 echo "${green}Installing dependencies through requirements...${reset}"
-pip install -r requirements.txt
+python -m pip install -r requirements.txt
 
-echo "${green}Doing some final checks...${reset}"
-pip freeze > installed_files.txt
-diff installed_files.txt requirements.txt
-if [ $? == "0" ]; then
-    echo "${green}Everything is good to go!${reset}"
-else
-    echo "${red}Error: Some files seem to be missing...${reset}"
-fi
+echo "${green}Installing discord.py...${reset}"
+python -m pip install -U discord.py[voice]
 
-rm installed_files.txt
-
-read -n 1 -s -r -p "Press any key to continue..."
+read -n 1 -s -r -p "${green}Press any key to continue...${reset}"
