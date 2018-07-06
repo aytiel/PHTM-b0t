@@ -126,7 +126,7 @@ class Arcdps:
             for count, e in enumerate(temp_logs[type], 1):
                 out += '{0}. {1}\n'.format(count, e)
                 event.append(e)
-            out += '\n5. [Confirm Wing/Scale Order]\n```'
+            out += '\n[x]. [Confirm Wing/Scale Order]\n```'
             try:
                 message = await ctx.author.send(out)
             except discord.Forbidden:
@@ -138,7 +138,7 @@ class Arcdps:
             ans = await self.bot.wait_for('message', check=m_check)
             await message.delete()
             e_order = ans.content
-            if int(e_order) == 5:
+            if e_order == 'x':
                 break
             e_pos = int(e_order) - 1
             self.logs_order[event[e_pos]] = []
@@ -156,13 +156,13 @@ class Arcdps:
                     else:
                         out += '{0}. {1}\n'.format(count, b)
                     boss.append(b)
-                out += '\n0. [Upload All Bosses in Order]\n5. [Confirm Boss Order]\n```'
+                out += '\n0. [Upload All Bosses in Order]\n[x]. [Confirm Boss Order]\n```'
                 message = await ctx.author.send(out)
                 
                 ans = await self.bot.wait_for('message', check=m_check)
                 await message.delete()
                 b_order = ans.content
-                if int(b_order) == 5:
+                if b_order == 'x':
                     break
                 elif int(b_order) == 0:
                     self.logs_order[event[e_pos]] = boss
