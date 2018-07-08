@@ -66,7 +66,7 @@ class Arcdps:
         for e in self.logs_order:
             for b in self.logs_order[e]:
                 logs_length += 1
-                path = '{0}{1}/*.zip'.format(os.path.expanduser('~/Documents/Guild Wars 2/addons/arcdps/arcdps.cbtlogs/'), b)
+                path = '{0}{1}/*'.format(os.path.expanduser('~/Documents/Guild Wars 2/addons/arcdps/arcdps.cbtlogs/'), b)
                 all_files = glob.glob(path)
                 if len(all_files) == 0:
                     await ctx.send('ERROR :robot: : an error has occurred with {}. `Error Code: BLOODSTONE`.'.format(b))
