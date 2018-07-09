@@ -63,31 +63,40 @@ class Arcdps:
         await self.set_logs_order(ctx, type)
         
         logs_length = 0
+        error_logs = 0
         for e in self.logs_order:
             for b in self.logs_order[e]:
                 logs_length += 1
-                path = '{0}{1}/*'.format(os.path.expanduser('~/Documents/Guild Wars 2/addons/arcdps/arcdps.cbtlogs/'), b)
+                path = '{0}{1}/*.zip'.format(os.path.expanduser('~/Documents/Guild Wars 2/addons/arcdps/arcdps.cbtlogs/'), b)
                 all_files = glob.glob(path)
                 if len(all_files) == 0:
-                    await ctx.send('ERROR :robot: : an error has occurred with {}. `Error Code: BLOODSTONE`.'.format(b))
-                    continue
+                    path = '{0}{1}/*.evtc'.format(os.path.expanduser('~/Documents/Guild Wars 2/addons/arcdps/arcdps.cbtlogs/'), b)
+                    all_files = glob.glob(path)
+                    if len(all_files) == 0:
+                        await ctx.send('ERROR :robot: : an error has occurred with {}. `Error Code: BLOODSTONE`'.format(b))
+                        error_logs += 1
+                        continue
                 latest_file = max(all_files, key=os.path.getctime)
-                        
+                
+                print('Uploading {}: dps.report...'.format(b))
                 dps_endpoint = 'https://dps.report/uploadContent?json=1&generator=ei'
                 with open(latest_file, 'rb') as file:
                     files = {'file': file}
                     res = requests.post(dps_endpoint, files=files)
                     if not res.status_code == 200:
-                        await ctx.send('ERROR :robot: : an error has occurred with {}. `Error Code: DHUUMFIRE`.'.format(b))
+                        await ctx.send('ERROR :robot: : an error has occurred with {}. `Error Code: DHUUMFIRE`'.format(b))
+                        error_logs += 1
                         continue
                     else:
                         self.logs[type][e][b]['dps.report'] = res.json()['permalink']
                 print('Uploaded {}: dps.report'.format(b))
 
+                print('Uploading {}: GW2Raidar...'.format(b))
                 with open('cogs/data/logs.json', 'r') as key_file:
                     key = json.load(key_file)
                     if len(key['key']) == 0:
                         await ctx.send('ERROR :robot: : Key not found. Please log into GW2Raidar before uploading.')
+                        error_logs += 1
                         continue
                     else:
                         auth = key['key']
@@ -97,19 +106,23 @@ class Arcdps:
                     res = requests.put(raidar_endpoint, headers={'Authorization': auth}, files=files)
                     if not res.status_code == 200:
                         if res.status_code == 401:
-                            await ctx.send('ERROR :robot: : an error has occurred with {}. `Error Code: RYTLOCK`.'.format(b))
+                            await ctx.send('ERROR :robot: : an error has occurred with {}. `Error Code: RYTLOCK`'.format(b))
+                            error_logs += 1
                             continue
                         elif res.status_code == 400:
-                            await ctx.send('ERROR :robot: : an error has occurred with {}. `Error Code: ZOJJA`.'.format(b))
+                            await ctx.send('ERROR :robot: : an error has occurred with {}. `Error Code: ZOJJA`'.format(b))
+                            error_logs += 1
                             continue
                         else:
-                            await ctx.send('ERROR :robot: : an error has occurred with {}. `Error Code: SNAFF`.'.format(b))
+                            await ctx.send('ERROR :robot: : an error has occurred with {}. `Error Code: SNAFF`'.format(b))
+                            error_logs += 1
                             continue
                     else:
                         self.logs[type][e][b]['GW2Raidar']['success'] = True
-                print('Uploaded {}: GW2Raidar'.format(b))          
+                print('Uploaded {}: GW2Raidar'.format(b))
+                print('------------------------------')
         
-        if not len(self.logs_order) == 0:
+        if not error_logs == logs_length:
             counter = 0
             await self.update_raidar(ctx, type, counter, logs_length)
             await self.print_logs(ctx, type, name)
@@ -126,7 +139,7 @@ class Arcdps:
             for count, e in enumerate(temp_logs[type], 1):
                 out += '{0}. {1}\n'.format(count, e)
                 event.append(e)
-            out += '\n[x]. [Confirm Wing/Scale Order]\n```'
+            out += '\n[x]: [Confirm Wing/Scale Order]\n```'
             try:
                 message = await ctx.author.send(out)
             except discord.Forbidden:
@@ -156,7 +169,7 @@ class Arcdps:
                     else:
                         out += '{0}. {1}\n'.format(count, b)
                     boss.append(b)
-                out += '\n0. [Upload All Bosses in Order]\n[x]. [Confirm Boss Order]\n```'
+                out += '\n0. [Upload All Bosses in Order]\n[x]: [Confirm Boss Order]\n```'
                 message = await ctx.author.send(out)
                 
                 ans = await self.bot.wait_for('message', check=m_check)
@@ -201,7 +214,7 @@ class Arcdps:
         raidar_endpoint = 'https://www.gw2raidar.com/api/v2/encounters?limit={}'.format(str(length))
         res = requests.get(raidar_endpoint, headers={'Authorization': auth})
         if not res.status_code == 200:
-            return await ctx.send('ERROR :robot: : an error has occurred. `Error Code: CAITHE`.'.format(b))
+            return await ctx.send('ERROR :robot: : an error has occurred. `Error Code: CAITHE`'.format(b))
         else:
             pos = length - 1    
             for e in self.logs_order:
