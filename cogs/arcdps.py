@@ -39,7 +39,10 @@ class Arcdps:
             token = res.json()['token']
             with open('cogs/data/logs.json', 'r') as key_file:
                 key = json.load(key_file)
-            key['key'] = 'Token {}'.format(token)
+            key['user']['name'] = ctx.author.name
+            key['user']['id'] = ctx.author.id
+            key['user']['key'] = 'Token {}'.format(token)
+            await self.bot.update_status(key['user']['name'], key['user']['id'], key['user']['key'])
             with open('cogs/data/logs.json', 'w') as key_file:
                 json.dump(key, key_file, indent=4)
             await ctx.send('Login successful ✅ : Ready to upload logs.')
@@ -55,7 +58,9 @@ class Arcdps:
             await ctx.message.delete()
         else:
             await ctx.send('I do not have permissions to delete messages. Please enable this in the future.')
-            
+        
+        if self.bot.owner_id == 0 or not self.bot.owner_id == ctx.author.id:
+            return await ctx.send('You do not have permission to use the bot currently. Only the current user may use the bot.')
         if not type == 'raids' and not type == 'fractals':
             return await ctx.send('Please indicate whether you want to upload **raids** or **fractals** logs.')
         
@@ -78,7 +83,7 @@ class Arcdps:
                     path = '{}/*'.format(latest_file)
                     all_files = glob.glob(path)
                     if len(all_files) == 0:
-                        await ctx.send('ERROR :robot: : an error has occurred with {}. `Error Code: BLOODSTONE`'.format(b))
+                        await ctx.send('ERROR :robot: : an error has occurred with {}. `Error Code: EMPYREAL`'.format(b))
                         error_logs += 1
                         continue
                     latest_file = max(all_files, key=os.path.getmtime)
@@ -97,18 +102,14 @@ class Arcdps:
                 print('Uploaded {}: dps.report'.format(b))
 
                 print('Uploading {}: GW2Raidar...'.format(b))
-                with open('cogs/data/logs.json', 'r') as key_file:
-                    key = json.load(key_file)
-                    if len(key['key']) == 0:
-                        await ctx.send('ERROR :robot: : Key not found. Please log into GW2Raidar before uploading.')
-                        error_logs += 1
-                        continue
-                    else:
-                        auth = key['key']
+                if len(self.bot.owner_key) == 0:
+                    await ctx.send('ERROR :robot: : Key not found. Please log into GW2Raidar before uploading.')
+                    error_logs += 1
+                    continue
                 raidar_endpoint = 'https://www.gw2raidar.com/api/v2/encounters/new'
                 with open(latest_file, 'rb') as file:
                     files = {'file': file}
-                    res = requests.put(raidar_endpoint, headers={'Authorization': auth}, files=files)
+                    res = requests.put(raidar_endpoint, headers={'Authorization': self.bot.owner_key}, files=files)
                     if not res.status_code == 200:
                         if res.status_code == 401:
                             await ctx.send('ERROR :robot: : an error has occurred with {}. `Error Code: RYTLOCK`'.format(b))
@@ -210,14 +211,10 @@ class Arcdps:
         if length == 0:
             return
    
-        with open('cogs/data/logs.json', 'r') as key_file:
-            key = json.load(key_file)
-            if len(key['key']) == 0:
-                return await ctx.send('ERROR :robot: : Key not found. Please log into GW2Raidar before uploading.')
-            else:
-                auth = key['key']
+        if len(self.bot.owner_key) == 0:
+            return await ctx.send('ERROR :robot: : Key not found. Please log into GW2Raidar before uploading.')
         raidar_endpoint = 'https://www.gw2raidar.com/api/v2/encounters?limit={}'.format(str(length))
-        res = requests.get(raidar_endpoint, headers={'Authorization': auth})
+        res = requests.get(raidar_endpoint, headers={'Authorization': self.bot.owner_key})
         if not res.status_code == 200:
             return await ctx.send('ERROR :robot: : an error has occurred. `Error Code: CAITHE`'.format(b))
         else:

@@ -1,5 +1,9 @@
 {
-    "key": "",
+    "user": {
+        "name": "",
+        "id": 0,
+        "key": ""
+    },
     "raids": {
         "W1": {
             "Vale Guardian": {

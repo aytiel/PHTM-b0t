@@ -1,3 +1,4 @@
+import json
 import datetime
 
 import discord
@@ -11,7 +12,12 @@ class PHTMb0t(commands.Bot):
     def __init__(self):
         super().__init__(command_prefix=settings.config.PREFIX, case_insensitive=True)
         
-        self.status_format = '{} days without a new raid wing'
+        self.status_format = 'Current User: {}'
+        with open('cogs/data/logs.json', 'r') as user_file:
+            user = json.load(user_file)
+        self.owner_name = user['user']['name']
+        self.owner_id = user['user']['id']
+        self.owner_key = user['user']['key']
         
         for ext in extensions:
             try:
@@ -24,9 +30,9 @@ class PHTMb0t(commands.Bot):
         print('Logged in...')
         print('Username: ' + str(self.user.name))
         print('Client ID: ' + str(self.user.id))
-        invite = 'https://discordapp.com/oauth2/authorize?&client_id=' + str(self.user.id) + '&scope=bot&permissions=0'
+        invite = 'https://discordapp.com/oauth2/authorize?&client_id={}&scope=bot&permissions=0'.format(str(self.user.id))
         print('Invite URL: ' + invite)
-        await self.update_status()
+        await self.update_status(self.owner_name, self.owner_id, self.owner_key)
 
     async def on_message(self, message):
         if not message.author.bot:
@@ -35,15 +41,17 @@ class PHTMb0t(commands.Bot):
     async def on_command_error(self, ctx, error):
         if isinstance(error, commands.MissingRequiredArgument):
             if ctx.command.qualified_name == 'login':
-                await ctx.send('One or more required parameters are missing. Please execute the command as follows:\n`{}login [username][password]`'.format(settings.config.PREFIX))
+                await ctx.send('One or more required parameters are missing. Please execute the command as follows:\n`{}login [username] [password]`'.format(settings.config.PREFIX))
             elif ctx.command.qualified_name == 'upload':
-                await ctx.send('One or more required parameters are missing. Please execute the command as follows:\n`{}upload [raids/fractals][title]`'.format(settings.config.PREFIX))
+                await ctx.send('One or more required parameters are missing. Please execute the command as follows:\n`{}upload [raids/fractals] ["title"]`'.format(settings.config.PREFIX))
             else:
                 await ctx.send('ERROR :robot:')
             
-    async def update_status(self):
-        diff = datetime.date.today() - datetime.date(2017, 11, 28)
-        status = discord.Game(name=self.status_format.format(diff.days))
+    async def update_status(self, name: str, id: int, key: str):
+        self.owner_name = name
+        self.owner_id = id
+        self.owner_key = key
+        status = discord.Game(name=self.status_format.format(name))
         await self.change_presence(activity=status)
 
 bot = PHTMb0t()

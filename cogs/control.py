@@ -20,6 +20,10 @@ class Control:
             await ctx.message.delete()
         else:
             await ctx.send('I do not have permissions to delete messages. Please enable this in the future.')
+            
+        if self.bot.owner_id == 0 or not self.bot.owner_id == ctx.author.id:
+            return await ctx.send('You do not have permission to use the bot currently. Only the current user may use the bot.')    
+            
         await self.bot.logout()
         await self.bot.close()
         
