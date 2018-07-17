@@ -62,7 +62,7 @@ class Arcdps:
         if self.bot.owner_id == 0 or not self.bot.owner_id == ctx.author.id:
             return await ctx.send('You do not have permission to use the bot currently. Only the current user may use the bot.')
         if not type == 'raids' and not type == 'fractals':
-            return await ctx.send('Please indicate whether you want to upload **raids** or **fractals** logs.')
+            return await ctx.send('Please indicate whether you want to upload `raids` or `fractals` logs.')
         
         self.__init__(self.bot)
         await self.set_logs_order(ctx, type)
@@ -71,6 +71,7 @@ class Arcdps:
         error_logs = 0
         for e in self.logs_order:
             for b in self.logs_order[e]:
+                print('------------------------------')
                 logs_length += 1
                 path = '{0}{1}/*'.format(os.path.expanduser('~/Documents/Guild Wars 2/addons/arcdps/arcdps.cbtlogs/'), b)
                 all_files = glob.glob(path)
@@ -126,7 +127,6 @@ class Arcdps:
                     else:
                         self.logs[type][e][b]['GW2Raidar']['success'] = True
                 print('Uploaded {}: GW2Raidar'.format(b))
-                print('------------------------------')
         
         if not error_logs == logs_length:
             counter = 0
@@ -137,7 +137,7 @@ class Arcdps:
         temp_logs = copy.deepcopy(self.logs)
         while True:
             e_order = 0
-            out = 'Type the number of the wing/scale that you wish to upload.\n```md\n'
+            out = 'Type the `number` of the wing/scale that you wish to upload.\n Type `x` to confirm your selection.\n```md\n'
             if len(temp_logs[type]) == 0:
                 break
 
@@ -164,7 +164,7 @@ class Arcdps:
             
             while True:
                 b_order = 0
-                out = 'Type the number of the boss that you wish to upload.\n```md\n'
+                out = 'Type the `number` of the boss that you wish to upload or `0` to upload all of the bosses in order.\n Type `x` to confirm your selection.\n```md\n'
                 if len(temp_logs[type][event[e_pos]]) == 0:
                     break
 
@@ -194,8 +194,9 @@ class Arcdps:
 
         print_order = ''
         for e in self.logs_order:
-            print_order += '{0}: {1}\n'.format(e, self.logs_order[e])
-        message = await ctx.author.send('Your selected log order is:\n```{}\n✅ to confirm, ❌ to cancel```'.format(print_order))
+            if not len(self.logs_order[e]) == 0:
+                print_order += '{0}: {1}\n'.format(e, self.logs_order[e])
+        message = await ctx.author.send('Your selected log order is:\n```{}\nClick ✅ to confirm, ❌ to cancel```'.format(print_order))
         await message.add_reaction('✅')
         await message.add_reaction('❌')
         
@@ -233,8 +234,8 @@ class Arcdps:
                         await ctx.send('ERROR :robot: : The logs were unsuccessfully analyzed within the time frame.')
                         return await self.clear_raidar(ctx, type)
                     else:
-                        print('The logs have not been analyzed. Retrying in 5 min: {}...'.format(str(counter)))
-                        time.sleep(300)
+                        print('The logs have not been analyzed. Retrying in 2.5 min: {}...'.format(str(counter)))
+                        time.sleep(150)
                         counter += 1
                         return await self.update_raidar(ctx, type, counter, length)
 
