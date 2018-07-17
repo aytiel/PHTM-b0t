@@ -1,5 +1,6 @@
 import json
 import requests
+import calendar
 import datetime
 import time
 import glob
@@ -214,7 +215,8 @@ class Arcdps:
    
         if len(self.bot.owner_key) == 0:
             return await ctx.send('ERROR :robot: : Key not found. Please log into GW2Raidar before uploading.')
-        raidar_endpoint = 'https://www.gw2raidar.com/api/v2/encounters?limit={}'.format(str(length))
+        reset = calendar.timegm(datetime.datetime.utcnow().date().timetuple())
+        raidar_endpoint = 'https://www.gw2raidar.com/api/v2/encounters?limit={0}&since={1}'.format(str(length), str(reset))
         res = requests.get(raidar_endpoint, headers={'Authorization': self.bot.owner_key})
         if not res.status_code == 200:
             return await ctx.send('ERROR :robot: : an error has occurred. `Error Code: CAITHE`'.format(b))
