@@ -6,7 +6,7 @@ The intention of this Discord bot is to automate the monotonous process of manua
 
 ## Installing the bot
 <b>1.</b> Install Python 3.6+. To guarantee the best results, install Python 3.6.5([32-bit](https://www.python.org/ftp/python/3.6.5/python-3.6.5.exe))([64-bit](https://www.python.org/ftp/python/3.6.5/python-3.6.5-amd64.exe)). <br />
-<b>2.</b> During the setup, make sure to tick `Install launcher for all users (recommended)` and `Add Python 3.5 to PATH`. <br />
+<b>2.</b> During the setup, make sure to tick `Install launcher for all users (recommended)` and `Add Python 3.6 to PATH`. <br />
 <b>3.</b> Install [Git for Windows](https://git-scm.com/downloads). <br />
 <b>4.</b> During the setup, make sure to tick `Use Git from the Windows Command Prompt`, <br /> `Checkout Windows-style, commit Unix-style endings`, and `Use MinTTY (the default terminal MSYS2)`. <br />
 <b>5.</b> Open Git Bash by right-clicking inside the empty space of the folder where you would like to <br /> keep the bot and clicking `Git Bash Here`. <br />
