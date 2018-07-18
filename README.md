@@ -13,4 +13,7 @@ The intention of this Discord bot is to automate the monotonous process of manua
 <b>6.</b> In the command window that opens, run the following command: <br />`git clone https://github.com/aytiel/PHTM-b0t.git GW2LogBot -b gw2-uploader`. <br />
 
 ## Setting up the bot
-<b>1.</b> Create a bot account. Helpful tutorials can be found [here](https://github.com/reactiflux/discord-irc/wiki/Creating-a-discord-bot-&-getting-a-token) and [here](https://twentysix26.github.io/Red-Docs/red_guide_bot_accounts/).
+<b>1.</b> Create a bot account. Helpful tutorials can be found [here](https://github.com/reactiflux/discord-irc/wiki/Creating-a-discord-bot-&-getting-a-token) and [here](https://twentysix26.github.io/Red-Docs/red_guide_bot_accounts/). <br />
+<b>2.</b> Invite the bot to your Discord server using the following link: <br />`https://discordapp.com/api/oauth2/authorize?client_id=YOUR_CLIENT_ID&permissions=11264&scope=bot`. <br /> Make sure you replace `YOUR_CLIENT_ID` with the client id listed on your application page. <br />
+<b>3.</b> Update settings/python.py with the token associated with your bot account. <br />`TOKEN = 'BOT_TOKEN_HERE'` <br /> You can open the settings/python.py file using Notepad or [Notepad++](https://notepad-plus-plus.org/download/). <br />
+<b>4.</b> Run the bot by double-clicking the `bot.py` file. If that doesn't work, right-click inside the empty space, <br /> click on `Git Bash Here`, and run `python -u bot.py`. <br />
