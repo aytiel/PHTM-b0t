@@ -15,5 +15,30 @@ The intention of this Discord bot is to automate the monotonous process of manua
 ## Setting up the bot
 <b>1.</b> Create a bot account. Helpful tutorials can be found [here](https://github.com/reactiflux/discord-irc/wiki/Creating-a-discord-bot-&-getting-a-token) and [here](https://twentysix26.github.io/Red-Docs/red_guide_bot_accounts/). <br />
 <b>2.</b> Invite the bot to your Discord server using the following link: <br />`https://discordapp.com/api/oauth2/authorize?client_id=YOUR_CLIENT_ID&permissions=11264&scope=bot`. <br /> Make sure you replace `YOUR_CLIENT_ID` with the client id listed on your application page. <br />
-<b>3.</b> Update settings/python.py with the token associated with your bot account. <br />`TOKEN = 'BOT_TOKEN_HERE'` <br /> You can open the settings/python.py file using Notepad or [Notepad++](https://notepad-plus-plus.org/download/). <br />
-<b>4.</b> Run the bot by double-clicking the `bot.py` file. If that doesn't work, right-click inside the empty space, <br /> click on `Git Bash Here`, and run `python -u bot.py`. <br />
+<b>3.</b> Update `settings/python.py` with the token associated with your bot account. <br />`TOKEN = 'BOT_TOKEN_HERE'` <br /> You can open the `settings/python.py` file using Notepad or [Notepad++](https://notepad-plus-plus.org/download/). <br /> Also, feel free to change the command `PREFIX` as well if you wish. <br />
+<b>4.</b> Double-click on `install.sh` to install all the required dependencies. <br />
+<b>5.</b> Run the bot by double-clicking the `bot.py` file. If that doesn't work, right-click inside the empty space, <br /> click on `Git Bash Here`, and run `python -u bot.py`. <br />
+
+## Commands
+The default prefix is `$`.
+
+<div style="overflow-x:auto;">
+  <table width=180 style='table-layout:fixed'>
+    <col width=20>
+ 	    <col width=100>
+    <thead>
+      <tr>
+        <th>Command</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tr>
+      <td><b>login [username] [password]</b></td>
+      <td>Logs into GW2Raidar and assigns the bot to you.</td>
+    </tr>
+    <tr>
+      <td><b>upload [raids/fractals] [title]</b></td>
+      <td>Uploads raid or fractal logs and posts them with the specified title.</td>
+    </tr>
+  </table>
+</div>
