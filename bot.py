@@ -30,7 +30,7 @@ class PHTMb0t(commands.Bot):
         print('Logged in...')
         print('Username: ' + str(self.user.name))
         print('Client ID: ' + str(self.user.id))
-        invite = 'https://discordapp.com/oauth2/authorize?&client_id={}&scope=bot&permissions=0'.format(str(self.user.id))
+        invite = 'https://discordapp.com/api/oauth2/authorize?client_id={}&permissions=11264&scope=bot'.format(str(self.user.id))
         print('Invite URL: ' + invite)
         await self.update_status(self.owner_name, self.owner_id, self.owner_key)
 
