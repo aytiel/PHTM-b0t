@@ -49,7 +49,7 @@ class Arcdps:
             await ctx.send('Login successful ✅ : Ready to upload logs.')
         
     @commands.command()
-    async def upload(self, ctx, type: str, name: str):
+    async def upload(self, ctx, type: str, *argv):
         guild = ctx.guild
         if guild is None:
             has_perms = False
@@ -130,9 +130,10 @@ class Arcdps:
                 print('Uploaded {}: GW2Raidar'.format(b))
         
         if not error_logs == logs_length:
+            print('------------------------------')
             counter = 0
             await self.update_raidar(ctx, type, counter, logs_length)
-            await self.print_logs(ctx, type, name)
+            await self.print_logs(ctx, type, ' '.join(argv))
         
     async def set_logs_order(self, ctx, type: str):
         temp_logs = copy.deepcopy(self.logs)
@@ -227,7 +228,7 @@ class Arcdps:
                     if not self.logs[type][e][b]['GW2Raidar']['success']:
                         continue
 
-                    if res.json()['results'][pos]['area_id'] == self.logs[type][e][b]['GW2Raidar']['id']:
+                    if len(res.json()['results']) >= length and res.json()['results'][pos]['area_id'] == self.logs[type][e][b]['GW2Raidar']['id']:
                         raidar_link = 'https://www.gw2raidar.com/encounter/{}'.format(res.json()['results'][pos]['url_id'])
                         self.logs[type][e][b]['GW2Raidar']['link'] = raidar_link
                         if not pos < 0:
