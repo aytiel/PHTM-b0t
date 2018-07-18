@@ -42,3 +42,13 @@ The default prefix is `$`.
     </tr>
   </table>
 </div>
+
+### Preview
+<img src="https://github.com/aytiel/PHTM-b0t/blob/gw2-uploader/images/preview.PNG" height="325" width="450"></img>
+
+## Caveats (Important!)
+<ul>
+  <li>You must upload to both dps.report and GW2Raidar (I will likely include the option to choose one or the other in the near future).</li>
+  <li>You must upload your bosses in the order that you killed them.</li>
+  <li>You cannot upload two separate sets of logs in a row (i.e. 99CM and 100CM) in the same order before daily reset (00:00 UTC). The bot will incorrectly post the earlier of the two sets for GW2Raidar. You will have to manually confirm that the logs show up on GW2Raidar before calling the same upload command again.</li>
+</ul>
