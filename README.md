@@ -13,6 +13,7 @@ The intention of this Discord bot is to automate the monotonous process of manua
 <b>6.</b> In the command window that opens, run the following command: <br />`git clone https://github.com/aytiel/PHTM-b0t.git GW2LogBot -b gw2-uploader`. <br />
 
 ## Setting up the bot
+<b>Note:</b> You can skip steps 1 and 2 if somebody is already running an instance of the GW2 Log Bot in your Discord server. <br />
 <b>1.</b> Create a bot account. Helpful tutorials can be found [here](https://github.com/reactiflux/discord-irc/wiki/Creating-a-discord-bot-&-getting-a-token) and [here](https://twentysix26.github.io/Red-Docs/red_guide_bot_accounts/). <br />
 <b>2.</b> Invite the bot to your Discord server using the following link: <br />`https://discordapp.com/api/oauth2/authorize?client_id=YOUR_CLIENT_ID&permissions=11264&scope=bot`. <br /> Make sure you replace `YOUR_CLIENT_ID` with the client id listed on your application page. <br />
 <b>3.</b> Update `settings/python.py` with the token associated with your bot account. <br />`TOKEN = 'BOT_TOKEN_HERE'` <br /> You can open the `settings/python.py` file using Notepad or [Notepad++](https://notepad-plus-plus.org/download/). <br /> Also, feel free to change the command `PREFIX` as well if you wish. <br />
@@ -40,6 +41,10 @@ The default prefix is `$`.
       <td><b>upload [raids/fractals] [title]</b></td>
       <td>Uploads raid or fractal logs and posts them with the specified title.</td>
     </tr>
+    <tr>
+      <td><b>shutdown</b></td>
+      <td>Shuts down the bot. Recommended for when you are finished using the bot.</td>
+    </tr>
   </table>
 </div>
 
@@ -51,4 +56,5 @@ The default prefix is `$`.
   <li>You must upload to both dps.report and GW2Raidar (I will likely include the option to choose one or the other in the near future).</li>
   <li>You must upload your bosses in the order that you killed them.</li>
   <li>You cannot upload two separate sets of logs in a row (i.e. 99CM and 100CM) in the same order before daily reset (00:00 UTC). The bot will incorrectly post the earlier of the two sets for GW2Raidar. You will have to manually confirm that the logs show up on GW2Raidar before calling the same upload command again.</li>
+  <li>Only the person booting up the bot may upload logs. You should be able to tell who the current user of the bot is by looking at the bot's activity status. It should say <b>Current User: SOME_USER</b>.
 </ul>
