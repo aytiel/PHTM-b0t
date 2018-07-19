@@ -216,7 +216,7 @@ class Arcdps:
    
         if len(self.bot.owner_key) == 0:
             return await ctx.send('ERROR :robot: : Key not found. Please log into GW2Raidar before uploading.')
-        reset = calendar.timegm(datetime.datetime.utcnow().date().timetuple())
+        reset = calendar.timegm(datetime.datetime.utcnow().timetuple()) - 43200
         raidar_endpoint = 'https://www.gw2raidar.com/api/v2/encounters?limit={0}&since={1}'.format(str(length), str(reset))
         res = requests.get(raidar_endpoint, headers={'Authorization': self.bot.owner_key})
         if not res.status_code == 200:
