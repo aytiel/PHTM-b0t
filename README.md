@@ -55,6 +55,6 @@ The default prefix is `$`.
 <ul>
   <li>You must upload to both dps.report and GW2Raidar (I will likely include the option to choose one or the other in the near future).</li>
   <li>You must upload your bosses in the order that you killed them.</li>
-  <li>You cannot upload two separate sets of logs in a row (i.e. 99CM and 100CM) in the same order before daily reset (00:00 UTC). The bot will incorrectly post the earlier of the two sets for GW2Raidar. You will have to manually confirm that the logs show up on GW2Raidar before calling the same upload command again.</li>
+  <li>You cannot upload two separate sets of logs (i.e. 2 sets of 99CM and 100CM) in the same order within 12 hours of each other. The bot will incorrectly post the earlier of the two sets for GW2Raidar. You will have to manually confirm that the logs show up on GW2Raidar before calling the same upload command again.</li>
   <li>Only the person booting up the bot may upload logs. You should be able to tell who the current user of the bot is by looking at the bot's activity status. It should say <b>Current User: SOME_USER</b>.
 </ul>
