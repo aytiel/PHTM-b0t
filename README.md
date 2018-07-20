@@ -18,7 +18,7 @@ The intention of this Discord bot is to automate the monotonous process of manua
 <b>2.</b> Invite the bot to your Discord server using the following link: <br />`https://discordapp.com/api/oauth2/authorize?client_id=YOUR_CLIENT_ID&permissions=11264&scope=bot`. <br /> Make sure you replace `YOUR_CLIENT_ID` with the client id listed on your application page. <br />
 <b>3.</b> Update `settings/config.py` with the token associated with your bot account. <br />`TOKEN = 'BOT_TOKEN_HERE'` <br /> You can open the `settings/config.py` file using Notepad or [Notepad++](https://notepad-plus-plus.org/download/). <br /> Also, feel free to change the command `PREFIX` as well if you wish. <br />
 <b>4.</b> Double-click on `install.sh` to install all the required dependencies. <br />
-<b>5.</b> Run the bot by double-clicking the `bot.py` file. If that doesn't work, right-click inside the empty space, <br /> click on `Git Bash Here`, and run `python -u bot.py`. <br />
+<b>5.</b> Run the bot by double-clicking the `run.sh` script. The script should update the bot to the latest version and then run it. If the update fails, you can retrieve a fresh copy by repeating Steps **5** and **6** of **Installing the bot**. <br />
 
 ## Commands
 The default prefix is `$`.
