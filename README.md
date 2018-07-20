@@ -34,6 +34,10 @@ The default prefix is `$`.
       </tr>
     </thead>
     <tr>
+      <td><b>login</b></td>
+      <td>Assigns the bot to you (For users who don't have a GW2Raidar account).</td>
+    </tr>
+    <tr>
       <td><b>login [username] [password]</b></td>
       <td>Logs into GW2Raidar and assigns the bot to you.</td>
     </tr>
