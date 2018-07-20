@@ -85,10 +85,12 @@ class Arcdps:
                     path = '{}/*'.format(latest_file)
                     all_files = glob.glob(path)
                     if len(all_files) == 0:
-                        await ctx.send('ERROR :robot: : an error has occurred with {}. `Error Code: EMPYREAL`'.format(b))
-                        error_logs += 1
-                        continue
+                        break
                     latest_file = max(all_files, key=os.path.getmtime)
+                if len(all_files) == 0:
+                    await ctx.send('ERROR :robot: : an error has occurred with {}. `Error Code: EMPYREAL`'.format(b))
+                    error_logs += 1
+                    continue
                 
                 print('Uploading {}: dps.report...'.format(b))
                 dps_endpoint = 'https://dps.report/uploadContent?json=1&generator=ei'
