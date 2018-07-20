@@ -32,7 +32,7 @@ class PHTMb0t(commands.Bot):
         print('Client ID: ' + str(self.user.id))
         invite = 'https://discordapp.com/api/oauth2/authorize?client_id={}&permissions=27648&scope=bot'.format(str(self.user.id))
         print('Invite URL: ' + invite)
-        await self.update_status(self.owner_name, self.owner_id, self.owner_key)
+        await self.update_status(self.owner_name)
 
     async def on_message(self, message):
         if not message.author.bot:
@@ -47,10 +47,8 @@ class PHTMb0t(commands.Bot):
             else:
                 await ctx.send('ERROR :robot:')
             
-    async def update_status(self, name: str, id: int, key: str):
+    async def update_status(self, name: str):
         self.owner_name = name
-        self.owner_id = id
-        self.owner_key = key
         status = discord.Game(name=self.status_format.format(name))
         await self.change_presence(activity=status)
 

@@ -20,7 +20,7 @@ class Arcdps:
             self.logs = json.load(logs_data)
     
     @commands.command()
-    async def login(self, ctx, username: str, password: str):
+    async def login(self, ctx, username=None, password=None):
         guild = ctx.guild
         if guild is None:
             has_perms = False
@@ -30,23 +30,26 @@ class Arcdps:
             await ctx.message.delete()
         else:
             await ctx.send('I do not have permissions to delete messages. Please enable this in the future.')
-    
-        raidar_endpoint = 'https://www.gw2raidar.com/api/v2/token'
-        cred = {'username': username, 'password': password}
-        res = requests.post(raidar_endpoint, data=cred)
-        if not res.status_code == 200:
-            return await ctx.send('ERROR :robot: : GW2Raidar login failed.')
-        else:
-            token = res.json()['token']
-            with open('cogs/data/logs.json', 'r') as key_file:
-                key = json.load(key_file)
-            key['user']['name'] = ctx.author.name
-            key['user']['id'] = ctx.author.id
-            key['user']['key'] = 'Token {}'.format(token)
-            await self.bot.update_status(key['user']['name'], key['user']['id'], key['user']['key'])
-            with open('cogs/data/logs.json', 'w') as key_file:
-                json.dump(key, key_file, indent=4)
-            await ctx.send('Login successful ✅ : Ready to upload logs.')
+
+        with open('cogs/data/logs.json', 'r') as key_file:
+            key = json.load(key_file)
+        if not username is None and not password is None:
+            raidar_endpoint = 'https://www.gw2raidar.com/api/v2/token'
+            cred = {'username': username, 'password': password}
+            res = requests.post(raidar_endpoint, data=cred)
+            if not res.status_code == 200:
+                return await ctx.send('ERROR :robot: : GW2Raidar login failed.')
+            else:
+                token = res.json()['token']
+                key['user']['key'] = 'Token {}'.format(token)
+                self.bot.owner_key = key['user']['key']
+        key['user']['id'] = ctx.author.id
+        self.bot.owner_id = ctx.author.id
+        key['user']['name'] = ctx.author.name
+        await self.bot.update_status(key['user']['name'])
+        with open('cogs/data/logs.json', 'w') as key_file:
+            json.dump(key, key_file, indent=4)
+        await ctx.send('Login successful ✅ : Ready to upload logs.')
         
     @commands.command()
     async def upload(self, ctx, type: str, *argv):
