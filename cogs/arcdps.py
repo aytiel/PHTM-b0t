@@ -66,7 +66,7 @@ class Arcdps:
             return await ctx.send('Please indicate whether you want to upload `raids` or `fractals` logs.')
         
         self.__init__(self.bot)
-        await self.set_logs_order(ctx, type)
+        mode = await self.set_logs_order(ctx, type)
         
         logs_length = 0
         error_logs = 0
@@ -92,55 +92,77 @@ class Arcdps:
                     error_logs += 1
                     continue
                 
-                print('Uploading {}: dps.report...'.format(b))
-                dps_endpoint = 'https://dps.report/uploadContent?json=1&generator=ei'
-                with open(latest_file, 'rb') as file:
-                    files = {'file': file}
-                    res = requests.post(dps_endpoint, files=files)
-                    if not res.status_code == 200:
-                        await ctx.send('ERROR :robot: : an error has occurred with {}. `Error Code: DHUUMFIRE`'.format(b))
-                        error_logs += 1
-                        continue
-                    else:
-                        self.logs[type][e][b]['dps.report'] = res.json()['permalink']
-                print('Uploaded {}: dps.report'.format(b))
-
-                print('Uploading {}: GW2Raidar...'.format(b))
-                if len(self.bot.owner_key) == 0:
-                    await ctx.send('ERROR :robot: : Key not found. Please log into GW2Raidar before uploading.')
-                    error_logs += 1
-                    continue
-                raidar_endpoint = 'https://www.gw2raidar.com/api/v2/encounters/new'
-                with open(latest_file, 'rb') as file:
-                    files = {'file': file}
-                    res = requests.put(raidar_endpoint, headers={'Authorization': self.bot.owner_key}, files=files)
-                    if not res.status_code == 200:
-                        if res.status_code == 401:
-                            await ctx.send('ERROR :robot: : an error has occurred with {}. `Error Code: RYTLOCK`'.format(b))
-                            error_logs += 1
-                            continue
-                        elif res.status_code == 400:
-                            await ctx.send('ERROR :robot: : an error has occurred with {}. `Error Code: ZOJJA`'.format(b))
+                if mode == 'dps.report' or mode == 'Both':
+                    print('Uploading {}: dps.report...'.format(b))
+                    dps_endpoint = 'https://dps.report/uploadContent?json=1&generator=ei'
+                    with open(latest_file, 'rb') as file:
+                        files = {'file': file}
+                        res = requests.post(dps_endpoint, files=files)
+                        if not res.status_code == 200:
+                            await ctx.send('ERROR :robot: : an error has occurred with {}. `Error Code: DHUUMFIRE`'.format(b))
                             error_logs += 1
                             continue
                         else:
-                            await ctx.send('ERROR :robot: : an error has occurred with {}. `Error Code: SNAFF`'.format(b))
-                            error_logs += 1
-                            continue
-                    else:
-                        self.logs[type][e][b]['GW2Raidar']['success'] = True
-                print('Uploaded {}: GW2Raidar'.format(b))
+                            self.logs[type][e][b]['dps.report'] = res.json()['permalink']
+                    print('Uploaded {}: dps.report'.format(b))
+
+                if mode == 'GW2Raidar' or mode == 'Both':
+                    print('Uploading {}: GW2Raidar...'.format(b))
+                    if len(self.bot.owner_key) == 0:
+                        return await ctx.send('ERROR :robot: : Key not found. Please log into GW2Raidar before uploading.')
+                    raidar_endpoint = 'https://www.gw2raidar.com/api/v2/encounters/new'
+                    with open(latest_file, 'rb') as file:
+                        files = {'file': file}
+                        res = requests.put(raidar_endpoint, headers={'Authorization': self.bot.owner_key}, files=files)
+                        if not res.status_code == 200:
+                            if res.status_code == 401:
+                                await ctx.send('ERROR :robot: : an error has occurred with {}. `Error Code: RYTLOCK`'.format(b))
+                                error_logs += 1
+                                continue
+                            elif res.status_code == 400:
+                                await ctx.send('ERROR :robot: : an error has occurred with {}. `Error Code: ZOJJA`'.format(b))
+                                error_logs += 1
+                                continue
+                            else:
+                                await ctx.send('ERROR :robot: : an error has occurred with {}. `Error Code: SNAFF`'.format(b))
+                                error_logs += 1
+                                continue
+                        else:
+                            self.logs[type][e][b]['GW2Raidar']['success'] = True
+                    print('Uploaded {}: GW2Raidar'.format(b))
         
         if not error_logs == logs_length:
             print('------------------------------')
-            counter = 0
-            await self.update_raidar(ctx, type, counter, logs_length)
-            await self.print_logs(ctx, type, ' '.join(argv))
+            if mode == 'GW2Raidar' or mode == 'Both':
+                counter = 0
+                await self.update_raidar(ctx, type, counter, logs_length)
+            await self.print_logs(ctx, type, ' '.join(argv), mode)
         
     async def set_logs_order(self, ctx, type: str):
         temp_logs = copy.deepcopy(self.logs)
+        out = 'Type the `number` of the parser that you wish to upload to.\n```md\n1. dps.report\n2. GW2Raidar\n3. Both\n```'
+        try:
+            message = await ctx.author.send(out)
+        except discord.Forbidden:
+            return await ctx.send('I do not have permission to DM you. Please enable this in the future.')
+            
+        def m_check(m):
+            return m.author == ctx.author and m.channel == message.channel
+            
+        ans = await self.bot.wait_for('message', check=m_check)
+        await message.delete()
+        mode_num = ans.content
+        
+        def switch(x):
+            return {
+                '1': 'dps.report',
+                '2': 'GW2Raidar',
+                '3': 'Both'
+            }.get(x, 'Both')
+            
+        mode = switch(mode_num)
+            
         while True:
-            e_order = 0
             out = 'Type the `number` of the wing/scale that you wish to upload.\n Type `x` to confirm your selection.\n```md\n'
             if len(temp_logs[type]) == 0:
                 break
@@ -150,13 +172,7 @@ class Arcdps:
                 out += '{0}. {1}\n'.format(count, e)
                 event.append(e)
             out += '\n[x]: [Confirm Wing/Scale Order]\n```'
-            try:
-                message = await ctx.author.send(out)
-            except discord.Forbidden:
-                return await ctx.send('I do not have permissions to DM you. Please enable this in the future.')
-                
-            def m_check(m):
-                return m.author == ctx.author and m.channel == message.channel
+            message = await ctx.author.send(out)
                 
             ans = await self.bot.wait_for('message', check=m_check)
             await message.delete()
@@ -167,7 +183,6 @@ class Arcdps:
             self.logs_order[event[e_pos]] = []
             
             while True:
-                b_order = 0
                 out = 'Type the `number` of the boss that you wish to upload or `0` to upload all of the bosses in order.\n Type `x` to confirm your selection.\n```md\n'
                 if len(temp_logs[type][event[e_pos]]) == 0:
                     break
@@ -196,7 +211,7 @@ class Arcdps:
                 del temp_logs[type][event[e_pos]][boss[b_pos]]            
             del temp_logs[type][event[e_pos]]
 
-        print_order = ''
+        print_order = '{}\n'.format(mode)
         for e in self.logs_order:
             if not len(self.logs_order[e]) == 0:
                 print_order += '{0}: {1}\n'.format(e, self.logs_order[e])
@@ -211,6 +226,8 @@ class Arcdps:
         if str(ans.emoji) == '❌':
             self.logs_order = {}
         await message.delete()
+        
+        return mode
         
     async def update_raidar(self, ctx, type: str, counter: int, length: int):
         if length == 0:
@@ -249,7 +266,7 @@ class Arcdps:
             for b in self.logs[type][e]:
                 self.logs[type][e][b]['GW2Raidar']['link'] = 'about:blank'
                     
-    async def print_logs(self, ctx, type: str, name: str):
+    async def print_logs(self, ctx, type: str, name: str, mode: str):
         title = '__{0} | {1}__'.format(name, str(datetime.date.today()))
         embed = discord.Embed(title=title, colour=0xb30000)
         embed.set_footer(text='Created by Phantom#4985 | PhantomSoulz.2419')
@@ -258,7 +275,7 @@ class Arcdps:
             out = ''
             name = '{}:'.format(e)
             no_link = 0
-            for b in self.logs[type][e]:
+            for count, b in enumerate(self.logs[type][e]):
                 if self.logs[type][e][b]['dps.report'] == 'about:blank' and self.logs[type][e][b]['GW2Raidar']['link'] == 'about:blank':
                     no_link += 1
                     continue
@@ -270,7 +287,19 @@ class Arcdps:
                     if len(split) > 1:
                         if split[1] == 'the' or split[1] == 'of' or split[1] == 'Gabrel':
                             boss = split[0]
-                out += '{0}  |  [dps.report]({1})  |  [GW2Raidar]({2})\n'.format(boss, self.logs[type][e][b]['dps.report'], self.logs[type][e][b]['GW2Raidar']['link'])
+
+                if mode == 'dps.report':
+                    if count == no_link:
+                        out += '[{0}]({1})'.format(boss, self.logs[type][e][b]['dps.report'])
+                    else:
+                        out += '  |  [{0}]({1})'.format(boss, self.logs[type][e][b]['dps.report'])
+                elif mode == 'GW2Raidar':
+                    if count == no_link:
+                        out += '[{0}]({1})'.format(boss, self.logs[type][e][b]['GW2Raidar']['link'])
+                    else:
+                        out += '  |  [{0}]({1})'.format(boss, self.logs[type][e][b]['GW2Raidar']['link'])
+                elif mode == 'Both':
+                    out += '{0}  |  [dps.report]({1})  |  [GW2Raidar]({2})\n'.format(boss, self.logs[type][e][b]['dps.report'], self.logs[type][e][b]['GW2Raidar']['link'])
             if no_link == len(self.logs[type][e]):
                 continue
             embed.add_field(name=name, value=out, inline=False)
