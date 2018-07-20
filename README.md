@@ -15,7 +15,7 @@ The intention of this Discord bot is to automate the monotonous process of manua
 ## Setting up the bot
 <b>Note:</b> You can skip steps 1 and 2 if somebody is already running an instance of the GW2 Log Bot in your Discord server. <br />
 <b>1.</b> Create a bot account. Helpful tutorials can be found [here](https://github.com/reactiflux/discord-irc/wiki/Creating-a-discord-bot-&-getting-a-token) and [here](https://twentysix26.github.io/Red-Docs/red_guide_bot_accounts/). <br />
-<b>2.</b> Invite the bot to your Discord server using the following link: <br />`https://discordapp.com/api/oauth2/authorize?client_id=YOUR_CLIENT_ID&permissions=11264&scope=bot`. <br /> Make sure you replace `YOUR_CLIENT_ID` with the client id listed on your application page. <br />
+<b>2.</b> Invite the bot to your Discord server using the following link: <br />`https://discordapp.com/api/oauth2/authorize?client_id=YOUR_CLIENT_ID&permissions=27648&scope=bot`. <br /> Make sure you replace `YOUR_CLIENT_ID` with the client id listed on your application page. <br />
 <b>3.</b> Update `settings/config.py` with the token associated with your bot account. <br />`TOKEN = 'BOT_TOKEN_HERE'` <br /> You can open the `settings/config.py` file using Notepad or [Notepad++](https://notepad-plus-plus.org/download/). <br /> Also, feel free to change the command `PREFIX` as well if you wish. <br />
 <b>4.</b> Double-click on `install.sh` to install all the required dependencies. <br />
 <b>5.</b> Run the bot by double-clicking the `run.sh` script. The script should update the bot to the latest version and then run it. If the update fails, you can retrieve a fresh, up-to-date copy by repeating Steps **5** and **6** of **Installing the bot**. <br />
@@ -53,7 +53,6 @@ The default prefix is `$`.
 
 ## Caveats (Important!)
 <ul>
-  <li>You must upload to both dps.report and GW2Raidar (I will likely include the option to choose one or the other in the near future).</li>
   <li>You must upload your bosses in the order that you killed them.</li>
   <li>You cannot upload two separate sets of logs (i.e. 2 sets of 99CM and 100CM) in the same order within 12 hours of each other. The bot will incorrectly post the earlier of the two sets for GW2Raidar. You will have to manually confirm that the logs show up on GW2Raidar before calling the same upload command again.</li>
   <li>Only the person booting up the bot may upload logs. You should be able to tell who the current user of the bot is by looking at the bot's activity status. It should say <b>Current User: SOME_USER</b>.
