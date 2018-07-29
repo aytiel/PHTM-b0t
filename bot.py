@@ -36,6 +36,7 @@ class PHTMb0t(commands.Bot):
         await self.update_status(self.owner_name)
         print('------------------------------')
         print('GW2 LOG BOT v{}'.format(settings.version.VERSION))
+        print('------------------------------')
         print('CHANGE LOG:\n{}'.format(settings.version.CHANGE_LOG))
 
     async def on_message(self, message):
