@@ -17,10 +17,10 @@ else
         git reset --hard
         git pull origin gw2-uploader
         if [ $? == "0" ]; then
-            read -n 1 -s -r -p "${green}Force update successful. Please replace your bot TOKEN again then run this script again.{reset}"
+            read -n 1 -s -r -p "${green}Force update successful. Please replace your bot TOKEN again then run this script again.${reset}"
             exit
         else
-            echo "${red}An error has occurred : force update unsuccessful. Please manually delete this bot folder and download a fresh copy."
+            echo "${red}An error has occurred : force update unsuccessful. Please manually delete this bot folder and download a fresh copy.${reset}"
         fi
     else
         echo "${red}Update canceled.${reset}"
