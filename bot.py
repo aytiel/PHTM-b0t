@@ -5,6 +5,7 @@ import discord
 from discord.ext import commands
 
 import settings.config
+import settings.version
 
 extensions = ['cogs.arcdps', 'cogs.control']
 
@@ -33,6 +34,9 @@ class PHTMb0t(commands.Bot):
         invite = 'https://discordapp.com/api/oauth2/authorize?client_id={}&permissions=27648&scope=bot'.format(str(self.user.id))
         print('Invite URL: ' + invite)
         await self.update_status(self.owner_name)
+        print('------------------------------')
+        print('GW2 LOG BOT v{}'.format(settings.version.VERSION))
+        print('CHANGE LOG:\n{}'.format(settings.version.CHANGE_LOG))
 
     async def on_message(self, message):
         if not message.author.bot:
