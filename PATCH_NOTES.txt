@@ -1,0 +1,16 @@
+------------------------------
+v1.0.2 - 7/29/18
+------------------------------
+* Added change log to better convey changes between updates.
+* Added a new script for running the bot - "run_bot.sh". Please use this script 
+moving forward. The old "run.sh" will be deleted in a week.
+------------------------------
+v1.0.3 - 7/29/18
+------------------------------
+* Added a new script for running the bot - "run_bot.sh". Please use this script 
+moving forward. The old "run.sh" will be deleted in a week.
+* Added a record of current and previous patch notes located in the 
+"PATCH_NOTES.txt" file.
+* The 12 hour time limit to upload logs has been removed.
+* CM Raids are now supported (this is untested, so please reach out to me if it 
+doesn't work).

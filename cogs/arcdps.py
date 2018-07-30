@@ -94,6 +94,7 @@ class Arcdps:
                     await ctx.send('ERROR :robot: : an error has occurred with {}. `Error Code: EMPYREAL`'.format(b))
                     error_logs += 1
                     continue
+                self.logs[type][e][b]['filename'] = os.path.basename(latest_file)
                 
                 if mode == 'dps.report' or mode == 'Both':
                     print('Uploading {}: dps.report...'.format(b))
@@ -213,6 +214,7 @@ class Arcdps:
                 
                 del temp_logs[type][event[e_pos]][boss[b_pos]]            
             del temp_logs[type][event[e_pos]]
+        del temp_logs
 
         print_order = '{}\n'.format(mode)
         for e in self.logs_order:
@@ -238,8 +240,7 @@ class Arcdps:
    
         if len(self.bot.owner_key) == 0:
             return await ctx.send('ERROR :robot: : Key not found. Please log into GW2Raidar before uploading.')
-        reset = calendar.timegm(datetime.datetime.utcnow().timetuple()) - 43200
-        raidar_endpoint = 'https://www.gw2raidar.com/api/v2/encounters?limit={0}&since={1}'.format(str(length), str(reset))
+        raidar_endpoint = 'https://www.gw2raidar.com/api/v2/encounters?limit={}'.format(str(length))
         res = requests.get(raidar_endpoint, headers={'Authorization': self.bot.owner_key})
         if not res.status_code == 200:
             return await ctx.send('ERROR :robot: : an error has occurred. `Error Code: CAITHE`'.format(b))
@@ -250,7 +251,7 @@ class Arcdps:
                     if not self.logs[type][e][b]['GW2Raidar']['success']:
                         continue
 
-                    if len(res.json()['results']) >= length and res.json()['results'][pos]['area_id'] == self.logs[type][e][b]['GW2Raidar']['id']:
+                    if res.json()['results'][pos]['filename'] == self.logs[type][e][b]['filename']:
                         raidar_link = 'https://www.gw2raidar.com/encounter/{}'.format(res.json()['results'][pos]['url_id'])
                         self.logs[type][e][b]['GW2Raidar']['link'] = raidar_link
                         if not pos < 0:
