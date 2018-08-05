@@ -20,6 +20,8 @@ The intention of this Discord bot is to automate the monotonous process of manua
 <b>4.</b> Double-click on `install.sh` to install all the required dependencies. <br />
 <b>5.</b> Run the bot by double-clicking the `run_bot.sh` script. The script should update the bot to the latest version and then run it. If the update fails, you can retrieve a fresh, up-to-date copy by repeating Steps **5** and **6** of **Installing the bot**. <br />
 
+**Join the [Discord](https://discord.gg/PFcM9cJ) server for questions, concerns, and troubleshooting and for access to custom boss icons for more aesthetic log posting.**
+
 ## Commands
 The default prefix is `$`.
 
