@@ -1,5 +1,5 @@
-MAIN_VERSION = '1.0.3'
+MAIN_VERSION = '1.0.4'
 SUB_VERSION = ''
 VERSION = MAIN_VERSION + SUB_VERSION
 
-CHANGE_LOG = '* Added a new script for running the bot - "run_bot.sh". Please use this script moving forward. The old "run.sh" will be deleted in a week.\n* Added a record of current and previous patch notes located in the "PATCH_NOTES.txt" file.\n* The 12 hour time limit to upload logs has been removed.\n* CM Raids are now supported (this is untested, so please reach out to me if it doesn\'t work).'
+CHANGE_LOG = '* Created a dedicated helpdesk server for the bot.\n    - Link: https://discord.gg/PFcM9cJ.\n* Adjusted the format of the logs.\n* Added image icons for each boss for more aesthetic log posting.\n    - Gain access to the images by joining the Discord server and following the directions listed in the #welcome channel.\n    - The logs will post with the usual format if you opt not to add the images.'

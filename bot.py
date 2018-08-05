@@ -14,6 +14,7 @@ class PHTMb0t(commands.Bot):
         super().__init__(command_prefix=settings.config.PREFIX, case_insensitive=True)
         
         self.status_format = 'Current User: {}'
+        self.emoji_list = []
         with open('cogs/data/logs.json', 'r') as user_file:
             user = json.load(user_file)
         self.owner_name = user['user']['name']
@@ -33,7 +34,12 @@ class PHTMb0t(commands.Bot):
         print('Client ID: ' + str(self.user.id))
         invite = 'https://discordapp.com/api/oauth2/authorize?client_id={}&permissions=27648&scope=bot'.format(str(self.user.id))
         print('Invite URL: ' + invite)
+        
         await self.update_status(self.owner_name)
+        for emoji in self.emojis:
+            if emoji.guild.id == 457052141920583680:
+                self.emoji_list.append(emoji)
+        
         print('------------------------------')
         print('GW2 LOG BOT v{}'.format(settings.version.VERSION))
         print('------------------------------')

@@ -291,19 +291,29 @@ class Arcdps:
                     if len(split) > 1:
                         if split[1] == 'the' or split[1] == 'of' or split[1] == 'Gabrel':
                             boss = split[0]
+                
+                boss_e = None
+                for emoji in self.bot.emoji_list:
+                    if emoji.name == b.replace(' ', '_'):
+                        boss_e = emoji
+                        break
 
                 if mode == 'dps.report':
-                    if count == no_link:
-                        out += '[{0}]({1})'.format(boss, self.logs[type][e][b]['dps.report'])
-                    else:
-                        out += '  |  [{0}]({1})'.format(boss, self.logs[type][e][b]['dps.report'])
+                    if not count == no_link:
+                        out += '  |  '
+                    if not boss_e is None:
+                        out += '{}  '.format(boss_e)
+                    out += '[**{0}**]({1})'.format(boss, self.logs[type][e][b]['dps.report'])
                 elif mode == 'GW2Raidar':
-                    if count == no_link:
-                        out += '[{0}]({1})'.format(boss, self.logs[type][e][b]['GW2Raidar']['link'])
-                    else:
-                        out += '  |  [{0}]({1})'.format(boss, self.logs[type][e][b]['GW2Raidar']['link'])
+                    if not count == no_link:
+                        out += '  |  '
+                    if not boss_e is None:
+                        out += '{}  '.format(boss_e)
+                    out += '[**{0}**]({1})'.format(boss, self.logs[type][e][b]['GW2Raidar']['link'])
                 elif mode == 'Both':
-                    out += '{0}  |  [dps.report]({1})  |  [GW2Raidar]({2})\n'.format(boss, self.logs[type][e][b]['dps.report'], self.logs[type][e][b]['GW2Raidar']['link'])
+                    if not boss_e is None:
+                        out += '{}  '.format(boss_e)
+                    out += '**{0}**  |  [dps.report]({1})  ·  [GW2Raidar]({2})\n'.format(boss, self.logs[type][e][b]['dps.report'], self.logs[type][e][b]['GW2Raidar']['link'])
             if no_link == len(self.logs[type][e]):
                 continue
             embed.add_field(name=name, value=out, inline=False)

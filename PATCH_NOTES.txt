@@ -14,3 +14,13 @@ moving forward. The old "run.sh" will be deleted in a week.
 * The 12 hour time limit to upload logs has been removed.
 * CM Raids are now supported (this is untested, so please reach out to me if it 
 doesn't work).
+------------------------------
+v1.0.4 - 8/4/18
+------------------------------
+* Created a dedicated helpdesk server for the bot.
+    - Link: https://discord.gg/PFcM9cJ.
+* Adjusted the format of the logs.
+* Added image icons for each boss for more aesthetic log posting.
+    - Gain access to the images by joining the Discord server and following the 
+    directions listed in the #welcome channel.
+    - The logs will post with the usual format if you opt not to add the images.
