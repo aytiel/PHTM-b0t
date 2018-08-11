@@ -55,7 +55,8 @@ The default prefix is `$`.
 </div>
 
 ### Preview
-<img src="https://github.com/aytiel/PHTM-b0t/blob/gw2-uploader/images/preview.PNG" height="325" width="450"></img>
+<img align="middle" src="https://github.com/aytiel/PHTM-b0t/blob/gw2-uploader/images/previewv2.PNG" height="325" width="395"></img>
+<img align="middle" src="https://github.com/aytiel/PHTM-b0t/blob/gw2-uploader/images/previewv2_1.PNG" height="191" width="400"></img>
 
 ## Caveats (Important!)
 <ul>
