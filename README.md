@@ -44,8 +44,8 @@ The default prefix is `$`.
       <td>Logs into GW2Raidar and assigns the bot to you.</td>
     </tr>
     <tr>
-      <td><b>upload [raids/fractals] [title]</b></td>
-      <td>Uploads raid or fractal logs and posts them with the specified title.</td>
+      <td><b>upload [raids/fractals] [title]<br />(--time)</b></td>
+      <td>Uploads raid or fractal logs and posts them with the specified title.<br />(Optional) Include the killtime for each boss in the log post.</td>
     </tr>
     <tr>
       <td><b>shutdown</b></td>
@@ -60,6 +60,5 @@ The default prefix is `$`.
 
 ## Caveats (Important!)
 <ul>
-  <li>You must upload your bosses in the order that you killed them.</li>
   <li>Only the person booting up the bot may upload logs. You should be able to tell who the current user of the bot is by looking at the bot's activity status. It should say <b>Current User: SOME_USER</b>.
 </ul>
