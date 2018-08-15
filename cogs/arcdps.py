@@ -15,6 +15,7 @@ class Arcdps:
     def __init__(self, bot):
         self.bot = bot
         self.logs_order = {}
+        self.show_time = False
         
         with open('cogs/data/logs.json', 'r') as logs_data:
             self.logs = json.load(logs_data)
@@ -69,6 +70,9 @@ class Arcdps:
             return await ctx.send('Please indicate whether you want to upload `raids` or `fractals` logs.')
         
         self.__init__(self.bot)
+        if argv[len(argv)-1] == '--time':
+            argv = argv[:(len(argv)-1)]
+            self.show_time = True
         mode = await self.set_logs_order(ctx, type)
         
         logs_length = 0
@@ -183,11 +187,22 @@ class Arcdps:
             e_order = ans.content
             if e_order == 'x':
                 break
-            e_pos = int(e_order) - 1
-            self.logs_order[event[e_pos]] = []
+            try:
+                e_pos = int(e_order) - 1
+                if e_pos < 0 or e_pos >= len(event):
+                    continue
+                self.logs_order[event[e_pos]] = []
+            except ValueError:
+                continue
             
             while True:
-                out = 'Type the `number` of the boss that you wish to upload or `0` to upload all of the bosses in order.\n Type `x` to confirm your selection.\n```md\n'
+                event_len = len(self.logs_order[event[e_pos]])
+                out = 'Type the `number` of the boss that you wish to upload'
+                if event_len == 0:
+                    out += ' or `0` to upload all of the bosses in order.\n'
+                else:
+                    out += '.\n'
+                out += 'Type `x` to confirm your selection.\n```md\n'
                 if len(temp_logs[type][event[e_pos]]) == 0:
                     break
 
@@ -198,7 +213,9 @@ class Arcdps:
                     else:
                         out += '{0}. {1}\n'.format(count, b)
                     boss.append(b)
-                out += '\n0. [Upload All Bosses in Order]\n[x]: [Confirm Boss Order]\n```'
+                if event_len == 0:
+                    out += '\n0. [Upload All Bosses in Order]'
+                out += '\n[x]: [Confirm Boss Order]\n```'
                 message = await ctx.author.send(out)
                 
                 ans = await self.bot.wait_for('message', check=m_check)
@@ -206,17 +223,23 @@ class Arcdps:
                 b_order = ans.content
                 if b_order == 'x':
                     break
-                elif int(b_order) == 0:
-                    self.logs_order[event[e_pos]] = boss
-                    break
-                b_pos = int(b_order) - 1
-                self.logs_order[event[e_pos]].append(boss[b_pos])
+                try:
+                    if int(b_order) == 0 and event_len == 0:
+                        self.logs_order[event[e_pos]] = boss
+                        break
+
+                    b_pos = int(b_order) - 1
+                    if b_pos < 0 or b_pos >= len(boss):
+                        continue
+                    self.logs_order[event[e_pos]].append(boss[b_pos])
+                except ValueError:
+                    continue
                 
                 del temp_logs[type][event[e_pos]][boss[b_pos]]            
             del temp_logs[type][event[e_pos]]
         del temp_logs
 
-        print_order = '{}\n'.format(mode)
+        print_order = 'Uploading to {}...\n'.format(mode)
         for e in self.logs_order:
             if not len(self.logs_order[e]) == 0:
                 print_order += '{0}: {1}\n'.format(e, self.logs_order[e])
@@ -243,32 +266,36 @@ class Arcdps:
         raidar_endpoint = 'https://www.gw2raidar.com/api/v2/encounters?limit={}'.format(str(length))
         res = requests.get(raidar_endpoint, headers={'Authorization': self.bot.owner_key})
         if not res.status_code == 200:
-            return await ctx.send('ERROR :robot: : an error has occurred. `Error Code: CAITHE`'.format(b))
-        else:
-            pos = length - 1    
+            return await ctx.send('ERROR :robot: : an error has occurred. `Error Code: CAITHE`')
+        else:   
             for e in self.logs_order:
                 for b in self.logs_order[e]:
-                    if not self.logs[type][e][b]['GW2Raidar']['success']:
+                    if not self.logs[type][e][b]['GW2Raidar']['success'] or not self.logs[type][e][b]['GW2Raidar']['link'] == 'about:blank':
                         continue
-
-                    if res.json()['results'][pos]['filename'] == self.logs[type][e][b]['filename']:
-                        raidar_link = 'https://www.gw2raidar.com/encounter/{}'.format(res.json()['results'][pos]['url_id'])
-                        self.logs[type][e][b]['GW2Raidar']['link'] = raidar_link
-                        if not pos < 0:
-                            pos -= 1
+                    for encounter in res.json()['results']:
+                        if encounter['filename'] == self.logs[type][e][b]['filename']:
+                            raidar_link = 'https://www.gw2raidar.com/encounter/{}'.format(encounter['url_id'])
+                            self.logs[type][e][b]['GW2Raidar']['link'] = raidar_link
+                            if self.show_time:
+                                raidar_json = '{}.json'.format(raidar_link)
+                                json_res = requests.get(raidar_json)
+                                if not json_res.status_code == 200:
+                                    await ctx.send('ERROR :robot: : an error has occurred with {}. `Error Code: LOGAN`'.format(b))
+                                else:
+                                    seconds = json_res.json()['encounter']['phases']['All']['duration']
+                                    m, s = divmod(seconds, 60)
+                                    duration = '%02d:%06.3f' % (m, s)
+                                    self.logs[type][e][b]['duration'] = duration
+                            break
+                    if not self.logs[type][e][b]['GW2Raidar']['link'] == 'about:blank':
+                        continue
                     elif counter == 6:
-                        await ctx.send('ERROR :robot: : The logs were unsuccessfully analyzed within the time frame.')
-                        return await self.clear_raidar(ctx, type)
+                        return await ctx.send('ERROR :robot: : The logs were unsuccessfully analyzed within the time frame.')
                     else:
                         print('The logs have not been analyzed. Retrying in 2.5 min: {}...'.format(str(counter)))
                         time.sleep(150)
                         counter += 1
                         return await self.update_raidar(ctx, type, counter, length)
-
-    async def clear_raidar(self, ctx, type: str):
-        for e in self.logs[type]:
-            for b in self.logs[type][e]:
-                self.logs[type][e][b]['GW2Raidar']['link'] = 'about:blank'
                     
     async def print_logs(self, ctx, type: str, name: str, mode: str):
         title = '__{0} | {1}__'.format(name, str(datetime.date.today()))
@@ -305,7 +332,7 @@ class Arcdps:
                         out += '{}  '.format(boss_e)
                     out += '[**{0}**]({1})'.format(boss, self.logs[type][e][b]['dps.report'])
                 elif mode == 'GW2Raidar':
-                    if not count == no_link:
+                    if not count == no_link and not self.show_time:
                         out += '  |  '
                     if not boss_e is None:
                         out += '{}  '.format(boss_e)
@@ -313,7 +340,12 @@ class Arcdps:
                 elif mode == 'Both':
                     if not boss_e is None:
                         out += '{}  '.format(boss_e)
-                    out += '**{0}**  |  [dps.report]({1})  ·  [GW2Raidar]({2})\n'.format(boss, self.logs[type][e][b]['dps.report'], self.logs[type][e][b]['GW2Raidar']['link'])
+                    out += '**{0}**  |  [dps.report]({1})  ·  [GW2Raidar]({2})'.format(boss, self.logs[type][e][b]['dps.report'], self.logs[type][e][b]['GW2Raidar']['link'])
+                    if not self.show_time:
+                        out += '\n'
+                if self.show_time and 'duration' in self.logs[type][e][b]:
+                    out += '  |  **Time**: {}\n'.format(self.logs[type][e][b]['duration'])
+                
             if no_link == len(self.logs[type][e]):
                 continue
             embed.add_field(name=name, value=out, inline=False)
