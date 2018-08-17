@@ -70,9 +70,10 @@ class Arcdps:
             return await ctx.send('Please indicate whether you want to upload `raids` or `fractals` logs.')
         
         self.__init__(self.bot)
-        if argv[len(argv)-1] == '--time':
-            argv = argv[:(len(argv)-1)]
-            self.show_time = True
+        if len(argv) > 0:
+            if argv[len(argv)-1] == '--time':
+                argv = argv[:(len(argv)-1)]
+                self.show_time = True
         mode = await self.set_logs_order(ctx, type)
         
         logs_length = 0
@@ -298,7 +299,10 @@ class Arcdps:
                         return await self.update_raidar(ctx, type, counter, length)
                     
     async def print_logs(self, ctx, type: str, name: str, mode: str):
-        title = '__{0} | {1}__'.format(name, str(datetime.date.today()))
+        if len(name) > 0:
+            title = '__{0} | {1}__'.format(name, str(datetime.date.today()))
+        else:
+            title = '__{}__'.format(str(datetime.date.today()))
         embed = discord.Embed(title=title, colour=0xb30000)
         embed.set_footer(text='Created by Phantom#4985 | PhantomSoulz.2419')
         embed.set_thumbnail(url='https://vignette.wikia.nocookie.net/gwwikia/images/4/4d/Guild_Wars_2_Dragon_logo.jpg/revision/latest?cb=20090825055046')
@@ -341,7 +345,7 @@ class Arcdps:
                     if not boss_e is None:
                         out += '{}  '.format(boss_e)
                     out += '**{0}**  |  [dps.report]({1})  ·  [GW2Raidar]({2})'.format(boss, self.logs[type][e][b]['dps.report'], self.logs[type][e][b]['GW2Raidar']['link'])
-                    if not self.show_time:
+                    if not self.show_time or self.logs[type][e][b]['GW2Raidar']['link'] == 'about:blank':
                         out += '\n'
                 if self.show_time and 'duration' in self.logs[type][e][b]:
                     out += '  |  **Time**: {}\n'.format(self.logs[type][e][b]['duration'])
