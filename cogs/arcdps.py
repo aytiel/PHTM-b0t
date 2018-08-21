@@ -274,7 +274,7 @@ class Arcdps:
                     if not self.logs[type][e][b]['GW2Raidar']['success'] or not self.logs[type][e][b]['GW2Raidar']['link'] == 'about:blank':
                         continue
                     for encounter in res.json()['results']:
-                        if encounter['filename'] == self.logs[type][e][b]['filename']:
+                        if self.logs[type][e][b]['filename'] in encounter['filename']:
                             raidar_link = 'https://www.gw2raidar.com/encounter/{}'.format(encounter['url_id'])
                             self.logs[type][e][b]['GW2Raidar']['link'] = raidar_link
                             if self.show_time:
