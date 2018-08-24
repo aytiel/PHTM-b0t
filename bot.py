@@ -1,6 +1,7 @@
 import json
 import datetime
 import traceback
+import sys
 
 import discord
 from discord.ext import commands
