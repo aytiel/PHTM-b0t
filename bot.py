@@ -1,5 +1,6 @@
 import json
 import datetime
+import traceback
 
 import discord
 from discord.ext import commands
@@ -21,6 +22,7 @@ class PHTMb0t(commands.Bot):
         self.owner_id = user['user']['id']
         self.owner_key = user['user']['key']
         
+        self.remove_command('help')
         for ext in extensions:
             try:
                 self.load_extension(ext)
@@ -50,13 +52,25 @@ class PHTMb0t(commands.Bot):
             await self.process_commands(message)
             
     async def on_command_error(self, ctx, error):
-        if isinstance(error, commands.MissingRequiredArgument):
+        if hasattr(ctx.command, 'on_error'):
+            return
+            
+        error = getattr(error, 'original', error)
+        
+        if isinstance(error, commands.CommandNotFound):
+            return
+        elif isinstance(error, commands.UserInputError):
+            return
+        elif isinstance(error, commands.MissingRequiredArgument):
             if ctx.command.qualified_name == 'login':
                 await ctx.send('One or more required parameters are missing. Please execute the command as follows:\n`{}login [username] [password]`'.format(settings.config.PREFIX))
             elif ctx.command.qualified_name == 'upload':
                 await ctx.send('One or more required parameters are missing. Please execute the command as follows:\n`{}upload [raids/fractals] [title]`'.format(settings.config.PREFIX))
             else:
                 await ctx.send('ERROR :robot:')
+                
+        print('Ignoring exception in command {}:'.format(ctx.command), file=sys.stderr)
+        traceback.print_exception(type(error), error, error.__traceback__, file=sys.stderr)
             
     async def update_status(self, name: str):
         self.owner_name = name

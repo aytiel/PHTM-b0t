@@ -6,8 +6,8 @@ class Control:
         self.bot = bot
         
     @commands.command()
-    async def ping(self, ctx):
-        await ctx.send('Pong!')
+    async def help(self, ctx):
+        await ctx.send('All available commands and descriptions can be found at: \nhttps://github.com/aytiel/PHTM-b0t/tree/gw2-uploader')
 
     @commands.command()
     async def shutdown(self, ctx):
