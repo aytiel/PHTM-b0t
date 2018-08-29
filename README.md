@@ -45,7 +45,7 @@ The default prefix is `$`.
     </tr>
     <tr>
       <td><b>upload [raids/fractals] [title]<br />(--time)</b></td>
-      <td>Uploads raid or fractal logs and posts them with the specified title.<br />(Optional) Include the killtime for each boss in the log post.</td>
+      <td>Uploads raid or fractal logs and posts them with the specified title.<br />(Optional) Include the killtime for each boss in the log post (Only for GW2Raidar and Both modes).</td>
     </tr>
     <tr>
       <td><b>shutdown</b></td>
@@ -61,4 +61,5 @@ The default prefix is `$`.
 ## Caveats (Important!)
 <ul>
   <li>Only the person booting up the bot may upload logs. You should be able to tell who the current user of the bot is by looking at the bot's activity status. It should say <b>Current User: SOME_USER</b>.
+  <li>The bot only supports English currently. I am in the process of implementing multilanguage support.
 </ul>
