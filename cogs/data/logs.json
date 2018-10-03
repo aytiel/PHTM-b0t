@@ -7,25 +7,34 @@
     "raids": {
         "W1": {
             "Vale Guardian": {
+                "name": [
+                    "Vale Guardian",
+                    "Tal-W\u00e4chter"
+                ],
                 "dps.report": "about:blank",
                 "GW2Raidar": {
-                    "id": 15438,
                     "link": "about:blank",
                     "success": false
                 }
             },
-            "Gorseval the Multifarious": {
+            "Gorseval": {
+                "name": [
+                    "Gorseval the Multifarious",
+                    "Gorseval der Facettenreiche"
+                ],
                 "dps.report": "about:blank",
                 "GW2Raidar": {
-                    "id": 15429,
                     "link": "about:blank",
                     "success": false
                 }
             },
-            "Sabetha the Saboteur": {
+            "Sabetha": {
+                "name": [
+                    "Sabetha the Saboteur",
+                    "Sabetha die Saboteurin"
+                ],
                 "dps.report": "about:blank",
                 "GW2Raidar": {
-                    "id": 15375,
                     "link": "about:blank",
                     "success": false
                 }
@@ -33,17 +42,23 @@
         },
         "W2": {
             "Slothasor": {
+                "name": [
+                    "Slothasor",
+                    "Faultierion"
+                ],
                 "dps.report": "about:blank",
                 "GW2Raidar": {
-                    "id": 16123,
                     "link": "about:blank",
                     "success": false
                 }
             },
-            "Matthias Gabrel": {
+            "Matthias": {
+                "name": [
+                    "Matthias Gabrel",
+                    "Matthias Gabrel"
+                ],
                 "dps.report": "about:blank",
                 "GW2Raidar": {
-                    "id": 16115,
                     "link": "about:blank",
                     "success": false
                 }
@@ -51,51 +66,69 @@
         },
         "W3": {
             "Keep Construct": {
+                "name": [
+                    "Keep Construct",
+                    "Festenkonstrukt"
+                ],
                 "dps.report": "about:blank",
                 "GW2Raidar": {
-                    "id": 16235,
                     "link": "about:blank",
                     "success": false
                 }
             },
             "Xera": {
+                "name": [
+                    "Xera",
+                    "Xera"
+                ],
                 "dps.report": "about:blank",
                 "GW2Raidar": {
-                    "id": 16246,
                     "link": "about:blank",
                     "success": false
                 }
             }
         },
         "W4": {
-            "Cairn the Indomitable": {
+            "Cairn": {
+                "name": [
+                    "Cairn the Indomitable",
+                    "Cairn der Unbeugsame"
+                ],
                 "dps.report": "about:blank",
                 "GW2Raidar": {
-                    "id": 17194,
                     "link": "about:blank",
                     "success": false
                 }
             },
             "Mursaat Overseer": {
+                "name": [
+                    "Mursaat Overseer",
+                    "Mursaat-Aufseher"
+                ],
                 "dps.report": "about:blank",
                 "GW2Raidar": {
-                    "id": 17172,
                     "link": "about:blank",
                     "success": false
                 }
             },
             "Samarog": {
+                "name": [
+                    "Samarog",
+                    "Samarog"
+                ],
                 "dps.report": "about:blank",
                 "GW2Raidar": {
-                    "id": 17188,
                     "link": "about:blank",
                     "success": false
                 }
             },
             "Deimos": {
+                "name": [
+                    "Deimos",
+                    "Deimos"
+                ],
                 "dps.report": "about:blank",
                 "GW2Raidar": {
-                    "id": 17154,
                     "link": "about:blank",
                     "success": false
                 }
@@ -103,17 +136,58 @@
         },
         "W5": {
             "Soulless Horror": {
+                "name": [
+                    "Soulless Horror",
+                    "Seelenloser Schrecken"
+                ],
                 "dps.report": "about:blank",
                 "GW2Raidar": {
-                    "id": 19767,
                     "link": "about:blank",
                     "success": false
                 }
             },
             "Dhuum": {
+                "name": [
+                    "Dhuum",
+                    "Dhuum"
+                ],
                 "dps.report": "about:blank",
                 "GW2Raidar": {
-                    "id": 19450,
+                    "link": "about:blank",
+                    "success": false
+                }
+            }
+        },
+        "W6": {
+            "Conjured Amalgamate": {
+                "name": [
+                    "Conjured Amalgamate",
+                    "Beschworene Verschmelzung"
+                ],
+                "dps.report": "about:blank",
+                "GW2Raidar": {
+                    "link": "about:blank",
+                    "success": false
+                }
+            },
+            "Largos Twins": {
+                "name": [
+                    "Nikare",
+                    "Largos-Assasinen"
+                ],
+                "dps.report": "about:blank",
+                "GW2Raidar": {
+                    "link": "about:blank",
+                    "success": false
+                }
+            },
+            "Qadim": {
+                "name": [
+                    "Qadim",
+                    "Qadim"
+                ],
+                "dps.report": "about:blank",
+                "GW2Raidar": {
                     "link": "about:blank",
                     "success": false
                 }
@@ -123,51 +197,69 @@
     "fractals": {
         "99CM": {
             "MAMA": {
+                "name": [
+                    "MAMA",
+                    "MAMA"
+                ],
                 "dps.report": "about:blank",
                 "GW2Raidar": {
-                    "id": 17021,
                     "link": "about:blank",
                     "success": false
                 }
             },
-            "Nightmare Oratuss": {
+            "Siax": {
+                "name": [
+                    "Nightmare Oratuss",
+                    "Albtraum-Oratuss"
+                ],
                 "dps.report": "about:blank",
                 "GW2Raidar": {
-                    "id": 17028,
                     "link": "about:blank",
                     "success": false
                 }
             },
-            "Ensolyss of the Endless Torment": {
+            "Ensolyss": {
+                "name": [
+                    "Ensolyss of the Endless Torment",
+                    "Ensolyss der endlosen Pein"
+                ],
                 "dps.report": "about:blank",
                 "GW2Raidar": {
-                    "id": 16948,
                     "link": "about:blank",
                     "success": false
                 }
             }
         },
         "100CM": {
-            "Skorvald the Shattered": {
+            "Skorvald": {
+                "name": [
+                    "Skorvald the Shattered",
+                    "Skorvald der Zerschmetterte"
+                ],
                 "dps.report": "about:blank",
                 "GW2Raidar": {
-                    "id": 17632,
                     "link": "about:blank",
                     "success": false
                 }
             },
             "Artsariiv": {
+                "name": [
+                    "Artsariiv",
+                    "Artsariiv"
+                ],
                 "dps.report": "about:blank",
                 "GW2Raidar": {
-                    "id": 17949,
                     "link": "about:blank",
                     "success": false
                 }
             },
             "Arkk": {
+                "name": [
+                    "Arkk",
+                    "Arkk"
+                ],
                 "dps.report": "about:blank",
                 "GW2Raidar": {
-                    "id": 17759,
                     "link": "about:blank",
                     "success": false
                 }

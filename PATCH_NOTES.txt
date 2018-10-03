@@ -38,3 +38,11 @@ v1.0.5 - 8/15/18
 v1.0.5a1 - 8/17/18
 ------------------------------
 * Fixed minor formatting issues.
+------------------------------
+v1.1.0 - 10/3/18
+------------------------------
+* Added W6 support.
+* Added German language support (only folder detection).
+* Added the option to upload all bosses in all wings/scales.
+* W6 boss images have been added to the Discord server.
+    - Link: https://discord.gg/PFcM9cJ.

@@ -74,7 +74,7 @@ class Arcdps:
             if argv[len(argv)-1] == '--time':
                 argv = argv[:(len(argv)-1)]
                 self.show_time = True
-        mode = await self.set_logs_order(ctx, type)
+        mode, lang = await self.set_logs_order(ctx, type)
         
         logs_length = 0
         error_logs = 0
@@ -82,7 +82,7 @@ class Arcdps:
             for b in self.logs_order[e]:
                 print('------------------------------')
                 logs_length += 1
-                path = '{0}{1}/*'.format(os.path.expanduser('~/Documents/Guild Wars 2/addons/arcdps/arcdps.cbtlogs/'), b)
+                path = '{0}{1}/*'.format(os.path.expanduser('~/Documents/Guild Wars 2/addons/arcdps/arcdps.cbtlogs/'), self.logs[type][e][b]['name'][lang])
                 all_files = glob.glob(path)
                 if len(all_files) == 0:
                     await ctx.send('ERROR :robot: : an error has occurred with {}. `Error Code: BLOODSTONE`'.format(b))
@@ -149,14 +149,29 @@ class Arcdps:
         
     async def set_logs_order(self, ctx, type: str):
         temp_logs = copy.deepcopy(self.logs)
-        out = 'Type the `number` of the parser that you wish to upload to.\n```md\n1. dps.report\n2. GW2Raidar\n3. Both\n```'
+        out = 'Type of the `number` of your language.\n```md\n1. English\n2. German\n```'
         try:
             message = await ctx.author.send(out)
         except discord.Forbidden:
             return await ctx.send('I do not have permission to DM you. Please enable this in the future.')
-            
+        
         def m_check(m):
             return m.author == ctx.author and m.channel == message.channel
+            
+        ans = await self.bot.wait_for('message', check=m_check)
+        await message.delete()
+        lang_num = ans.content
+        
+        def switch(x):
+            return {
+                '1': (0, 'English'),
+                '2': (1, 'German')
+            }.get(x, (0, 'English'))
+            
+        lang = switch(lang_num)
+            
+        out = 'Type the `number` of the parser that you wish to upload to.\n```md\n1. dps.report\n2. GW2Raidar\n3. Both\n```'
+        message = await ctx.author.send(out)
             
         ans = await self.bot.wait_for('message', check=m_check)
         await message.delete()
@@ -172,7 +187,13 @@ class Arcdps:
         mode = switch(mode_num)
             
         while True:
-            out = 'Type the `number` of the wing/scale that you wish to upload.\n Type `x` to confirm your selection.\n```md\n'
+            logs_len = len(self.logs_order)
+            out = 'Type the `number` of the wing/scale that you wish to upload'
+            if logs_len == 0:
+                out += ' or `0` to upload all of the bosses in all of the wings/scales.\n'
+            else:
+                out += '.\n'
+            out += 'Type `x` to confirm your selection.\n```md\n'
             if len(temp_logs[type]) == 0:
                 break
 
@@ -180,6 +201,8 @@ class Arcdps:
             for count, e in enumerate(temp_logs[type], 1):
                 out += '{0}. {1}\n'.format(count, e)
                 event.append(e)
+            if logs_len == 0:
+                out += '\n0. [Upload All Bosses]'
             out += '\n[x]: [Confirm Wing/Scale Order]\n```'
             message = await ctx.author.send(out)
                 
@@ -189,6 +212,10 @@ class Arcdps:
             if e_order == 'x':
                 break
             try:
+                if int(e_order) == 0 and logs_len == 0:
+                    self.logs_order = {e: [boss for boss in temp_logs[type][e]] for e in temp_logs[type]}
+                    break
+
                 e_pos = int(e_order) - 1
                 if e_pos < 0 or e_pos >= len(event):
                     continue
@@ -200,7 +227,7 @@ class Arcdps:
                 event_len = len(self.logs_order[event[e_pos]])
                 out = 'Type the `number` of the boss that you wish to upload'
                 if event_len == 0:
-                    out += ' or `0` to upload all of the bosses in order.\n'
+                    out += ' or `0` to upload all of the bosses.\n'
                 else:
                     out += '.\n'
                 out += 'Type `x` to confirm your selection.\n```md\n'
@@ -209,13 +236,10 @@ class Arcdps:
 
                 boss = []
                 for count, b in enumerate(temp_logs[type][event[e_pos]], 1):
-                    if b == 'Nightmare Oratuss':
-                        out += '{}. Siax the Corrupted\n'.format(count)
-                    else:
-                        out += '{0}. {1}\n'.format(count, b)
+                    out += '{0}. {1}\n'.format(count, b)
                     boss.append(b)
                 if event_len == 0:
-                    out += '\n0. [Upload All Bosses in Order]'
+                    out += '\n0. [Upload All Bosses]'
                 out += '\n[x]: [Confirm Boss Order]\n```'
                 message = await ctx.author.send(out)
                 
@@ -240,7 +264,7 @@ class Arcdps:
             del temp_logs[type][event[e_pos]]
         del temp_logs
 
-        print_order = 'Uploading to {}...\n'.format(mode)
+        print_order = 'Uploading to {0} in {1}...\n'.format(mode, lang[1])
         for e in self.logs_order:
             if not len(self.logs_order[e]) == 0:
                 print_order += '{0}: {1}\n'.format(e, self.logs_order[e])
@@ -256,7 +280,7 @@ class Arcdps:
             self.logs_order = {}
         await message.delete()
         
-        return mode
+        return (mode, lang[0])
         
     async def update_raidar(self, ctx, type: str, counter: int, length: int):
         if length == 0:
@@ -315,13 +339,6 @@ class Arcdps:
                     no_link += 1
                     continue
                 boss = b
-                if boss == 'Nightmare Oratuss':
-                    boss = 'Siax'
-                else:
-                    split = boss.split(' ')
-                    if len(split) > 1:
-                        if split[1] == 'the' or split[1] == 'of' or split[1] == 'Gabrel':
-                            boss = split[0]
                 
                 boss_e = None
                 for emoji in self.bot.emoji_list:
