@@ -61,5 +61,5 @@ The default prefix is `$`.
 ## Caveats (Important!)
 <ul>
   <li>Only the person booting up the bot may upload logs. You should be able to tell who the current user of the bot is by looking at the bot's activity status. It should say <b>Current User: SOME_USER</b>.
-  <li>The bot only supports English currently. I am in the process of implementing multilanguage support.
+  <li>The bot only supports English and German currently. If you would like support for other languages (i.e. French, Spanish), please reach out to me.
 </ul>
