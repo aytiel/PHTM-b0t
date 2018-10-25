@@ -82,23 +82,23 @@ class Arcdps:
             for b in self.logs_order[e]:
                 print('------------------------------')
                 logs_length += 1
-                path = '{0}{1}/*'.format(os.path.expanduser('~/Documents/Guild Wars 2/addons/arcdps/arcdps.cbtlogs/'), self.logs[type][e][b]['name'][lang])
-                all_files = glob.glob(path)
-                if len(all_files) == 0:
+                path = '{0}{1}/'.format(os.path.expanduser('~/Documents/Guild Wars 2/addons/arcdps/arcdps.cbtlogs/'), self.logs[type][e][b]['name'][lang])
+                if not os.path.exists(path):
                     await ctx.send('ERROR :robot: : an error has occurred with {}. `Error Code: BLOODSTONE`'.format(b))
                     error_logs += 1
-                    continue 
-                latest_file = max(all_files, key=os.path.getmtime)
-                while os.path.isdir(latest_file):
-                    path = '{}/*'.format(latest_file)
-                    all_files = glob.glob(path)
-                    if len(all_files) == 0:
-                        break
-                    latest_file = max(all_files, key=os.path.getmtime)
+                    continue
+                all_files = []
+                for root, dir, files in os.walk(path):
+                    for file in files:
+                        file_path = os.path.join(root, file)
+                        modified_date = os.path.getmtime(file_path)
+                        all_files.append((file_path, modified_date))
                 if len(all_files) == 0:
                     await ctx.send('ERROR :robot: : an error has occurred with {}. `Error Code: EMPYREAL`'.format(b))
                     error_logs += 1
                     continue
+                all_files.sort(key=lambda x: x[1], reverse=True)
+                latest_file = all_files[0][0]
                 self.logs[type][e][b]['filename'] = os.path.basename(latest_file)
                 
                 if mode == 'dps.report' or mode == 'Both':
