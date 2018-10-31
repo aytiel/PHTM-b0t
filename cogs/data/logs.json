@@ -2,7 +2,8 @@
     "user": {
         "name": "",
         "id": 0,
-        "key": ""
+        "key": "",
+        "filepath": ""
     },
     "raids": {
         "W1": {

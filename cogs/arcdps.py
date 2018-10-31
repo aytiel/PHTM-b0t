@@ -6,6 +6,8 @@ import time
 import glob
 import os
 import copy
+from tkinter import filedialog
+from tkinter import *
 
 import discord
 from discord.ext import commands
@@ -48,6 +50,12 @@ class Arcdps:
         self.bot.owner_id = ctx.author.id
         key['user']['name'] = ctx.author.name
         await self.bot.update_status(key['user']['name'])
+        
+        root = Tk()
+        root.withdraw()
+        key['user']['filepath'] = filedialog.askdirectory(initialdir = "/", title = "Select your arcdps.cbtlogs folder")
+        self.bot.owner_filepath = key['user']['filepath']
+        
         with open('cogs/data/logs.json', 'w') as key_file:
             json.dump(key, key_file, indent=4)
         await ctx.send('Login successful ✅ : Ready to upload logs.')
@@ -66,6 +74,8 @@ class Arcdps:
         
         if self.bot.owner_id == 0 or not self.bot.owner_id == ctx.author.id:
             return await ctx.send('You do not have permission to use the bot currently. Only the current user may use the bot.')
+        if len(self.bot.owner_filepath) == 0:
+            return await ctx.send('No file path found. Please log in and select your arcdps.cbtlogs folder.')
         if not type == 'raids' and not type == 'fractals':
             return await ctx.send('Please indicate whether you want to upload `raids` or `fractals` logs.')
         
@@ -82,7 +92,7 @@ class Arcdps:
             for b in self.logs_order[e]:
                 print('------------------------------')
                 logs_length += 1
-                path = '{0}{1}/'.format(os.path.expanduser('~/Documents/Guild Wars 2/addons/arcdps/arcdps.cbtlogs/'), self.logs[type][e][b]['name'][lang])
+                path = '{0}/{1}/'.format(self.bot.owner_filepath, self.logs[type][e][b]['name'][lang])
                 if not os.path.exists(path):
                     await ctx.send('ERROR :robot: : an error has occurred with {}. `Error Code: BLOODSTONE`'.format(b))
                     error_logs += 1

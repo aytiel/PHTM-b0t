@@ -22,6 +22,7 @@ class PHTMb0t(commands.Bot):
         self.owner_name = user['user']['name']
         self.owner_id = user['user']['id']
         self.owner_key = user['user']['key']
+        self.owner_filepath = user['user']['filepath']
         
         self.remove_command('help')
         for ext in extensions:

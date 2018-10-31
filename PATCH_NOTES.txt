@@ -46,3 +46,11 @@ v1.1.0 - 10/3/18
 * Added the option to upload all bosses in all wings/scales.
 * W6 boss images have been added to the Discord server.
     - Link: https://discord.gg/PFcM9cJ.
+------------------------------
+v1.1.1 - 10/31/18
+------------------------------
+* The bot now allows users to select their arcdps.cbtlogs folder 
+location with the login command.
+* Updated requests to v2.20.0 for vulnerability fix.
+Please run the install.sh script as soon as possible.
+
