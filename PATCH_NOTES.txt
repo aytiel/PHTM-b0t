@@ -53,4 +53,11 @@ v1.1.1 - 10/31/18
 location with the login command.
 * Updated requests to v2.20.0 for vulnerability fix.
 Please run the install.sh script as soon as possible.
-
+------------------------------
+v1.1.2 - 10/31/18
+------------------------------
+* Added the option to upload and post multiple logs of the same boss
+(dps.report only).
+    - Ex. $upload raids --num 3 will upload the 3 most recent logs.
+* Added the option to enable AAs in your rotation.
+    - Use the flag --aa when uploading.

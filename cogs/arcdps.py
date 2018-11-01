@@ -18,6 +18,8 @@ class Arcdps:
         self.bot = bot
         self.logs_order = {}
         self.show_time = False
+        self.show_aa = False
+        self.num_logs = 0
         
         with open('cogs/data/logs.json', 'r') as logs_data:
             self.logs = json.load(logs_data)
@@ -80,10 +82,28 @@ class Arcdps:
             return await ctx.send('Please indicate whether you want to upload `raids` or `fractals` logs.')
         
         self.__init__(self.bot)
-        if len(argv) > 0:
-            if argv[len(argv)-1] == '--time':
-                argv = argv[:(len(argv)-1)]
+        i = 0
+        title = []
+        while i < len(argv):
+            if argv[i] == '--time':
                 self.show_time = True
+                i += 1
+            elif argv[i] == '--num':
+                if i == len(argv)-1:
+                    return await ctx.send('Please enter the number of logs for the `--num` flag.')
+                try:
+                    self.num_logs = int(argv[i+1])
+                    if self.num_logs <= 0:
+                        return await ctx.send('Invalid number of logs for the `--num` flag.')
+                    i += 2
+                except ValueError:
+                    return await ctx.send('Invalid number of logs for the `--num` flag.')
+            elif argv[i] == '--aa':
+                self.show_aa = True
+                i += 1
+            else:
+                title.append(argv[i])
+                i += 1
         mode, lang = await self.set_logs_order(ctx, type)
         
         logs_length = 0
@@ -107,22 +127,45 @@ class Arcdps:
                     await ctx.send('ERROR :robot: : an error has occurred with {}. `Error Code: EMPYREAL`'.format(b))
                     error_logs += 1
                     continue
+                elif len(all_files) < self.num_logs:
+                    await ctx.send('ERROR :robot: : an error has occurred with {}. `Error Code: DRAGONITE`'.format(b))
+                    error_logs += 1
+                    continue
                 all_files.sort(key=lambda x: x[1], reverse=True)
+                if mode == 'dps.report' and self.num_logs > 0:
+                    latest_files = [x[0] for x in all_files[:self.num_logs]]
+                    latest_files.reverse()
                 latest_file = all_files[0][0]
                 self.logs[type][e][b]['filename'] = os.path.basename(latest_file)
                 
                 if mode == 'dps.report' or mode == 'Both':
                     print('Uploading {}: dps.report...'.format(b))
                     dps_endpoint = 'https://dps.report/uploadContent?json=1&generator=ei'
-                    with open(latest_file, 'rb') as file:
-                        files = {'file': file}
-                        res = requests.post(dps_endpoint, files=files)
-                        if not res.status_code == 200:
-                            await ctx.send('ERROR :robot: : an error has occurred with {}. `Error Code: DHUUMFIRE`'.format(b))
-                            error_logs += 1
-                            continue
-                        else:
-                            self.logs[type][e][b]['dps.report'] = res.json()['permalink']
+                    if self.show_aa:
+                        dps_endpoint += '&rotation_weap1=1'
+                        
+                    if mode == 'dps.report' and self.num_logs > 0:
+                        self.logs[type][e][b]['dps.report'] = []
+                        for count, lf in enumerate(latest_files):
+                            with open(lf, 'rb') as file:
+                                files = {'file': file}
+                                res = requests.post(dps_endpoint, files=files)
+                                if not res.status_code == 200:
+                                    await ctx.send('ERROR :robot: : an error has occurred with {0}({1}). `Error Code: DHUUMFIRE`'.format(b, count))
+                                    error_logs += 1
+                                    continue
+                                else:
+                                    self.logs[type][e][b]['dps.report'].append(res.json()['permalink'])
+                    else:
+                        with open(latest_file, 'rb') as file:
+                            files = {'file': file}
+                            res = requests.post(dps_endpoint, files=files)
+                            if not res.status_code == 200:
+                                await ctx.send('ERROR :robot: : an error has occurred with {}. `Error Code: DHUUMFIRE`'.format(b))
+                                error_logs += 1
+                                continue
+                            else:
+                                self.logs[type][e][b]['dps.report'] = res.json()['permalink']
                     print('Uploaded {}: dps.report'.format(b))
 
                 if mode == 'GW2Raidar' or mode == 'Both':
@@ -155,7 +198,7 @@ class Arcdps:
             if mode == 'GW2Raidar' or mode == 'Both':
                 counter = 0
                 await self.update_raidar(ctx, type, counter, logs_length)
-            await self.print_logs(ctx, type, ' '.join(argv), mode)
+            await self.print_logs(ctx, type, ' '.join(title), mode)
         
     async def set_logs_order(self, ctx, type: str):
         temp_logs = copy.deepcopy(self.logs)
@@ -357,11 +400,19 @@ class Arcdps:
                         break
 
                 if mode == 'dps.report':
-                    if not count == no_link:
-                        out += '  |  '
-                    if not boss_e is None:
-                        out += '{}  '.format(boss_e)
-                    out += '[**{0}**]({1})'.format(boss, self.logs[type][e][b]['dps.report'])
+                    if self.num_logs > 0:
+                        if not boss_e is None:
+                            out += '{}  '.format(boss_e)
+                        out += '**{}**  '.format(boss)
+                        for count, log in enumerate(self.logs[type][e][b]['dps.report'], 1):
+                            out += '|  [Log {0}]({1})  '.format(count, log)
+                        out += '\n'
+                    else:
+                        if not count == no_link:
+                            out += '  |  '
+                        if not boss_e is None:
+                            out += '{}  '.format(boss_e)
+                        out += '[**{0}**]({1})'.format(boss, self.logs[type][e][b]['dps.report'])
                 elif mode == 'GW2Raidar':
                     if not count == no_link and not self.show_time:
                         out += '  |  '
