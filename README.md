@@ -36,16 +36,14 @@ The default prefix is `$`.
       </tr>
     </thead>
     <tr>
-      <td><b>login</b></td>
-      <td>Assigns the bot to you (For users who don't have a GW2Raidar account).</td>
+      <td><b>login (username) (password)</b></td>
+      <td>Assigns the bot to you.<br />(Optional) Log into GW2Raidar (Mandatory for GW2Raidar and Both modes)</td>
     </tr>
     <tr>
-      <td><b>login [username] [password]</b></td>
-      <td>Logs into GW2Raidar and assigns the bot to you.</td>
     </tr>
     <tr>
-      <td><b>upload [raids/fractals] [title]<br />(--time)</b></td>
-      <td>Uploads raid or fractal logs and posts them with the specified title.<br />(Optional) Include the killtime for each boss in the log post (Only for GW2Raidar and Both modes).</td>
+      <td><b>upload [raids/fractals] (title)<br />(--time)<br />(--num x)<br />(--aa)</b></td>
+      <td>Uploads raid or fractal logs.<br />(Optional) Add a title to the post<br />(Optional) Include the killtime for each boss in the log post (Only for GW2Raidar and Both modes)<br />(Optional) Upload the x most recent logs of each selected boss (Only for dps.report mode)<br />(Optional) Enable auto attack chain in rotation (Only dps.report mode)</td>
     </tr>
     <tr>
       <td><b>shutdown</b></td>
