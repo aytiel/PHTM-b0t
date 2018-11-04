@@ -61,3 +61,7 @@ v1.1.2 - 10/31/18
     - Ex. $upload raids --num 3 will upload the 3 most recent logs.
 * Added the option to enable AAs in your rotation.
     - Use the flag --aa when uploading.
+------------------------------
+v1.1.2f - 11/4/18
+------------------------------
+* Added French support.

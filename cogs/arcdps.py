@@ -53,10 +53,16 @@ class Arcdps:
         key['user']['name'] = ctx.author.name
         await self.bot.update_status(key['user']['name'])
         
-        root = Tk()
-        root.withdraw()
-        key['user']['filepath'] = filedialog.askdirectory(initialdir = "/", title = "Select your arcdps.cbtlogs folder")
-        self.bot.owner_filepath = key['user']['filepath']
+        while len(self.bot.owner_filepath) == 0:
+            out = 'Please use the file explorer to select your arcdps.cbtlogs folder.'
+            try:
+                await ctx.author.send(out)
+            except discord.Forbidden:
+                await ctx.send(out)
+            root = Tk()
+            root.withdraw()
+            key['user']['filepath'] = filedialog.askdirectory(initialdir = "/", title = "Select your arcdps.cbtlogs folder")
+            self.bot.owner_filepath = key['user']['filepath']
         
         with open('cogs/data/logs.json', 'w') as key_file:
             json.dump(key, key_file, indent=4)
@@ -202,7 +208,7 @@ class Arcdps:
         
     async def set_logs_order(self, ctx, type: str):
         temp_logs = copy.deepcopy(self.logs)
-        out = 'Type of the `number` of your language.\n```md\n1. English\n2. German\n```'
+        out = 'Type of the `number` of your language.\n```md\n1. English\n2. German\n3. French\n```'
         try:
             message = await ctx.author.send(out)
         except discord.Forbidden:
@@ -218,7 +224,8 @@ class Arcdps:
         def switch(x):
             return {
                 '1': (0, 'English'),
-                '2': (1, 'German')
+                '2': (1, 'German'),
+                '3': (2, 'French')
             }.get(x, (0, 'English'))
             
         lang = switch(lang_num)

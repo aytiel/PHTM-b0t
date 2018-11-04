@@ -10,7 +10,8 @@
             "Vale Guardian": {
                 "name": [
                     "Vale Guardian",
-                    "Tal-W\u00e4chter"
+                    "Tal-W\u00e4chter",
+                    "Gardien de la Vall\u00e9e"
                 ],
                 "dps.report": "about:blank",
                 "GW2Raidar": {
@@ -21,7 +22,8 @@
             "Gorseval": {
                 "name": [
                     "Gorseval the Multifarious",
-                    "Gorseval der Facettenreiche"
+                    "Gorseval der Facettenreiche",
+                    "Gorseval le Disparate"
                 ],
                 "dps.report": "about:blank",
                 "GW2Raidar": {
@@ -32,7 +34,8 @@
             "Sabetha": {
                 "name": [
                     "Sabetha the Saboteur",
-                    "Sabetha die Saboteurin"
+                    "Sabetha die Saboteurin",
+                    "Sabetha la saboteuse"
                 ],
                 "dps.report": "about:blank",
                 "GW2Raidar": {
@@ -45,7 +48,8 @@
             "Slothasor": {
                 "name": [
                     "Slothasor",
-                    "Faultierion"
+                    "Faultierion",
+                    "Paressor"
                 ],
                 "dps.report": "about:blank",
                 "GW2Raidar": {
@@ -55,6 +59,7 @@
             },
             "Matthias": {
                 "name": [
+                    "Matthias Gabrel",
                     "Matthias Gabrel",
                     "Matthias Gabrel"
                 ],
@@ -69,7 +74,8 @@
             "Keep Construct": {
                 "name": [
                     "Keep Construct",
-                    "Festenkonstrukt"
+                    "Festenkonstrukt",
+                    "Titan du fort"
                 ],
                 "dps.report": "about:blank",
                 "GW2Raidar": {
@@ -79,6 +85,7 @@
             },
             "Xera": {
                 "name": [
+                    "Xera",
                     "Xera",
                     "Xera"
                 ],
@@ -93,7 +100,8 @@
             "Cairn": {
                 "name": [
                     "Cairn the Indomitable",
-                    "Cairn der Unbeugsame"
+                    "Cairn der Unbeugsame",
+                    "Cairn l'Indomptable"
                 ],
                 "dps.report": "about:blank",
                 "GW2Raidar": {
@@ -104,7 +112,8 @@
             "Mursaat Overseer": {
                 "name": [
                     "Mursaat Overseer",
-                    "Mursaat-Aufseher"
+                    "Mursaat-Aufseher",
+                    "Surveillant mursaat"
                 ],
                 "dps.report": "about:blank",
                 "GW2Raidar": {
@@ -114,6 +123,7 @@
             },
             "Samarog": {
                 "name": [
+                    "Samarog",
                     "Samarog",
                     "Samarog"
                 ],
@@ -125,6 +135,7 @@
             },
             "Deimos": {
                 "name": [
+                    "Deimos",
                     "Deimos",
                     "Deimos"
                 ],
@@ -139,7 +150,8 @@
             "Soulless Horror": {
                 "name": [
                     "Soulless Horror",
-                    "Seelenloser Schrecken"
+                    "Seelenloser Schrecken",
+                    "Horreur sans \u00e2me"
                 ],
                 "dps.report": "about:blank",
                 "GW2Raidar": {
@@ -149,6 +161,7 @@
             },
             "Dhuum": {
                 "name": [
+                    "Dhuum",
                     "Dhuum",
                     "Dhuum"
                 ],
@@ -163,7 +176,8 @@
             "Conjured Amalgamate": {
                 "name": [
                     "Conjured Amalgamate",
-                    "Beschworene Verschmelzung"
+                    "Beschworene Verschmelzung",
+                    "Amalgame conjur\u00e9"
                 ],
                 "dps.report": "about:blank",
                 "GW2Raidar": {
@@ -173,6 +187,7 @@
             },
             "Largos Twins": {
                 "name": [
+                    "Nikare",
                     "Nikare",
                     "Nikare"
                 ],
@@ -184,6 +199,7 @@
             },
             "Qadim": {
                 "name": [
+                    "Qadim",
                     "Qadim",
                     "Qadim"
                 ],
@@ -200,7 +216,8 @@
             "MAMA": {
                 "name": [
                     "MAMA",
-                    "MAMA"
+                    "MAMA",
+                    "AMAM"
                 ],
                 "dps.report": "about:blank",
                 "GW2Raidar": {
@@ -211,7 +228,8 @@
             "Siax": {
                 "name": [
                     "Nightmare Oratuss",
-                    "Albtraum-Oratuss"
+                    "Albtraum-Oratuss",
+                    "Oratuss des Cauchemars"
                 ],
                 "dps.report": "about:blank",
                 "GW2Raidar": {
@@ -222,7 +240,8 @@
             "Ensolyss": {
                 "name": [
                     "Ensolyss of the Endless Torment",
-                    "Ensolyss der endlosen Pein"
+                    "Ensolyss der endlosen Pein",
+                    "Ensolyss du Tourment \u00e9ternel"
                 ],
                 "dps.report": "about:blank",
                 "GW2Raidar": {
@@ -235,7 +254,8 @@
             "Skorvald": {
                 "name": [
                     "Skorvald the Shattered",
-                    "Skorvald der Zerschmetterte"
+                    "Skorvald der Zerschmetterte",
+                    "Skorvald le bris\u00e9"
                 ],
                 "dps.report": "about:blank",
                 "GW2Raidar": {
@@ -245,6 +265,7 @@
             },
             "Artsariiv": {
                 "name": [
+                    "Artsariiv",
                     "Artsariiv",
                     "Artsariiv"
                 ],
@@ -256,6 +277,7 @@
             },
             "Arkk": {
                 "name": [
+                    "Arkk",
                     "Arkk",
                     "Arkk"
                 ],
