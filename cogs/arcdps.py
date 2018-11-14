@@ -6,11 +6,13 @@ import time
 import glob
 import os
 import copy
+import re
 from tkinter import filedialog
 from tkinter import *
 
 import discord
 from discord.ext import commands
+from bs4 import BeautifulSoup
 import settings.config
 
 class Arcdps:
@@ -126,9 +128,11 @@ class Arcdps:
                 all_files = []
                 for root, dir, files in os.walk(path):
                     for file in files:
-                        file_path = os.path.join(root, file)
-                        modified_date = os.path.getmtime(file_path)
-                        all_files.append((file_path, modified_date))
+                        file_name, file_ext = os.path.splitext(file)
+                        if file_ext == '.evtc' or os.path.splitext(file_name)[1] == '.evtc':
+                            file_path = os.path.join(root, file)
+                            modified_date = os.path.getmtime(file_path)
+                            all_files.append((file_path, modified_date))
                 if len(all_files) == 0:
                     await ctx.send('ERROR :robot: : an error has occurred with {}. `Error Code: EMPYREAL`'.format(b))
                     error_logs += 1
@@ -152,26 +156,59 @@ class Arcdps:
                         
                     if mode == 'dps.report' and self.num_logs > 0:
                         self.logs[type][e][b]['dps.report'] = []
+                        if self.show_time:
+                            self.logs[type][e][b]['duration'] = []
                         for count, lf in enumerate(latest_files):
                             with open(lf, 'rb') as file:
                                 files = {'file': file}
                                 res = requests.post(dps_endpoint, files=files)
                                 if not res.status_code == 200:
-                                    await ctx.send('ERROR :robot: : an error has occurred with {0}({1}). `Error Code: DHUUMFIRE`'.format(b, count))
+                                    await ctx.send('ERROR :robot: : an error has occurred with {0}({1}). `Error Code: LYSSA`'.format(b, count))
                                     error_logs += 1
                                     continue
                                 else:
-                                    self.logs[type][e][b]['dps.report'].append(res.json()['permalink'])
+                                    log = res.json()['permalink']
+                                    self.logs[type][e][b]['dps.report'].append(log)
+                                    if self.show_time:
+                                        page = requests.get(log)
+                                        if not page.status_code == 200:
+                                            await ctx.send('ERROR :robot: : an error has occurred with {0}({1}). `Error Code: GRENTH`'.format(b, count))
+                                            self.logs[type][e][b]['duration'].append('ERROR')
+                                        else:
+                                            soup = BeautifulSoup(page.content, 'html.parser')
+                                            block = soup.select('blockquote div.d-flex div p')
+                                            if len(block) == 0:
+                                                await ctx.send('ERROR :robot: : an error has occurred with {0}({1}). `Error Code: DWAYNA`'.format(b, count))
+                                                self.logs[type][e][b]['duration'].append('ERROR')
+                                            else:
+                                                duration = block[-1].get_text()
+                                                time = re.split('[-:]', duration)
+                                                duration = time[1].strip()
+                                                self.logs[type][e][b]['duration'].append(duration)
                     else:
                         with open(latest_file, 'rb') as file:
                             files = {'file': file}
                             res = requests.post(dps_endpoint, files=files)
                             if not res.status_code == 200:
-                                await ctx.send('ERROR :robot: : an error has occurred with {}. `Error Code: DHUUMFIRE`'.format(b))
+                                await ctx.send('ERROR :robot: : an error has occurred with {}. `Error Code: LYSSA`'.format(b))
                                 error_logs += 1
                                 continue
                             else:
                                 self.logs[type][e][b]['dps.report'] = res.json()['permalink']
+                                if self.show_time:
+                                    page = requests.get(self.logs[type][e][b]['dps.report'])
+                                    if not page.status_code == 200:
+                                        await ctx.send('ERROR :robot: : an error has occurred with {}. `Error Code: GRENTH`'.format(b))
+                                    else:
+                                        soup = BeautifulSoup(page.content, 'html.parser')
+                                        block = soup.select('blockquote div.d-flex div p')
+                                        if len(block) == 0:
+                                            await ctx.send('ERROR :robot: : an error has occurred with {}. `Error Code: DWAYNA`'.format(b))
+                                        else:
+                                            duration = block[-1].get_text()
+                                            time = re.split('[-:]', duration)
+                                            duration = time[1].strip()
+                                            self.logs[type][e][b]['duration'] = duration
                     print('Uploaded {}: dps.report'.format(b))
 
                 if mode == 'GW2Raidar' or mode == 'Both':
@@ -203,7 +240,7 @@ class Arcdps:
             print('------------------------------')
             if mode == 'GW2Raidar' or mode == 'Both':
                 counter = 0
-                await self.update_raidar(ctx, type, counter, logs_length)
+                await self.update_raidar(ctx, type, counter, logs_length, mode)
             await self.print_logs(ctx, type, ' '.join(title), mode)
         
     async def set_logs_order(self, ctx, type: str):
@@ -342,7 +379,7 @@ class Arcdps:
         
         return (mode, lang[0])
         
-    async def update_raidar(self, ctx, type: str, counter: int, length: int):
+    async def update_raidar(self, ctx, type: str, counter: int, length: int, mode: str):
         if length == 0:
             return
    
@@ -361,7 +398,7 @@ class Arcdps:
                         if self.logs[type][e][b]['filename'] in encounter['filename']:
                             raidar_link = 'https://www.gw2raidar.com/encounter/{}'.format(encounter['url_id'])
                             self.logs[type][e][b]['GW2Raidar']['link'] = raidar_link
-                            if self.show_time:
+                            if self.show_time and mode == 'GW2Raidar':
                                 raidar_json = '{}.json'.format(raidar_link)
                                 json_res = requests.get(raidar_json)
                                 if not json_res.status_code == 200:
@@ -412,27 +449,34 @@ class Arcdps:
                             out += '{}  '.format(boss_e)
                         out += '**{}**  '.format(boss)
                         for count, log in enumerate(self.logs[type][e][b]['dps.report'], 1):
-                            out += '|  [Log {0}]({1})  '.format(count, log)
+                            if self.show_time and 'duration' in self.logs[type][e][b] and not self.logs[type][e][b]['duration'][count-1] == 'ERROR':
+                                out += '|  [{0}]({1})  '.format(self.logs[type][e][b]['duration'][count-1], log)
+                            else:
+                                out += '|  [Log {0}]({1})  '.format(count, log)
                         out += '\n'
                     else:
-                        if not count == no_link:
+                        if not count == no_link and not self.show_time:
                             out += '  |  '
                         if not boss_e is None:
                             out += '{}  '.format(boss_e)
                         out += '[**{0}**]({1})'.format(boss, self.logs[type][e][b]['dps.report'])
+                        if self.show_time and not 'duration' in self.logs[type][e][b]:
+                            out += '\n'
                 elif mode == 'GW2Raidar':
                     if not count == no_link and not self.show_time:
                         out += '  |  '
                     if not boss_e is None:
                         out += '{}  '.format(boss_e)
                     out += '[**{0}**]({1})'.format(boss, self.logs[type][e][b]['GW2Raidar']['link'])
+                    if self.show_time and not 'duration' in self.logs[type][e][b]:
+                        out += '\n'
                 elif mode == 'Both':
                     if not boss_e is None:
                         out += '{}  '.format(boss_e)
                     out += '**{0}**  |  [dps.report]({1})  ·  [GW2Raidar]({2})'.format(boss, self.logs[type][e][b]['dps.report'], self.logs[type][e][b]['GW2Raidar']['link'])
-                    if not self.show_time or self.logs[type][e][b]['GW2Raidar']['link'] == 'about:blank':
+                    if not self.show_time or self.logs[type][e][b]['GW2Raidar']['link'] == 'about:blank' and not 'duration' in self.logs[type][e][b]:
                         out += '\n'
-                if self.show_time and 'duration' in self.logs[type][e][b]:
+                if self.show_time and 'duration' in self.logs[type][e][b] and not isinstance(self.logs[type][e][b]['duration'], list):
                     out += '  |  **Time**: {}\n'.format(self.logs[type][e][b]['duration'])
                 
             if no_link == len(self.logs[type][e]):
