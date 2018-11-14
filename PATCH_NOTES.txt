@@ -72,4 +72,6 @@ v1.1.3 - 11/13/18
     - To do this, type "--time" after your upload command.
     - Uploading in Both mode will post the dps.report time.
     - Please run the install.sh script. The bot will not work until you do.
+* Added ERROR_CODES.txt to the bot folder for error code reference.
+* Shutdown now also deletes all error and misc messages.
 * Fixed some miscellaneous bugs.

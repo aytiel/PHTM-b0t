@@ -45,7 +45,9 @@ class Arcdps:
             cred = {'username': username, 'password': password}
             res = requests.post(raidar_endpoint, data=cred)
             if not res.status_code == 200:
-                return await ctx.send('ERROR :robot: : GW2Raidar login failed.')
+                target = await ctx.send('ERROR :robot: : GW2Raidar login failed.')
+                self.bot.clear_list.append(target)
+                return
             else:
                 token = res.json()['token']
                 key['user']['key'] = 'Token {}'.format(token)
@@ -60,7 +62,8 @@ class Arcdps:
             try:
                 await ctx.author.send(out)
             except discord.Forbidden:
-                await ctx.send(out)
+                target = await ctx.send(out)
+                self.bot.clear_list.append(target)
             root = Tk()
             root.withdraw()
             key['user']['filepath'] = filedialog.askdirectory(initialdir = "/", title = "Select your arcdps.cbtlogs folder")
@@ -68,7 +71,8 @@ class Arcdps:
         
         with open('cogs/data/logs.json', 'w') as key_file:
             json.dump(key, key_file, indent=4)
-        await ctx.send('Login successful ✅ : Ready to upload logs.')
+        target = await ctx.send('Login successful ✅ : Ready to upload logs.')
+        self.bot.clear_list.append(target)
         
     @commands.command()
     async def upload(self, ctx, type: str, *argv):
@@ -83,11 +87,17 @@ class Arcdps:
             await ctx.send('I do not have permissions to delete messages. Please enable this in the future.')
         
         if self.bot.owner_id == 0 or not self.bot.owner_id == ctx.author.id:
-            return await ctx.send('You do not have permission to use the bot currently. Only the current user may use the bot.')
+            target = await ctx.send('You do not have permission to use the bot currently. Only the current user may use the bot.')
+            self.bot.clear_list.append(target)
+            return
         if len(self.bot.owner_filepath) == 0:
-            return await ctx.send('No file path found. Please log in and select your arcdps.cbtlogs folder.')
+            target = await ctx.send('No file path found. Please log in and select your arcdps.cbtlogs folder.')
+            self.bot.clear_list.append(target)
+            return
         if not type == 'raids' and not type == 'fractals':
-            return await ctx.send('Please indicate whether you want to upload `raids` or `fractals` logs.')
+            target = await ctx.send('Please indicate whether you want to upload `raids` or `fractals` logs.')
+            self.bot.clear_list.append(target)
+            return 
         
         self.__init__(self.bot)
         i = 0
@@ -98,14 +108,20 @@ class Arcdps:
                 i += 1
             elif argv[i] == '--num':
                 if i == len(argv)-1:
-                    return await ctx.send('Please enter the number of logs for the `--num` flag.')
+                    target = await ctx.send('Please enter the number of logs for the `--num` flag.')
+                    self.bot.clear_list.append(target)
+                    return
                 try:
                     self.num_logs = int(argv[i+1])
                     if self.num_logs <= 0:
-                        return await ctx.send('Invalid number of logs for the `--num` flag.')
+                        target = await ctx.send('Invalid number of logs for the `--num` flag.')
+                        self.bot.clear_list.append(target)
+                        return
                     i += 2
                 except ValueError:
-                    return await ctx.send('Invalid number of logs for the `--num` flag.')
+                    target = await ctx.send('Invalid number of logs for the `--num` flag.')
+                    self.bot.clear_list.append(target)
+                    return
             elif argv[i] == '--aa':
                 self.show_aa = True
                 i += 1
@@ -122,7 +138,8 @@ class Arcdps:
                 logs_length += 1
                 path = '{0}/{1}/'.format(self.bot.owner_filepath, self.logs[type][e][b]['name'][lang])
                 if not os.path.exists(path):
-                    await ctx.send('ERROR :robot: : an error has occurred with {}. `Error Code: BLOODSTONE`'.format(b))
+                    target = await ctx.send('ERROR :robot: : an error has occurred with {}. `Error Code: BLOODSTONE`'.format(b))
+                    self.bot.clear_list.append(target)
                     error_logs += 1
                     continue
                 all_files = []
@@ -134,11 +151,13 @@ class Arcdps:
                             modified_date = os.path.getmtime(file_path)
                             all_files.append((file_path, modified_date))
                 if len(all_files) == 0:
-                    await ctx.send('ERROR :robot: : an error has occurred with {}. `Error Code: EMPYREAL`'.format(b))
+                    target = await ctx.send('ERROR :robot: : an error has occurred with {}. `Error Code: EMPYREAL`'.format(b))
+                    self.bot.clear_list.append(target)
                     error_logs += 1
                     continue
                 elif len(all_files) < self.num_logs:
-                    await ctx.send('ERROR :robot: : an error has occurred with {}. `Error Code: DRAGONITE`'.format(b))
+                    target = await ctx.send('ERROR :robot: : an error has occurred with {}. `Error Code: DRAGONITE`'.format(b))
+                    self.bot.clear_list.append(target)
                     error_logs += 1
                     continue
                 all_files.sort(key=lambda x: x[1], reverse=True)
@@ -163,7 +182,8 @@ class Arcdps:
                                 files = {'file': file}
                                 res = requests.post(dps_endpoint, files=files)
                                 if not res.status_code == 200:
-                                    await ctx.send('ERROR :robot: : an error has occurred with {0}({1}). `Error Code: LYSSA`'.format(b, count))
+                                    target = await ctx.send('ERROR :robot: : an error has occurred with {0}({1}). `Error Code: LYSSA`'.format(b, count))
+                                    self.bot.clear_list.append(target)
                                     error_logs += 1
                                     continue
                                 else:
@@ -172,13 +192,15 @@ class Arcdps:
                                     if self.show_time:
                                         page = requests.get(log)
                                         if not page.status_code == 200:
-                                            await ctx.send('ERROR :robot: : an error has occurred with {0}({1}). `Error Code: GRENTH`'.format(b, count))
+                                            target = await ctx.send('ERROR :robot: : an error has occurred with {0}({1}). `Error Code: GRENTH`'.format(b, count))
+                                            self.bot.clear_list.append(target)
                                             self.logs[type][e][b]['duration'].append('ERROR')
                                         else:
                                             soup = BeautifulSoup(page.content, 'html.parser')
                                             block = soup.select('blockquote div.d-flex div p')
                                             if len(block) == 0:
-                                                await ctx.send('ERROR :robot: : an error has occurred with {0}({1}). `Error Code: DWAYNA`'.format(b, count))
+                                                target = await ctx.send('ERROR :robot: : an error has occurred with {0}({1}). `Error Code: DWAYNA`'.format(b, count))
+                                                self.bot.clear_list.append(target)
                                                 self.logs[type][e][b]['duration'].append('ERROR')
                                             else:
                                                 duration = block[-1].get_text()
@@ -190,7 +212,8 @@ class Arcdps:
                             files = {'file': file}
                             res = requests.post(dps_endpoint, files=files)
                             if not res.status_code == 200:
-                                await ctx.send('ERROR :robot: : an error has occurred with {}. `Error Code: LYSSA`'.format(b))
+                                target = await ctx.send('ERROR :robot: : an error has occurred with {}. `Error Code: LYSSA`'.format(b))
+                                self.bot.clear_list.append(target)
                                 error_logs += 1
                                 continue
                             else:
@@ -198,12 +221,14 @@ class Arcdps:
                                 if self.show_time:
                                     page = requests.get(self.logs[type][e][b]['dps.report'])
                                     if not page.status_code == 200:
-                                        await ctx.send('ERROR :robot: : an error has occurred with {}. `Error Code: GRENTH`'.format(b))
+                                        target = await ctx.send('ERROR :robot: : an error has occurred with {}. `Error Code: GRENTH`'.format(b))
+                                        self.bot.clear_list.append(target)
                                     else:
                                         soup = BeautifulSoup(page.content, 'html.parser')
                                         block = soup.select('blockquote div.d-flex div p')
                                         if len(block) == 0:
-                                            await ctx.send('ERROR :robot: : an error has occurred with {}. `Error Code: DWAYNA`'.format(b))
+                                            target = await ctx.send('ERROR :robot: : an error has occurred with {}. `Error Code: DWAYNA`'.format(b))
+                                            self.bot.clear_list.append(target)
                                         else:
                                             duration = block[-1].get_text()
                                             time = re.split('[-:]', duration)
@@ -214,22 +239,27 @@ class Arcdps:
                 if mode == 'GW2Raidar' or mode == 'Both':
                     print('Uploading {}: GW2Raidar...'.format(b))
                     if len(self.bot.owner_key) == 0:
-                        return await ctx.send('ERROR :robot: : Key not found. Please log into GW2Raidar before uploading.')
+                        target = await ctx.send('ERROR :robot: : Key not found. Please log into GW2Raidar before uploading.')
+                        self.bot.clear_list.append(target)
+                        return
                     raidar_endpoint = 'https://www.gw2raidar.com/api/v2/encounters/new'
                     with open(latest_file, 'rb') as file:
                         files = {'file': file}
                         res = requests.put(raidar_endpoint, headers={'Authorization': self.bot.owner_key}, files=files)
                         if not res.status_code == 200:
                             if res.status_code == 401:
-                                await ctx.send('ERROR :robot: : an error has occurred with {}. `Error Code: RYTLOCK`'.format(b))
+                                target = await ctx.send('ERROR :robot: : an error has occurred with {}. `Error Code: RYTLOCK`'.format(b))
+                                self.bot.clear_list.append(target)
                                 error_logs += 1
                                 continue
                             elif res.status_code == 400:
-                                await ctx.send('ERROR :robot: : an error has occurred with {}. `Error Code: ZOJJA`'.format(b))
+                                target = await ctx.send('ERROR :robot: : an error has occurred with {}. `Error Code: ZOJJA`'.format(b))
+                                self.bot.clear_list.append(target)
                                 error_logs += 1
                                 continue
                             else:
-                                await ctx.send('ERROR :robot: : an error has occurred with {}. `Error Code: SNAFF`'.format(b))
+                                target = await ctx.send('ERROR :robot: : an error has occurred with {}. `Error Code: SNAFF`'.format(b))
+                                self.bot.clear_list.append(target)
                                 error_logs += 1
                                 continue
                         else:
@@ -249,7 +279,9 @@ class Arcdps:
         try:
             message = await ctx.author.send(out)
         except discord.Forbidden:
-            return await ctx.send('I do not have permission to DM you. Please enable this in the future.')
+            target = await ctx.send('I do not have permission to DM you. Please enable this in the future.')
+            self.bot.clear_list.append(target)
+            return
         
         def m_check(m):
             return m.author == ctx.author and m.channel == message.channel
@@ -384,11 +416,15 @@ class Arcdps:
             return
    
         if len(self.bot.owner_key) == 0:
-            return await ctx.send('ERROR :robot: : Key not found. Please log into GW2Raidar before uploading.')
+            target = await ctx.send('ERROR :robot: : Key not found. Please log into GW2Raidar before uploading.')
+            self.bot.clear_list.append(target)
+            return
         raidar_endpoint = 'https://www.gw2raidar.com/api/v2/encounters?limit={}'.format(str(length))
         res = requests.get(raidar_endpoint, headers={'Authorization': self.bot.owner_key})
         if not res.status_code == 200:
-            return await ctx.send('ERROR :robot: : an error has occurred. `Error Code: CAITHE`')
+            target = await ctx.send('ERROR :robot: : an error has occurred. `Error Code: CAITHE`')
+            self.bot.clear_list.append(target)
+            return
         else:   
             for e in self.logs_order:
                 for b in self.logs_order[e]:
@@ -402,7 +438,8 @@ class Arcdps:
                                 raidar_json = '{}.json'.format(raidar_link)
                                 json_res = requests.get(raidar_json)
                                 if not json_res.status_code == 200:
-                                    await ctx.send('ERROR :robot: : an error has occurred with {}. `Error Code: LOGAN`'.format(b))
+                                    target = await ctx.send('ERROR :robot: : an error has occurred with {}. `Error Code: LOGAN`'.format(b))
+                                    self.bot.clear_list.append(target)
                                 else:
                                     seconds = json_res.json()['encounter']['phases']['All']['duration']
                                     m, s = divmod(seconds, 60)
@@ -412,7 +449,9 @@ class Arcdps:
                     if not self.logs[type][e][b]['GW2Raidar']['link'] == 'about:blank':
                         continue
                     elif counter == 6:
-                        return await ctx.send('ERROR :robot: : The logs were unsuccessfully analyzed within the time frame.')
+                        target = await ctx.send('ERROR :robot: : The logs were unsuccessfully analyzed within the time frame.')
+                        self.bot.clear_list.append(target)
+                        return
                     else:
                         print('The logs have not been analyzed. Retrying in 2.5 min: {}...'.format(str(counter)))
                         time.sleep(150)

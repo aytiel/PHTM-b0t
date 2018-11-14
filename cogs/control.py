@@ -18,6 +18,8 @@ class Control:
             has_perms = ctx.channel.permissions_for(guild.me).manage_messages
         if has_perms:
             await ctx.message.delete()
+            for message in self.bot.clear_list:
+                await message.delete()
         else:
             await ctx.send('I do not have permissions to delete messages. Please enable this in the future.')
             

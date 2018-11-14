@@ -1,0 +1,47 @@
+------------------------------------
+GW2 LOG BOT ERROR CODE REFERENCE
+------------------------------------
+The error codes are categorized based on the functionality that they serve,
+and the categories are themed based on varying aspects within Guild Wars 2.
+
+Please refer to this reference guide if you encounter an error code and wish
+to know the details of the error.
+------------------------------------
+CATEGORIES
+------------------------------------
+FILE SELECTION (ASCENDED MATERIALS)
+------------------------------------
+* BLOODSTONE - The specified boss folder could not be found within your
+arcdps.cbtlogs logs folder.
+
+* EMPYREAL - No .evtc or .evtc.zip files could be found within the specified
+boss folder.
+
+* DRAGONITE - The number of .evtc or .evtc.zip files within the specified
+boss folder is less than the number that you would like to upload (only applicable
+to the --num flag).
+------------------------------------
+DPS.REPORT (HUMAN GODS)
+------------------------------------
+* LYSSA - An error has occurred while attempting to upload to dps.report.
+
+* GRENTH - An error has occurred while attempting to open the log to retrieve
+the killtime (only applicable to the --time flag).
+
+* DWAYNA - The killtime failed to be located within the log (only applicable to
+the --time flag).
+------------------------------------
+GW2RAIDAR (DESTINY'S EDGE)
+------------------------------------
+* RYTLOCK - The GW2Raidar username and password stored on the bot is invalid.
+
+* ZOJJA - The file uploaded to GW2Raidar either is invalid or encountered an
+error.
+
+* SNAFF - An error has occurred while attempting to upload to GW2Raidar.
+
+* CAITHE - An error has occurred while attempting to access the encounters page
+to retrieve the logs.
+
+* LOGAN - An error has occurred while attempting to open the log to retrieve
+the killtime (only applicable to the --time flag).

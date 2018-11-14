@@ -17,6 +17,7 @@ class PHTMb0t(commands.Bot):
         
         self.status_format = 'Current User: {}'
         self.emoji_list = []
+        self.clear_list = []
         with open('cogs/data/logs.json', 'r') as user_file:
             user = json.load(user_file)
         self.owner_name = user['user']['name']
