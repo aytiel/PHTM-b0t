@@ -42,8 +42,8 @@ The default prefix is `$`.
     <tr>
     </tr>
     <tr>
-      <td><b>upload [raids/fractals] (title)<br />(--time)<br />(--num x)<br />(--aa)</b></td>
-      <td>Uploads raid or fractal logs.<br />(Optional) Add a title to the post<br />(Optional) Include the killtime for each boss in the log post (Only for GW2Raidar and Both modes)<br />(Optional) Upload the x most recent logs of each selected boss (Only for dps.report mode)<br />(Optional) Enable auto attack chain in rotation (Only dps.report mode)</td>
+      <td><b>upload [raids/fractals]<br />(title)<br />(--time)<br />(--num x)<br />(--aa)</b></td>
+      <td>Uploads raid or fractal logs.<br />(Optional) Add a title to the post<br />(Optional) Include the killtime for each boss in the log post<br />(Optional) Upload the x most recent logs of each selected boss (Only dps.report mode)<br />(Optional) Enable auto attack chain in rotation (Only dps.report mode)</td>
     </tr>
     <tr>
       <td><b>shutdown</b></td>
