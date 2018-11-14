@@ -456,7 +456,7 @@ class Arcdps:
                         print('The logs have not been analyzed. Retrying in 2.5 min: {}...'.format(str(counter)))
                         time.sleep(150)
                         counter += 1
-                        return await self.update_raidar(ctx, type, counter, length)
+                        return await self.update_raidar(ctx, type, counter, length, mode)
                     
     async def print_logs(self, ctx, type: str, name: str, mode: str):
         if len(name) > 0:
