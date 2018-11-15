@@ -19,7 +19,11 @@ class Control:
         if has_perms:
             await ctx.message.delete()
             for message in self.bot.clear_list:
-                await message.delete()
+                try:
+                    await message.delete()
+                except discord.NotFound:
+                    continue
+            self.bot.clear_list.clear()
         else:
             await ctx.send('I do not have permissions to delete messages. Please enable this in the future.')
             
