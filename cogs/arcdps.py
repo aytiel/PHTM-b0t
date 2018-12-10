@@ -13,6 +13,7 @@ from tkinter import *
 import discord
 from discord.ext import commands
 from bs4 import BeautifulSoup
+from selenium import webdriver
 import settings.config
 
 class Arcdps:
@@ -173,40 +174,67 @@ class Arcdps:
                     if self.show_aa:
                         dps_endpoint += '&rotation_weap1=1'
                         
+                    async def get_time(browser, count):
+                        page = browser.execute_script("return document.body.innerHTML")
+                        soup = BeautifulSoup(page, 'html.parser')
+                        block = soup.select('div.ml-3.d-flex div.mb-2')
+                        if len(block) == 0:
+                            if count <= 0:
+                                target = await ctx.send('ERROR :robot: : an error has occurred with {}. `Error Code: DWAYNA`'.format(b))
+                            else:
+                                target = await ctx.send('ERROR :robot: : an error has occurred with {0}({1}). `Error Code: LYSSA`'.format(b, count))
+                                self.logs[type][e][b]['duration'].append('ERROR')
+                            self.bot.clear_list.append(target)
+                        else:
+                            duration = block[-1].get_text()
+                            time = re.split('[-:]', duration)
+                            duration = time[1].strip()
+                            if count <= 0:
+                                self.logs[type][e][b]['duration'] = duration
+                            else:
+                                self.logs[type][e][b]['duration'].append(duration)
+                        
                     if mode == 'dps.report' and self.num_logs > 0:
                         self.logs[type][e][b]['dps.report'] = []
                         if self.show_time:
                             self.logs[type][e][b]['duration'] = []
-                        for count, lf in enumerate(latest_files):
+                        error_multi_logs = 0
+                        for count, lf in enumerate(latest_files, 1):
                             with open(lf, 'rb') as file:
                                 files = {'file': file}
                                 res = requests.post(dps_endpoint, files=files)
                                 if not res.status_code == 200:
                                     target = await ctx.send('ERROR :robot: : an error has occurred with {0}({1}). `Error Code: LYSSA`'.format(b, count))
                                     self.bot.clear_list.append(target)
-                                    error_logs += 1
+                                    self.logs[type][e][b]['dps.report'].append('about:blank')
+                                    error_multi_logs += 1
                                     continue
                                 else:
                                     log = res.json()['permalink']
                                     self.logs[type][e][b]['dps.report'].append(log)
                                     if self.show_time:
-                                        page = requests.get(log)
-                                        if not page.status_code == 200:
-                                            target = await ctx.send('ERROR :robot: : an error has occurred with {0}({1}). `Error Code: GRENTH`'.format(b, count))
-                                            self.bot.clear_list.append(target)
-                                            self.logs[type][e][b]['duration'].append('ERROR')
-                                        else:
-                                            soup = BeautifulSoup(page.content, 'html.parser')
-                                            block = soup.select('blockquote div.d-flex div p')
-                                            if len(block) == 0:
-                                                target = await ctx.send('ERROR :robot: : an error has occurred with {0}({1}). `Error Code: DWAYNA`'.format(b, count))
+                                        try:
+                                            options = webdriver.ChromeOptions()
+                                            options.add_argument('--headless')
+                                            browser = webdriver.Chrome(options=options)
+                                            browser.get(log)
+                                            await get_time(browser, count)
+                                            browser.quit()
+                                        except IOError as e:
+                                            try:
+                                                options = webdriver.FirefoxOptions()
+                                                options.add_argument('--headless')
+                                                browser = webdriver.Firefox(options=options)
+                                                browser.get(log)
+                                                await get_time(browser, count)
+                                                browser.quit()
+                                            except IOError as e:
+                                                target = await ctx.send('ERROR :robot: : an error has occurred with {0}({1}). `Error Code: GRENTH`'.format(b, count))
                                                 self.bot.clear_list.append(target)
                                                 self.logs[type][e][b]['duration'].append('ERROR')
-                                            else:
-                                                duration = block[-1].get_text()
-                                                time = re.split('[-:]', duration)
-                                                duration = time[1].strip()
-                                                self.logs[type][e][b]['duration'].append(duration)
+                        if error_multi_logs == len(latest_files):
+                            error_logs += 1
+                            continue
                     else:
                         with open(latest_file, 'rb') as file:
                             files = {'file': file}
@@ -219,21 +247,24 @@ class Arcdps:
                             else:
                                 self.logs[type][e][b]['dps.report'] = res.json()['permalink']
                                 if self.show_time:
-                                    page = requests.get(self.logs[type][e][b]['dps.report'])
-                                    if not page.status_code == 200:
-                                        target = await ctx.send('ERROR :robot: : an error has occurred with {}. `Error Code: GRENTH`'.format(b))
-                                        self.bot.clear_list.append(target)
-                                    else:
-                                        soup = BeautifulSoup(page.content, 'html.parser')
-                                        block = soup.select('blockquote div.d-flex div p')
-                                        if len(block) == 0:
-                                            target = await ctx.send('ERROR :robot: : an error has occurred with {}. `Error Code: DWAYNA`'.format(b))
-                                            self.bot.clear_list.append(target)
-                                        else:
-                                            duration = block[-1].get_text()
-                                            time = re.split('[-:]', duration)
-                                            duration = time[1].strip()
-                                            self.logs[type][e][b]['duration'] = duration
+                                    try:
+                                        options = webdriver.ChromeOptions()
+                                        options.add_argument('--headless')
+                                        browser = webdriver.Chrome(options=options)
+                                        browser.get(self.logs[type][e][b]['dps.report'])
+                                        await get_time(browser, 0)
+                                        browser.quit()
+                                    except IOError as e:
+                                        try:
+                                            options = webdriver.FirefoxOptions()
+                                            options.add_argument('--headless')
+                                            browser = webdriver.Firefox(options=options)
+                                            browser.get(self.logs[type][e][b]['dps.report'])
+                                            await get_time(browser, 0)
+                                            browser.quit()
+                                        except IOError as e:
+                                            target = await ctx.send('ERROR :robot: : an error has occurred with {}. `Error Code: GRENTH`'.format(b))
+                                            self.bot.clear_list.append(target)                       
                     print('Uploaded {}: dps.report'.format(b))
 
                 if mode == 'GW2Raidar' or mode == 'Both':
@@ -513,7 +544,7 @@ class Arcdps:
                     if not boss_e is None:
                         out += '{}  '.format(boss_e)
                     out += '**{0}**  |  [dps.report]({1})  ·  [GW2Raidar]({2})'.format(boss, self.logs[type][e][b]['dps.report'], self.logs[type][e][b]['GW2Raidar']['link'])
-                    if not self.show_time or self.logs[type][e][b]['GW2Raidar']['link'] == 'about:blank' and not 'duration' in self.logs[type][e][b]:
+                    if not self.show_time or not 'duration' in self.logs[type][e][b]:
                         out += '\n'
                 if self.show_time and 'duration' in self.logs[type][e][b] and not isinstance(self.logs[type][e][b]['duration'], list):
                     out += '  |  **Time**: {}\n'.format(self.logs[type][e][b]['duration'])

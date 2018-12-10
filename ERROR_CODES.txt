@@ -26,7 +26,8 @@ DPS.REPORT (HUMAN GODS)
 * LYSSA - An error has occurred while attempting to upload to dps.report.
 
 * GRENTH - An error has occurred while attempting to open the log to retrieve
-the killtime (only applicable to the --time flag).
+the killtime (only applicable to the --time flag). Please ensure that you have either
+Google Chrome or Mozilla Firefox installed.
 
 * DWAYNA - The killtime failed to be located within the log (only applicable to
 the --time flag).
