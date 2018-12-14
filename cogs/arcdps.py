@@ -147,7 +147,7 @@ class Arcdps:
                 for root, dir, files in os.walk(path):
                     for file in files:
                         file_name, file_ext = os.path.splitext(file)
-                        if file_ext == '.evtc' or os.path.splitext(file_name)[1] == '.evtc':
+                        if file_ext == '.zevtc' or file_ext == '.evtc' or os.path.splitext(file_name)[1] == '.evtc':
                             file_path = os.path.join(root, file)
                             modified_date = os.path.getmtime(file_path)
                             all_files.append((file_path, modified_date))

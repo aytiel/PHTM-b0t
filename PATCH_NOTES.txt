@@ -82,3 +82,7 @@ v1.1.4 - 12/10/18
     - Please ensure that you have either Chrome or Firefox installed.
     - Please run the install.sh script. The bot will not work until you do.
 * Fixed some miscellaneous formatting bugs.
+------------------------------
+v1.1.4z - 12/14/18
+------------------------------
+* Added support for new .zevtc file extension.
