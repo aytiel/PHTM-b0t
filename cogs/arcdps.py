@@ -14,6 +14,7 @@ import discord
 from discord.ext import commands
 from bs4 import BeautifulSoup
 from selenium import webdriver
+from selenium.common.exceptions import WebDriverException
 import settings.config
 
 class Arcdps:
@@ -220,7 +221,7 @@ class Arcdps:
                                             browser.get(log)
                                             await get_time(browser, count)
                                             browser.quit()
-                                        except IOError as e:
+                                        except WebDriverException:
                                             try:
                                                 options = webdriver.FirefoxOptions()
                                                 options.add_argument('--headless')
@@ -228,7 +229,7 @@ class Arcdps:
                                                 browser.get(log)
                                                 await get_time(browser, count)
                                                 browser.quit()
-                                            except IOError as e:
+                                            except WebDriverException:
                                                 target = await ctx.send('ERROR :robot: : an error has occurred with {0}({1}). `Error Code: GRENTH`'.format(b, count))
                                                 self.bot.clear_list.append(target)
                                                 self.logs[type][e][b]['duration'].append('ERROR')
@@ -254,7 +255,7 @@ class Arcdps:
                                         browser.get(self.logs[type][e][b]['dps.report'])
                                         await get_time(browser, 0)
                                         browser.quit()
-                                    except IOError as e:
+                                    except WebDriverException:
                                         try:
                                             options = webdriver.FirefoxOptions()
                                             options.add_argument('--headless')
@@ -262,7 +263,7 @@ class Arcdps:
                                             browser.get(self.logs[type][e][b]['dps.report'])
                                             await get_time(browser, 0)
                                             browser.quit()
-                                        except IOError as e:
+                                        except WebDriverException:
                                             target = await ctx.send('ERROR :robot: : an error has occurred with {}. `Error Code: GRENTH`'.format(b))
                                             self.bot.clear_list.append(target)                       
                     print('Uploaded {}: dps.report'.format(b))
