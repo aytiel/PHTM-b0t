@@ -90,3 +90,4 @@ v1.1.4z - 12/14/18
 v1.1.5 - 12/24/18
 ------------------------------
 * Added Trio to the boss upload list.
+* Added confirmation for log filepath in case of mistakes.

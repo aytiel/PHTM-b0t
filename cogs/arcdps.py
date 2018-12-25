@@ -59,17 +59,33 @@ class Arcdps:
         key['user']['name'] = ctx.author.name
         await self.bot.update_status(key['user']['name'])
         
-        while len(self.bot.owner_filepath) == 0:
+        confirmed = False
+        while len(self.bot.owner_filepath) == 0 or not confirmed:
             out = 'Please use the file explorer to select your arcdps.cbtlogs folder.'
             try:
-                await ctx.author.send(out)
+                target = await ctx.author.send(out)
             except discord.Forbidden:
                 target = await ctx.send(out)
-                self.bot.clear_list.append(target)
             root = Tk()
             root.withdraw()
             key['user']['filepath'] = filedialog.askdirectory(initialdir = "/", title = "Select your arcdps.cbtlogs folder")
             self.bot.owner_filepath = key['user']['filepath']
+
+            try:
+                message = await ctx.author.send('Your selected filepath is:\n```{}\nClick ✅ to confirm, ❌ to reselect```'.format(self.bot.owner_filepath))
+            except discord.Forbidden:
+                message = await ctx.send('Your selected log order is:\n```{}\nClick ✅ to confirm, ❌ to reselect```'.format(self.bot.owner_filepath))
+            await message.add_reaction('✅')
+            await message.add_reaction('❌')
+        
+            def r_check(r, user):
+                return user == ctx.author and r.count > 1
+            
+            ans, user = await self.bot.wait_for('reaction_add', check=r_check)
+            if str(ans.emoji) == '✅':
+                confirmed = True
+            await message.delete()
+            await target.delete()
         
         with open('cogs/data/logs.json', 'w') as key_file:
             json.dump(key, key_file, indent=4)
