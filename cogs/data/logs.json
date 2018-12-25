@@ -57,6 +57,18 @@
                     "success": false
                 }
             },
+            "Trio": {
+                "name": [
+                    "Berg",
+                    "Berg",
+                    "Berg"
+                ],
+                "dps.report": "about:blank",
+                "GW2Raidar": {
+                    "link": "about:blank",
+                    "success": false
+                }
+            },
             "Matthias": {
                 "name": [
                     "Matthias Gabrel",

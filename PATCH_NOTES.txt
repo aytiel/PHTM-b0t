@@ -86,3 +86,7 @@ v1.1.4 - 12/10/18
 v1.1.4z - 12/14/18
 ------------------------------
 * Added support for new .zevtc file extension.
+------------------------------
+v1.1.5 - 12/24/18
+------------------------------
+* Added Trio to the boss upload list.
