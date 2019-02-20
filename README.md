@@ -4,6 +4,8 @@
 
 The intention of this Discord bot is to automate the monotonous process of manually uploading and posting logs after every raid or fractal clear. At the call of a single command, your most recent logs will be uploaded to both [dps.report](https://dps.report/) and [GW2Raidar](https://gw2raidar.com/info-help), and all of the links will be posted in your Discord server within minutes.
 
+<b>Supported languages:</b> English, German, French, Spanish
+
 ## Installing the bot
 <b>1.</b> Install Python 3.6+. To guarantee the best results, install Python 3.6.5([32-bit](https://www.python.org/ftp/python/3.6.5/python-3.6.5.exe))([64-bit](https://www.python.org/ftp/python/3.6.5/python-3.6.5-amd64.exe)). <br />
 <b>2.</b> During the setup, make sure to tick `Install launcher for all users (recommended)` and `Add Python 3.6 to PATH`. <br />
@@ -42,8 +44,8 @@ The default prefix is `$`.
     <tr>
     </tr>
     <tr>
-      <td><b>upload [raids/fractals]<br />(title)<br />(--time)<br />(--num x)<br />(--aa)</b></td>
-      <td>Uploads raid or fractal logs.<br />(Optional) Add a title to the post<br />(Optional) Include the killtime for each boss in the log post<br />(Optional) Upload the x most recent logs of each selected boss (Only dps.report mode)<br />(Optional) Enable auto attack chain in rotation (Only dps.report mode)</td>
+      <td><b>upload [raids/fractals]<br />(title)<br />(--time)<br />(--num x)</b></td>
+      <td>Uploads raid or fractal logs.<br />(Optional) Add a title to the post<br />(Optional) Include the killtime for each boss in the log post<br />(Optional) Upload the x most recent logs of each selected boss (Only dps.report mode)</td>
     </tr>
     <tr>
       <td><b>shutdown</b></td>
@@ -56,8 +58,7 @@ The default prefix is `$`.
 <img align="middle" src="https://github.com/aytiel/PHTM-b0t/blob/gw2-uploader/images/previewv2.PNG" height="325" width="395"></img>
 <img align="middle" src="https://github.com/aytiel/PHTM-b0t/blob/gw2-uploader/images/previewv2_1.PNG" height="191" width="400"></img>
 
-## Caveats (Important!)
+## Caveats
 <ul>
   <li>Only the person booting up the bot may upload logs. You should be able to tell who the current user of the bot is by looking at the bot's activity status. It should say <b>Current User: SOME_USER</b>.
-  <li>The bot supports English, German, and French currently. If you would like support for other languages (i.e. Spanish), please reach out to me.
 </ul>
