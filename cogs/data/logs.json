@@ -11,7 +11,8 @@
                 "name": [
                     "Vale Guardian",
                     "Tal-W\u00e4chter",
-                    "Gardien de la Vall\u00e9e"
+                    "Gardien de la Vall\u00e9e",
+                    "Guardi\u00e1n del valle"
                 ],
                 "dps.report": "about:blank",
                 "GW2Raidar": {
@@ -23,7 +24,8 @@
                 "name": [
                     "Gorseval the Multifarious",
                     "Gorseval der Facettenreiche",
-                    "Gorseval le Disparate"
+                    "Gorseval le Disparate",
+                    "Gorseval el M\u00faltiple"
                 ],
                 "dps.report": "about:blank",
                 "GW2Raidar": {
@@ -35,7 +37,8 @@
                 "name": [
                     "Sabetha the Saboteur",
                     "Sabetha die Saboteurin",
-                    "Sabetha la saboteuse"
+                    "Sabetha la saboteuse",
+                    "Sabetha la Saboteadora"
                 ],
                 "dps.report": "about:blank",
                 "GW2Raidar": {
@@ -49,7 +52,8 @@
                 "name": [
                     "Slothasor",
                     "Faultierion",
-                    "Paressor"
+                    "Paressor",
+                    "Perez\u00f3n"
                 ],
                 "dps.report": "about:blank",
                 "GW2Raidar": {
@@ -59,6 +63,7 @@
             },
             "Trio": {
                 "name": [
+                    "Berg",
                     "Berg",
                     "Berg",
                     "Berg"
@@ -73,7 +78,8 @@
                 "name": [
                     "Matthias Gabrel",
                     "Matthias Gabrel",
-                    "Matthias Gabrel"
+                    "Matthias Gabrel",
+                    "Mat\u00edas Gabrel"
                 ],
                 "dps.report": "about:blank",
                 "GW2Raidar": {
@@ -87,7 +93,8 @@
                 "name": [
                     "Keep Construct",
                     "Festenkonstrukt",
-                    "Titan du fort"
+                    "Titan du fort",
+                    "Ensamblaje de la Fortaleza"
                 ],
                 "dps.report": "about:blank",
                 "GW2Raidar": {
@@ -97,6 +104,7 @@
             },
             "Xera": {
                 "name": [
+                    "Xera",
                     "Xera",
                     "Xera",
                     "Xera"
@@ -113,7 +121,8 @@
                 "name": [
                     "Cairn the Indomitable",
                     "Cairn der Unbeugsame",
-                    "Cairn l'Indomptable"
+                    "Cairn l'Indomptable",
+                    "Cairn el Indomable"
                 ],
                 "dps.report": "about:blank",
                 "GW2Raidar": {
@@ -125,7 +134,8 @@
                 "name": [
                     "Mursaat Overseer",
                     "Mursaat-Aufseher",
-                    "Surveillant mursaat"
+                    "Surveillant mursaat",
+                    "Dirigente mursaat"
                 ],
                 "dps.report": "about:blank",
                 "GW2Raidar": {
@@ -135,6 +145,7 @@
             },
             "Samarog": {
                 "name": [
+                    "Samarog",
                     "Samarog",
                     "Samarog",
                     "Samarog"
@@ -147,6 +158,7 @@
             },
             "Deimos": {
                 "name": [
+                    "Deimos",
                     "Deimos",
                     "Deimos",
                     "Deimos"
@@ -163,7 +175,8 @@
                 "name": [
                     "Soulless Horror",
                     "Seelenloser Schrecken",
-                    "Horreur sans \u00e2me"
+                    "Horreur sans \u00e2me",
+                    "Horror sin alma"
                 ],
                 "dps.report": "about:blank",
                 "GW2Raidar": {
@@ -173,6 +186,7 @@
             },
             "Dhuum": {
                 "name": [
+                    "Dhuum",
                     "Dhuum",
                     "Dhuum",
                     "Dhuum"
@@ -189,7 +203,8 @@
                 "name": [
                     "Conjured Amalgamate",
                     "Beschworene Verschmelzung",
-                    "Amalgame conjur\u00e9"
+                    "Amalgame conjur\u00e9",
+                    "Amalgamado conjurado"
                 ],
                 "dps.report": "about:blank",
                 "GW2Raidar": {
@@ -199,6 +214,7 @@
             },
             "Largos Twins": {
                 "name": [
+                    "Nikare",
                     "Nikare",
                     "Nikare",
                     "Nikare"
@@ -211,6 +227,7 @@
             },
             "Qadim": {
                 "name": [
+                    "Qadim",
                     "Qadim",
                     "Qadim",
                     "Qadim"
@@ -229,7 +246,8 @@
                 "name": [
                     "MAMA",
                     "MAMA",
-                    "AMAM"
+                    "AMAM",
+                    "MAMA"
                 ],
                 "dps.report": "about:blank",
                 "GW2Raidar": {
@@ -241,7 +259,8 @@
                 "name": [
                     "Nightmare Oratuss",
                     "Albtraum-Oratuss",
-                    "Oratuss des Cauchemars"
+                    "Oratuss des Cauchemars",
+                    "Oratuss de la Pesadilla"
                 ],
                 "dps.report": "about:blank",
                 "GW2Raidar": {
@@ -253,7 +272,8 @@
                 "name": [
                     "Ensolyss of the Endless Torment",
                     "Ensolyss der endlosen Pein",
-                    "Ensolyss du Tourment \u00e9ternel"
+                    "Ensolyss du Tourment \u00e9ternel",
+                    "Ensolyss del Tormento Eterno"
                 ],
                 "dps.report": "about:blank",
                 "GW2Raidar": {
@@ -267,7 +287,8 @@
                 "name": [
                     "Skorvald the Shattered",
                     "Skorvald der Zerschmetterte",
-                    "Skorvald le bris\u00e9"
+                    "Skorvald le bris\u00e9",
+                    "Skorvald el Asolado"
                 ],
                 "dps.report": "about:blank",
                 "GW2Raidar": {
@@ -277,6 +298,7 @@
             },
             "Artsariiv": {
                 "name": [
+                    "Artsariiv",
                     "Artsariiv",
                     "Artsariiv",
                     "Artsariiv"
@@ -289,6 +311,7 @@
             },
             "Arkk": {
                 "name": [
+                    "Arkk",
                     "Arkk",
                     "Arkk",
                     "Arkk"

@@ -22,7 +22,6 @@ class Arcdps:
         self.bot = bot
         self.logs_order = {}
         self.show_time = False
-        self.show_aa = False
         self.num_logs = 0
         
         with open('cogs/data/logs.json', 'r') as logs_data:
@@ -140,9 +139,6 @@ class Arcdps:
                     target = await ctx.send('Invalid number of logs for the `--num` flag.')
                     self.bot.clear_list.append(target)
                     return
-            elif argv[i] == '--aa':
-                self.show_aa = True
-                i += 1
             else:
                 title.append(argv[i])
                 i += 1
@@ -188,8 +184,6 @@ class Arcdps:
                 if mode == 'dps.report' or mode == 'Both':
                     print('Uploading {}: dps.report...'.format(b))
                     dps_endpoint = 'https://dps.report/uploadContent?json=1&generator=ei'
-                    if self.show_aa:
-                        dps_endpoint += '&rotation_weap1=1'
                         
                     async def get_time(browser, count):
                         page = browser.execute_script("return document.body.innerHTML")
@@ -323,7 +317,7 @@ class Arcdps:
         
     async def set_logs_order(self, ctx, type: str):
         temp_logs = copy.deepcopy(self.logs)
-        out = 'Type of the `number` of your language.\n```md\n1. English\n2. German\n3. French\n```'
+        out = 'Type of the `number` of your language.\n```md\n1. English\n2. German\n3. French\n4. Spanish\n```'
         try:
             message = await ctx.author.send(out)
         except discord.Forbidden:
@@ -342,7 +336,8 @@ class Arcdps:
             return {
                 '1': (0, 'English'),
                 '2': (1, 'German'),
-                '3': (2, 'French')
+                '3': (2, 'French'),
+                '4': (3, 'Spanish')
             }.get(x, (0, 'English'))
             
         lang = switch(lang_num)

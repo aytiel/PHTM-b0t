@@ -91,3 +91,8 @@ v1.1.5 - 12/24/18
 ------------------------------
 * Added Trio to the boss upload list.
 * Added confirmation for log filepath in case of mistakes.
+------------------------------
+v1.1.5s - 2/20/19
+------------------------------
+* Added Spanish support.
+* Deprecated the "--aa" flag due to auto attacks being toggleable.
