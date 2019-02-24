@@ -96,3 +96,8 @@ v1.1.5s - 2/20/19
 ------------------------------
 * Added Spanish support.
 * Deprecated the "--aa" flag due to auto attacks being toggleable.
+------------------------------
+v1.1.5s2 - 2/24/19
+------------------------------
+* Updated class inheritance to match new discord.py format.*
+  - Please run the "install.sh" file if the bot does not seem to be working.

@@ -17,7 +17,7 @@ from selenium import webdriver
 from selenium.common.exceptions import WebDriverException
 import settings.config
 
-class Arcdps:
+class Arcdps(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.logs_order = {}
