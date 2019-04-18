@@ -184,6 +184,45 @@
                     "success": false
                 }
             },
+            "Broken King": {
+                "name": [
+                    "Broken King",
+                    "Bezwungener K\u00f6nig",
+                    "Roi bris\u00e9",
+                    "Rey Roto"
+                ],
+                "dps.report": "about:blank",
+                "GW2Raidar": {
+                    "link": "about:blank",
+                    "success": false
+                }
+            },
+            "Eater of Souls": {
+                "name": [
+                    "Eater of Souls",
+                    "Seelenverzehrer",
+                    "Mangeur d'\u00e2mes",
+                    "Devorador de almas"
+                ],
+                "dps.report": "about:blank",
+                "GW2Raidar": {
+                    "link": "about:blank",
+                    "success": false
+                }
+            },
+            "Eye of Judgement": {
+                "name": [
+                    "Eye of Judgement",
+                    "Auge des Urteils",
+                    "\u0152il de jugement",
+                    "Ojo de Juicio"
+                ],
+                "dps.report": "about:blank",
+                "GW2Raidar": {
+                    "link": "about:blank",
+                    "success": false
+                }
+            },
             "Dhuum": {
                 "name": [
                     "Dhuum",

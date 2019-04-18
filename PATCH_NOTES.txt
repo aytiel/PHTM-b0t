@@ -101,3 +101,7 @@ v1.1.5s2 - 2/24/19
 ------------------------------
 * Updated class inheritance to match new discord.py format.*
   - Please run the "install.sh" file if the bot does not seem to be working.
+------------------------------
+v1.1.6 - 4/18/19
+------------------------------
+* Added W5 Statues events.
