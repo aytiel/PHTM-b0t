@@ -18,12 +18,12 @@ class PHTMb0t(commands.Bot):
         self.status_format = 'Current User: {}'
         self.emoji_list = []
         self.clear_list = []
-        with open('cogs/data/logs.json', 'r') as user_file:
+        with open('cogs/data/user.json', 'r') as user_file:
             user = json.load(user_file)
-        self.owner_name = user['user']['name']
-        self.owner_id = user['user']['id']
-        self.owner_key = user['user']['key']
-        self.owner_filepath = user['user']['filepath']
+        self.owner_name = user['name']
+        self.owner_id = user['id']
+        self.owner_key = user['key']
+        self.owner_filepath = user['filepath']
         
         self.remove_command('help')
         for ext in extensions:

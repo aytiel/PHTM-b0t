@@ -1,10 +1,4 @@
 {
-    "user": {
-        "name": "",
-        "id": 0,
-        "key": "",
-        "filepath": ""
-    },
     "raids": {
         "W1": {
             "Vale Guardian": {
@@ -215,7 +209,7 @@
                     "Eye of Judgment",
                     "Auge des Urteils",
                     "\u0152il de jugement",
-                    "Ojo de Juicio"
+                    "Ojo del Juicio"
                 ],
                 "dps.report": "about:blank",
                 "GW2Raidar": {

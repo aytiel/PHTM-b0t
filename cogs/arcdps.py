@@ -39,7 +39,7 @@ class Arcdps(commands.Cog):
         else:
             await ctx.send('I do not have permissions to delete messages. Please enable this in the future.')
 
-        with open('cogs/data/logs.json', 'r') as key_file:
+        with open('cogs/data/user.json', 'r') as key_file:
             key = json.load(key_file)
         if not username is None and not password is None:
             raidar_endpoint = 'https://www.gw2raidar.com/api/v2/token'
@@ -51,12 +51,12 @@ class Arcdps(commands.Cog):
                 return
             else:
                 token = res.json()['token']
-                key['user']['key'] = 'Token {}'.format(token)
-                self.bot.owner_key = key['user']['key']
-        key['user']['id'] = ctx.author.id
+                key['key'] = 'Token {}'.format(token)
+                self.bot.owner_key = key['key']
+        key['id'] = ctx.author.id
         self.bot.owner_id = ctx.author.id
-        key['user']['name'] = ctx.author.name
-        await self.bot.update_status(key['user']['name'])
+        key['name'] = ctx.author.name
+        await self.bot.update_status(key['name'])
         
         confirmed = False
         while len(self.bot.owner_filepath) == 0 or not confirmed:
@@ -67,8 +67,8 @@ class Arcdps(commands.Cog):
                 target = await ctx.send(out)
             root = Tk()
             root.withdraw()
-            key['user']['filepath'] = filedialog.askdirectory(initialdir = "/", title = "Select your arcdps.cbtlogs folder")
-            self.bot.owner_filepath = key['user']['filepath']
+            key['filepath'] = filedialog.askdirectory(initialdir = "/", title = "Select your arcdps.cbtlogs folder")
+            self.bot.owner_filepath = key['filepath']
 
             try:
                 message = await ctx.author.send('Your selected filepath is:\n```{}\nClick ✅ to confirm, ❌ to reselect```'.format(self.bot.owner_filepath))
@@ -86,7 +86,7 @@ class Arcdps(commands.Cog):
             await message.delete()
             await target.delete()
         
-        with open('cogs/data/logs.json', 'w') as key_file:
+        with open('cogs/data/user.json', 'w') as key_file:
             json.dump(key, key_file, indent=4)
         target = await ctx.send('Login successful ✅ : Ready to upload logs.')
         self.bot.clear_list.append(target)
