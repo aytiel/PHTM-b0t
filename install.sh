@@ -29,7 +29,7 @@ else
 fi
 
 echo "${green}Installing discord.py...${reset}"
-python -m pip install -U git+https://github.com/Rapptz/discord.py@rewrite
+python -m pip install -U git+https://github.com/Rapptz/discord.py
 if [ $? == "0" ]; then
     echo "${green}discord.py successfully installed.${reset}"
 else
