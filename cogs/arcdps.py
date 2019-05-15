@@ -193,7 +193,7 @@ class Arcdps(commands.Cog):
                             if count <= 0:
                                 target = await ctx.send('ERROR :robot: : an error has occurred with {}. `Error Code: DWAYNA`'.format(b))
                             else:
-                                target = await ctx.send('ERROR :robot: : an error has occurred with {0}({1}). `Error Code: LYSSA`'.format(b, count))
+                                target = await ctx.send('ERROR :robot: : an error has occurred with {0}({1}). `Error Code: DWAYNA`'.format(b, count))
                                 self.logs[type][e][b]['duration'].append('ERROR')
                             self.bot.clear_list.append(target)
                         else:
