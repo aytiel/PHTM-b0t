@@ -271,6 +271,47 @@
                     "success": false
                 }
             }
+        },
+        "W7": {
+            "Cardinal Sabir": {
+                "name": [
+                    "Cardinal Sabir",
+                    "Kardinal Sabir",
+                    "Cardinal Sabir",
+                    "Cardenal Sabir"
+                ],
+                "dps.report": "about:blank",
+                "GW2Raidar": {
+                    "link": "about:blank",
+                    "success": false
+                }
+            },
+            "Cardinal Adina": {
+                "name": [
+                    "Cardinal Adina",
+                    "Kardinal Adina",
+                    "Cardinale Adina",
+                    "Cardenal Adina"
+                ],
+                "dps.report": "about:blank",
+                "GW2Raidar": {
+                    "link": "about:blank",
+                    "success": false
+                }
+            },
+            "Qadim the Peerless": {
+                "name": [
+                    "Qadim the Peerless",
+                    "Quadim der Unvergleichliche",
+                    "Qadim lIn\u00e9gal\u00e9",
+                    "Qadim el Simpar"
+                ],
+                "dps.report": "about:blank",
+                "GW2Raidar": {
+                    "link": "about:blank",
+                    "success": false
+                }
+            }
         }
     },
     "fractals": {

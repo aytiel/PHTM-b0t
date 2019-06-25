@@ -1,5 +1,5 @@
-MAIN_VERSION = '1.1.6'
+MAIN_VERSION = '1.1.7'
 SUB_VERSION = ''
 VERSION = MAIN_VERSION + SUB_VERSION
 
-CHANGE_LOG = '* Added W5 Statues events.'
+CHANGE_LOG = '* Added W7 bosses.'
