@@ -142,7 +142,7 @@ class Arcdps(commands.Cog):
             else:
                 title.append(argv[i])
                 i += 1
-        mode, lang = await self.set_logs_order(ctx, type)
+        mode = await self.set_logs_order(ctx, type)
         
         logs_length = 0
         error_logs = 0
@@ -150,20 +150,22 @@ class Arcdps(commands.Cog):
             for b in self.logs_order[e]:
                 print('------------------------------')
                 logs_length += 1
-                path = '{0}/{1}/'.format(self.bot.owner_filepath, self.logs[type][e][b]['name'][lang])
-                if not os.path.exists(path):
+                path = ['{0}/{1}/'.format(self.bot.owner_filepath, x) for x in self.logs[type][e][b]['name']]
+                path_filter = [p for p in path if os.path.exists(p)]
+                if len(path_filter) == 0:
                     target = await ctx.send('ERROR :robot: : an error has occurred with {}. `Error Code: BLOODSTONE`'.format(b))
                     self.bot.clear_list.append(target)
                     error_logs += 1
                     continue
                 all_files = []
-                for root, dir, files in os.walk(path):
-                    for file in files:
-                        file_name, file_ext = os.path.splitext(file)
-                        if file_ext == '.zevtc' or file_ext == '.evtc' or os.path.splitext(file_name)[1] == '.evtc':
-                            file_path = os.path.join(root, file)
-                            modified_date = os.path.getmtime(file_path)
-                            all_files.append((file_path, modified_date))
+                for path in path_filter:
+                    for root, dir, files in os.walk(path):
+                        for file in files:
+                            file_name, file_ext = os.path.splitext(file)
+                            if file_ext == '.zevtc' or file_ext == '.evtc' or os.path.splitext(file_name)[1] == '.evtc':
+                                file_path = os.path.join(root, file)
+                                modified_date = os.path.getmtime(file_path)
+                                all_files.append((file_path, modified_date))
                 if len(all_files) == 0:
                     target = await ctx.send('ERROR :robot: : an error has occurred with {}. `Error Code: EMPYREAL`'.format(b))
                     self.bot.clear_list.append(target)
@@ -317,7 +319,7 @@ class Arcdps(commands.Cog):
         
     async def set_logs_order(self, ctx, type: str):
         temp_logs = copy.deepcopy(self.logs)
-        out = 'Type of the `number` of your language.\n```md\n1. English\n2. German\n3. French\n4. Spanish\n```'
+        out = 'Type the `number` of the parser that you wish to upload to.\n```md\n1. dps.report\n2. GW2Raidar\n3. Both\n```'
         try:
             message = await ctx.author.send(out)
         except discord.Forbidden:
@@ -327,23 +329,6 @@ class Arcdps(commands.Cog):
         
         def m_check(m):
             return m.author == ctx.author and m.channel == message.channel
-            
-        ans = await self.bot.wait_for('message', check=m_check)
-        await message.delete()
-        lang_num = ans.content
-        
-        def switch(x):
-            return {
-                '1': (0, 'English'),
-                '2': (1, 'German'),
-                '3': (2, 'French'),
-                '4': (3, 'Spanish')
-            }.get(x, (0, 'English'))
-            
-        lang = switch(lang_num)
-            
-        out = 'Type the `number` of the parser that you wish to upload to.\n```md\n1. dps.report\n2. GW2Raidar\n3. Both\n```'
-        message = await ctx.author.send(out)
             
         ans = await self.bot.wait_for('message', check=m_check)
         await message.delete()
@@ -357,7 +342,7 @@ class Arcdps(commands.Cog):
             }.get(x, 'Both')
             
         mode = switch(mode_num)
-            
+
         while True:
             logs_len = len(self.logs_order)
             out = 'Type the `number` of the wing/scale that you wish to upload'
@@ -436,7 +421,7 @@ class Arcdps(commands.Cog):
             del temp_logs[type][event[e_pos]]
         del temp_logs
 
-        print_order = 'Uploading to {0} in {1}...\n'.format(mode, lang[1])
+        print_order = 'Uploading to {}...\n'.format(mode)
         for e in self.logs_order:
             if not len(self.logs_order[e]) == 0:
                 print_order += '{0}: {1}\n'.format(e, self.logs_order[e])
@@ -452,7 +437,7 @@ class Arcdps(commands.Cog):
             self.logs_order = {}
         await message.delete()
         
-        return (mode, lang[0])
+        return mode
         
     async def update_raidar(self, ctx, type: str, counter: int, length: int, mode: str):
         if length == 0:

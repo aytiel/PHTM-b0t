@@ -109,3 +109,8 @@ v1.1.6 - 4/18/19
 v1.1.7 - 6/24/19
 ------------------------------
 * Added W7 bosses.
+------------------------------
+v1.1.8 - 7/25/19
+------------------------------
+* Fixed German translation for Qadim 2.
+* Language no longer needs to be manually selected.

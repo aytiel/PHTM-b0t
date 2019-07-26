@@ -1,5 +1,5 @@
-MAIN_VERSION = '1.1.7'
+MAIN_VERSION = '1.1.8'
 SUB_VERSION = ''
 VERSION = MAIN_VERSION + SUB_VERSION
 
-CHANGE_LOG = '* Added W7 bosses.'
+CHANGE_LOG = '* Fixed German translation for Qadim 2.\n* Language no longer needs to be manually selected.'
