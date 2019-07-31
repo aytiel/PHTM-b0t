@@ -114,3 +114,7 @@ v1.1.8 - 7/25/19
 ------------------------------
 * Fixed German translation for Qadim 2.
 * Language no longer needs to be manually selected.
+------------------------------
+v1.1.8a - 7/30/19
+------------------------------
+* dps.report '--time' flag revamped from data scraping to API.

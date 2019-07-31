@@ -187,26 +187,6 @@ class Arcdps(commands.Cog):
                     print('Uploading {}: dps.report...'.format(b))
                     dps_endpoint = 'https://dps.report/uploadContent?json=1&generator=ei'
                         
-                    async def get_time(browser, count):
-                        page = browser.execute_script("return document.body.innerHTML")
-                        soup = BeautifulSoup(page, 'html.parser')
-                        block = soup.select('div.ml-3.d-flex div.mb-2')
-                        if len(block) == 0:
-                            if count <= 0:
-                                target = await ctx.send('ERROR :robot: : an error has occurred with {}. `Error Code: DWAYNA`'.format(b))
-                            else:
-                                target = await ctx.send('ERROR :robot: : an error has occurred with {0}({1}). `Error Code: DWAYNA`'.format(b, count))
-                                self.logs[type][e][b]['duration'].append('ERROR')
-                            self.bot.clear_list.append(target)
-                        else:
-                            duration = block[-1].get_text()
-                            time = re.split('[-:]', duration)
-                            duration = time[1].strip()
-                            if count <= 0:
-                                self.logs[type][e][b]['duration'] = duration
-                            else:
-                                self.logs[type][e][b]['duration'].append(duration)
-                        
                     if mode == 'dps.report' and self.num_logs > 0:
                         self.logs[type][e][b]['dps.report'] = []
                         if self.show_time:
@@ -223,28 +203,23 @@ class Arcdps(commands.Cog):
                                     error_multi_logs += 1
                                     continue
                                 else:
-                                    log = res.json()['permalink']
+                                    json = res.json()
+                                    log = json['permalink']
                                     self.logs[type][e][b]['dps.report'].append(log)
                                     if self.show_time:
-                                        try:
-                                            options = webdriver.ChromeOptions()
-                                            options.add_argument('--headless')
-                                            browser = webdriver.Chrome(options=options)
-                                            browser.get(log)
-                                            await get_time(browser, count)
-                                            browser.quit()
-                                        except WebDriverException:
-                                            try:
-                                                options = webdriver.FirefoxOptions()
-                                                options.add_argument('--headless')
-                                                browser = webdriver.Firefox(options=options)
-                                                browser.get(log)
-                                                await get_time(browser, count)
-                                                browser.quit()
-                                            except WebDriverException:
-                                                target = await ctx.send('ERROR :robot: : an error has occurred with {0}({1}). `Error Code: GRENTH`'.format(b, count))
-                                                self.bot.clear_list.append(target)
+                                        if json['encounter']['jsonAvailable']:
+                                            params = {'permalink': log}
+                                            res = requests.get('https://dps.report/getJson', params=params)
+                                            if not res.status_code == 200:
+                                                target = await ctx.send('ERROR :robot: : an error has occurred with {0}({1}). `Error Code: DWAYNA`'.format(b, count))
                                                 self.logs[type][e][b]['duration'].append('ERROR')
+                                                self.bot.clear_list.append(target)
+                                            else:
+                                                self.logs[type][e][b]['duration'].append(res.json()['duration'])
+                                        else:
+                                            target = await ctx.send('ERROR :robot: : an error has occurred with {0}({1}). `Error Code: GRENTH`'.format(b, count))
+                                            self.logs[type][e][b]['duration'].append('ERROR')
+                                            self.bot.clear_list.append(target)
                         if error_multi_logs == len(latest_files):
                             error_logs += 1
                             continue
@@ -258,26 +233,20 @@ class Arcdps(commands.Cog):
                                 error_logs += 1
                                 continue
                             else:
-                                self.logs[type][e][b]['dps.report'] = res.json()['permalink']
+                                json = res.json()
+                                self.logs[type][e][b]['dps.report'] = json['permalink']
                                 if self.show_time:
-                                    try:
-                                        options = webdriver.ChromeOptions()
-                                        options.add_argument('--headless')
-                                        browser = webdriver.Chrome(options=options)
-                                        browser.get(self.logs[type][e][b]['dps.report'])
-                                        await get_time(browser, 0)
-                                        browser.quit()
-                                    except WebDriverException:
-                                        try:
-                                            options = webdriver.FirefoxOptions()
-                                            options.add_argument('--headless')
-                                            browser = webdriver.Firefox(options=options)
-                                            browser.get(self.logs[type][e][b]['dps.report'])
-                                            await get_time(browser, 0)
-                                            browser.quit()
-                                        except WebDriverException:
-                                            target = await ctx.send('ERROR :robot: : an error has occurred with {}. `Error Code: GRENTH`'.format(b))
-                                            self.bot.clear_list.append(target)                       
+                                    if json['encounter']['jsonAvailable']:
+                                        params = {'permalink': json['permalink']}
+                                        res = requests.get('https://dps.report/getJson', params=params)
+                                        if not res.status_code == 200:
+                                            target = await ctx.send('ERROR :robot: : an error has occurred with {}. `Error Code: DWAYNA`'.format(b))
+                                            self.bot.clear_list.append(target)
+                                        else:
+                                            self.logs[type][e][b]['duration'] = res.json()['duration'] 
+                                    else:
+                                        target = await ctx.send('ERROR :robot: : an error has occurred with {}. `Error Code: GRENTH`'.format(b))
+                                        self.bot.clear_list.append(target)
                     print('Uploaded {}: dps.report'.format(b))
 
                 if mode == 'GW2Raidar' or mode == 'Both':
