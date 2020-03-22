@@ -31,7 +31,7 @@ to the --time flag).
 * DWAYNA - An error has occurred while attempting to retrieve the killtime
 from the log (only applicable to the --time flag).
 ------------------------------------
-GW2RAIDAR (DESTINY'S EDGE)
+GW2RAIDAR (DESTINY'S EDGE) [DEPRECATED]
 ------------------------------------
 * RYTLOCK - The GW2Raidar username and password stored on the bot is invalid.
 

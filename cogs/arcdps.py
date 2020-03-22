@@ -288,29 +288,29 @@ class Arcdps(commands.Cog):
         
     async def set_logs_order(self, ctx, type: str):
         temp_logs = copy.deepcopy(self.logs)
-        out = 'Type the `number` of the parser that you wish to upload to.\n```md\n1. dps.report\n2. GW2Raidar\n3. Both\n```'
-        try:
-            message = await ctx.author.send(out)
-        except discord.Forbidden:
-            target = await ctx.send('I do not have permission to DM you. Please enable this in the future.')
-            self.bot.clear_list.append(target)
-            return
+        #out = 'Type the `number` of the parser that you wish to upload to.\n```md\n1. dps.report\n2. GW2Raidar\n3. Both\n```'
+        #try:
+        #    message = await ctx.author.send(out)
+        #except discord.Forbidden:
+        #    target = await ctx.send('I do not have permission to DM you. Please enable this in the future.')
+        #    self.bot.clear_list.append(target)
+        #    return
         
         def m_check(m):
             return m.author == ctx.author and m.channel == message.channel
             
-        ans = await self.bot.wait_for('message', check=m_check)
-        await message.delete()
-        mode_num = ans.content
+        #ans = await self.bot.wait_for('message', check=m_check)
+        #await message.delete()
+        #mode_num = ans.content
         
-        def switch(x):
-            return {
-                '1': 'dps.report',
-                '2': 'GW2Raidar',
-                '3': 'Both'
-            }.get(x, 'Both')
+        #def switch(x):
+        #    return {
+        #        '1': 'dps.report',
+        #        '2': 'GW2Raidar',
+        #        '3': 'Both'
+        #    }.get(x, 'Both')
             
-        mode = switch(mode_num)
+        mode = 'dps.report'
 
         while True:
             logs_len = len(self.logs_order)
