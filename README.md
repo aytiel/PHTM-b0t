@@ -2,7 +2,7 @@
 ### For all of your raid and fractal log needs!
 <img align="right" src="https://vignette.wikia.nocookie.net/gwwikia/images/4/4d/Guild_Wars_2_Dragon_logo.jpg/revision/latest?cb=20090825055046" height="128" width="128"></img>
 
-The intention of this Discord bot is to automate the monotonous process of manually uploading and posting logs after every raid or fractal clear. At the call of a single command, your most recent logs will be uploaded to both [dps.report](https://dps.report/) and [GW2Raidar](https://gw2raidar.com/info-help), and all of the links will be posted in your Discord server within minutes.
+The intention of this Discord bot is to automate the monotonous process of manually uploading and posting logs after every raid or fractal clear. At the call of a single command, your most recent logs will be uploaded to both [dps.report](https://dps.report/) and ~GW2Raidar~<b>(deprecated)</b>, and all of the links will be posted in your Discord server within minutes.
 
 <b>Supported languages:</b> English, German, French, Spanish
 
@@ -38,14 +38,14 @@ The default prefix is `$`.
       </tr>
     </thead>
     <tr>
-      <td><b>login (username) (password)</b></td>
-      <td>Assigns the bot to you.<br />(Optional) Log into GW2Raidar (Mandatory for GW2Raidar and Both modes)</td>
+      <td><b>login</b></td>
+      <td>Assigns the bot to you.</td>
     </tr>
     <tr>
     </tr>
     <tr>
       <td><b>upload [raids/fractals]<br />(title)<br />(--time)<br />(--num x)</b></td>
-      <td>Uploads raid or fractal logs.<br />(Optional) Add a title to the post<br />(Optional) Include the killtime for each boss in the log post<br />(Optional) Upload the x most recent logs of each selected boss (Only dps.report mode)</td>
+      <td>Uploads raid or fractal logs.<br />(Optional) Add a title to the post<br />(Optional) Include the killtime for each boss in the log post<br />(Optional) Upload the x most recent logs of each selected boss</td>
     </tr>
     <tr>
       <td><b>shutdown</b></td>
@@ -61,4 +61,5 @@ The default prefix is `$`.
 ## Caveats
 <ul>
   <li>Only the person booting up the bot may upload logs. You should be able to tell who the current user of the bot is by looking at the bot's activity status. It should say <b>Current User: SOME_USER</b>.
+  <li>Due to no official updates from the new GW2Raidar team, uploading to GW2Raidar has been <b>deprecated</b> until further notice.
 </ul>
