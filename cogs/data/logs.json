@@ -96,6 +96,19 @@
                     "success": false
                 }
             },
+            "Twisted Castle": {
+                "name": [
+                    "Haunting Statue",
+                    "Spukende Statue",
+                    "Statue envo\u00fbtante",
+                    "Estatua inquietante"
+                ],
+                "dps.report": "about:blank",
+                "GW2Raidar": {
+                    "link": "about:blank",
+                    "success": false
+                }
+            },
             "Xera": {
                 "name": [
                     "Xera",
