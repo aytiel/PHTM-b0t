@@ -193,6 +193,7 @@ class Arcdps(commands.Cog):
                             self.logs[type][e][b]['duration'] = []
                         error_multi_logs = 0
                         for count, lf in enumerate(latest_files, 1):
+                            print('Uploading Log {}...'.format(count))
                             with open(lf, 'rb') as file:
                                 files = {'file': file}
                                 res = requests.post(dps_endpoint, files=files)
