@@ -151,7 +151,7 @@ class Arcdps(commands.Cog):
                 print('------------------------------')
                 logs_length += 1
                 path = ['{0}/{1}/'.format(self.bot.owner_filepath, x) for x in self.logs[type][e][b]['name']]
-                path_filter = [p for p in path if os.path.exists(p)]
+                path_filter = set(p for p in path if os.path.exists(p))
                 if len(path_filter) == 0:
                     target = await ctx.send('ERROR :robot: : an error has occurred with {}. `Error Code: BLOODSTONE`'.format(b))
                     self.bot.clear_list.append(target)
