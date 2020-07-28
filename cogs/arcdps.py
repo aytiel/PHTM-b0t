@@ -496,7 +496,7 @@ class Arcdps(commands.Cog):
                             out += '  |  '
                         if not boss_e is None:
                             out += '{}  '.format(boss_e)
-                        out += '[**{0}**]({1})'.format(boss, self.logs[type][e][b]['dps.report'])
+                        out += '**[{0}]({1})**'.format(boss, self.logs[type][e][b]['dps.report'])
                         if self.show_time and not 'duration' in self.logs[type][e][b]:
                             out += '\n'
                 elif mode == 'GW2Raidar':
@@ -504,7 +504,7 @@ class Arcdps(commands.Cog):
                         out += '  |  '
                     if not boss_e is None:
                         out += '{}  '.format(boss_e)
-                    out += '[**{0}**]({1})'.format(boss, self.logs[type][e][b]['GW2Raidar']['link'])
+                    out += '**[{0}]({1})**'.format(boss, self.logs[type][e][b]['GW2Raidar']['link'])
                     if self.show_time and not 'duration' in self.logs[type][e][b]:
                         out += '\n'
                 elif mode == 'Both':
