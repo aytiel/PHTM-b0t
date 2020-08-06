@@ -122,3 +122,8 @@ v1.1.8a - 7/30/19
 v1.1.9 - 4/24/20
 ------------------------------
 * Added Twisted Castle.
+------------------------------
+v1.1.9e - 8/6/20
+------------------------------
+* Changed Eye of Judgment to Statue of Darkness.
+* Added Eye of Fate to folder detection for Statue of Darkness.
