@@ -127,3 +127,8 @@ v1.1.9e - 8/6/20
 ------------------------------
 * Changed Eye of Judgment to Statue of Darkness.
 * Added Eye of Fate to folder detection for Statue of Darkness.
+------------------------------
+v1.2.0 - 1/2/21
+------------------------------
+* Added support for Sunqua Peak CM.
+* Adjusted Nightmare and Shattered Observatory fractal numbers to 98 and 99.

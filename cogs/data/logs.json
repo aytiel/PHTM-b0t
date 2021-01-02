@@ -332,7 +332,7 @@
         }
     },
     "fractals": {
-        "99CM": {
+        "98CM": {
             "MAMA": {
                 "name": [
                     "MAMA",
@@ -373,7 +373,7 @@
                 }
             }
         },
-        "100CM": {
+        "99CM": {
             "Skorvald": {
                 "name": [
                     "Skorvald the Shattered",
@@ -406,6 +406,21 @@
                     "Arkk",
                     "Arkk",
                     "Arkk"
+                ],
+                "dps.report": "about:blank",
+                "GW2Raidar": {
+                    "link": "about:blank",
+                    "success": false
+                }
+            }
+        },
+        "100CM": {
+            "Ai": {
+                "name": [
+                    "Sorrowful Spellcaster",
+                    "na",
+                    "na",
+                    "na"
                 ],
                 "dps.report": "about:blank",
                 "GW2Raidar": {
