@@ -6,6 +6,7 @@ The intention of this Discord bot is to automate the monotonous process of manua
 
 <b>Supported languages:</b> English, German, French, Spanish
 
+## This project has been discontinued. Thank you for all of the support over the years!
 ## Installing the bot
 <b>1.</b> Install Python 3.6+. To guarantee the best results, install Python 3.6.5([32-bit](https://www.python.org/ftp/python/3.6.5/python-3.6.5.exe))([64-bit](https://www.python.org/ftp/python/3.6.5/python-3.6.5-amd64.exe)). <br />
 <b>2.</b> During the setup, make sure to tick `Install launcher for all users (recommended)` and `Add Python 3.6 to PATH`. <br />
