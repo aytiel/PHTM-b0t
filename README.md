@@ -6,7 +6,7 @@ The intention of this Discord bot is to automate the monotonous process of manua
 
 <b>Supported languages:</b> English, German, French, Spanish
 
-## This project has been discontinued. Thank you for all of the support over the years!
+### This project has been placed in maintenance mode and will not receive any updates unless more raids / fractals are added to the game (Strikes are not included).
 ## Installing the bot
 <b>1.</b> Install Python 3.6+. To guarantee the best results, install Python 3.6.5([32-bit](https://www.python.org/ftp/python/3.6.5/python-3.6.5.exe))([64-bit](https://www.python.org/ftp/python/3.6.5/python-3.6.5-amd64.exe)). <br />
 <b>2.</b> During the setup, make sure to tick `Install launcher for all users (recommended)` and `Add Python 3.6 to PATH`. <br />
@@ -63,4 +63,6 @@ The default prefix is `$`.
 <ul>
   <li>Only the person booting up the bot may upload logs. You should be able to tell who the current user of the bot is by looking at the bot's activity status. It should say <b>Current User: SOME_USER</b>.
   <li>Due to no official updates from the new GW2Raidar team, uploading to GW2Raidar has been <b>deprecated</b> until further notice.
+  <li>If you are encountering the issue where the bot is not responding to your commands, please try toggling the option in your bot Developer Portal to <b>allow your bot to receive messages</b>.
+  <img align="middle" src="https://cdn.discordapp.com/attachments/475491652278943744/1024156620881674251/unknown.png" height="100" width="1600"></img>
 </ul>
